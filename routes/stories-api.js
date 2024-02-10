@@ -2,7 +2,9 @@
 const express = require('express');
 const router  = express.Router();
 
-router.get('/api/stories', (req, res) => {
+router.get('/', (req, res) => {
   //todo - returns story data as per the filter/order specified by the client
-  
+  res.render('users');
 }); 
+
+module.exports = router;

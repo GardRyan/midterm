@@ -2,9 +2,11 @@
 const express = require('express');
 const router  = express.Router();
 
-router.get('/stories/', (req, res) => {
+router.get('/', (req, res) => {
   //todo - get stories all stories and show to user
   // want to allow filters such as "my stories", "my conrtibutions"
-  
+  res.render('stories')
   
 }); 
+
+module.exports = router;

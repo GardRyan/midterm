@@ -2,18 +2,21 @@
 const express = require('express');
 const router  = express.Router();
 
-router.get('/storyVotes', (req, res) => {
+router.get('/', (req, res) => {
   //todo show all story votes data (for story?)
+  res.render('users')
 }); 
 
-router.post('/storyVotes', (req, res) => {
+router.post('/', (req, res) => {
   //todo create story vote data
 }); 
 
-router.get('/storyVotes/id', (req, res) => {
+router.get('/id', (req, res) => {
   //todo get one story vote data (is this needed?)
 }); 
 
-router.post('/storyVotes/id', (req, res) => {
+router.post('/id', (req, res) => {
   //todo update one story vote data (up/down/delete)
 }); 
+
+module.exports = router;

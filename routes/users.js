@@ -8,20 +8,20 @@
 const express = require('express');
 const router  = express.Router();
 
-router.get('/users', (req, res) => {
+router.get('/', (req, res) => {
   //todo - list of all users - maybe not needed?
   res.render('users');
 }); 
 
-router.get('/users/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   //todo:  show user info - allow update
 }); 
 
-router.post('/users', (req, res) => {
+router.post('/', (req, res) => {
   //todo: create user (registration)
 }); 
 
-router.post('/users/:id', (req, res) => {
+router.post('/:id', (req, res) => {
   //todo: update user (registration)
 }); 
 

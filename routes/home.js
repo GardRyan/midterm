@@ -7,3 +7,5 @@ router.get('/', (req, res) => {
   //                     if not logged in then login page
   res.render('users');
 }); 
+
+module.exports = router;
