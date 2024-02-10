@@ -74,7 +74,7 @@ INSERT INTO story_votes (story_id, voter_id, vote, deleted) VALUES
 (1, 22, TRUE, FALSE),
 (1, 23, FALSE, FALSE),
 (1, 24, TRUE, FALSE),
-(1, 25, TRUE, FALSE);
+(1, 25, TRUE, FALSE),
 (2, 1, TRUE, FALSE),
 (2, 2, FALSE, FALSE),
 (2, 3, TRUE, FALSE),
@@ -248,7 +248,7 @@ INSERT INTO story_votes (story_id, voter_id, vote, deleted) VALUES
 (8, 22, TRUE, FALSE),
 (8, 23, FALSE, FALSE),
 (8, 24, TRUE, FALSE),
-(8, 25, TRUE, FALSE);
+(8, 25, TRUE, FALSE),
 (9, 2, TRUE, FALSE),
 (9, 3, FALSE, FALSE),
 (9, 4, TRUE, FALSE),
