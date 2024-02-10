@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS contribution_votes CASCADE;
+CREATE TABLE contribution_votes (
+  id SERIAL PRIMARY KEY NOT NULL,
+  contribution_id INTEGER REFERENCES contributions(id) ON DELETE CASCADE,
+  voter_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  vote BOOLEAN DEFAULT NULL,
+  deleted BOOLEAN NOT NULL DEFAULT FALSE
+);
