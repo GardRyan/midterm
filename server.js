@@ -29,16 +29,33 @@ app.use(express.static('public'));
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const userApiRoutes = require('./routes/users-api');
-const widgetApiRoutes = require('./routes/widgets-api');
+const contributionVotesApiRoutes = require('./routes/contributionVotes-api');
+const storiesApi = require('./routes/stories-api');
+const storyVotesApiRoutes = require('./routes/storyVotes-api');
+// const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
+const loginRoutes = require('./routes/login');
+const homeRoutes = require('./routes/home')
+const storiesRoutes = require('./routes/stories');
+const storyRoutes = require('./routes/story');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
+
 app.use('/api/users', userApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
+app.use('/api/contributionVotes', contributionVotesApiRoutes);
+app.use('/api/stories', storiesApi);
+app.use('/api/storyVotes', storyVotesApiRoutes);
+app.use('/api/story', storyRoutes);
+
 // Note: mount other resources here, using the same pattern above
+
+app.use('/login', loginRoutes);
+app.use('/stories', storiesRoutes);
+app.use('/', homeRoutes);
 
 // Home page
 // Warning: avoid creating more routes in this file!
