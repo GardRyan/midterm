@@ -21,6 +21,24 @@
 
 <body>
   <h1>Have fun! STORY 🥔</h1>
+<div class="story-header">
+  <h2><%= story.name %></h2>
+  <p><%= story.content %></p>
+</div>
+  <form method="POST" action="/story/:id">
+    <input
+    class="form-control"
+    type="text"
+    name="new-contribution"
+     placeholder="What comes next...?"
+     style="width: 300px; margin: 1em"
+     value="<%= contribution %>"
+     />
+   <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <div>
+    <p> <%= contribution.content %></p>
+  </div>
 </body>
 
 </html>
