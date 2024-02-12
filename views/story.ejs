@@ -22,8 +22,8 @@
 <body>
   <h1>Have fun! STORY 🥔</h1>
 <div class="story-header">
-  <span><%= stories.name %> </span>
-  <p><%= stories.content %></p>
+  <span><%= story.title %></span>
+  <p><%= story.content %></p>
 </div>
   <form method="POST" action="/story">
     <input
@@ -36,17 +36,18 @@
      />
    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
-  <div href="db/contributions">
-    <div><%= contributions.story_step %></div>
-    <p><%= contributions.contributer_id %></p>
+  <div>
+    <% contributions.forEach(contribution => { %>
+    <div><%= contribution.story_step %></div>
+    <p><%= contribution.contributer_id %></p>
     <div>
-    <span href="db/contributions">
-      <%= contributions.content %>
-      <%= contributions.created_date %>
-      <%= contributions.upvotes %>
-      <%= contributions.downvotes %>
+      <%= contribution.content %>
+      <%= contribution.created_date %>
+      <%= contribution.upvotes %>
+      <%= contribution.downvotes %>
     </span>
   </div>
+  <% }); %>
   </div>
 </body>
 

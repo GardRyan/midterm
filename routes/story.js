@@ -8,14 +8,13 @@ const { getContributions, getStoryById } = require("../db/queries/queries_contri
 //define your routes
 router.get('/:id', (req, res) => {
   const storyId = req.params.id;
-  // console.log('req.params.id', req.params.id);
 
   getContributions(storyId)
     .then((contributions) => {
-      // console.log('storyId', storyId);
+
       getStoryById(storyId)
         .then((story) => {
-          // console.log('story', story);
+          console.log(story);
       res.render("story", { story, contributions });
         });
     })
@@ -23,7 +22,6 @@ router.get('/:id', (req, res) => {
       res.status(500).json({ error: err.message });
     });
 
-  // res.render('story');
 });
 
 //filter previously added additions to the story
