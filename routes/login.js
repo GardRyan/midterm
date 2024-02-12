@@ -1,6 +1,7 @@
 // all routes for login/logout
 const express = require('express');
 const router  = express.Router();
+const db = require('../db/queries/users'); 
 
 router.get('/', (req, res) => {
   //todo - show login page
