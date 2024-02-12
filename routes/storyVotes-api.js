@@ -2,21 +2,18 @@
 const express = require('express');
 const router  = express.Router();
 
-router.get('/', (req, res) => {
-  //todo show all story votes data (for story?)
-  res.render('users')
-}); 
+const { Votes } = require('./votes-api');
 
-router.post('/', (req, res) => {
-  //todo create story vote data
-}); 
+class StoryVotes extends Votes {
+  constructor(router) {
+    super(router);
+    this._type = 'story';
+    this._router = router
+  }
 
-router.get('/id', (req, res) => {
-  //todo get one story vote data (is this needed?)
-}); 
+};
 
-router.post('/id', (req, res) => {
-  //todo update one story vote data (up/down/delete)
-}); 
+let storyVotes = new StoryVotes(router);
+storyVotes.createRoutes();
 
 module.exports = router;

@@ -1,22 +1,19 @@
-// all routes for getting or updating votes async
+// all routes for getting or updating story votes async
 const express = require('express');
 const router  = express.Router();
 
-router.get('/', (req, res) => {
-  //todo show all contribution votes data (for story?)
-  res.render('users')
-}); 
+const { Votes } = require('./votes-api');
 
-router.post('/', (req, res) => {
-  //todo create contribution vote data
-}); 
+class ContributionVotes extends Votes {
+  constructor(router) {
+    super(router);
+    this._type = 'contribution';
+    this._router = router
+  }
 
-router.get('/id', (req, res) => {
-  //todo get one contribution vote data (is this needed?)
-}); 
+};
 
-router.post('/id', (req, res) => {
-  //todo update one contribution vote data (up/down/delete)
-}); 
+let contributionVotes = new ContributionVotes(router);
+contributionVotes.createRoutes();
 
 module.exports = router;
