@@ -15,9 +15,9 @@ router.get('/', (req, res) => {
     .then((result) => {
       res.render('users', { users: result })
     })
-    .catch((error2) => {
-      console.log(error2);
-      res.send(error2);
+    .catch((error) => {
+      console.log(error);
+      res.send(error);
     });
 }); 
 
@@ -32,9 +32,9 @@ router.get('/:id', (req, res) => {
     .then((result) => {
       res.render('user', result)
     })
-    .catch((error3) => {
-      console.log(error3);
-      res.send(error3);
+    .catch((error) => {
+      console.log(error);
+      res.send(error);
     }); 
 }); 
 
@@ -46,18 +46,18 @@ router.post('/', (req, res) => {
     .then((result) => {
       res.redirect(`/users/${user.id}`)
     })
-    .catch((error4) => {
-      console.log(error4);
-      res.send(error4);
+    .catch((error) => {
+      console.log(error);
+      res.send(error);
     });
   } else {
     db.insertUser(user)
     .then((result) => {
       res.redirect(`/users/${result.id}`)
     })
-    .catch((error5) => {
-      console.log(error5);
-      res.send(error5);
+    .catch((error) => {
+      console.log(error);
+      res.send(error);
     });
   }
 }); 
