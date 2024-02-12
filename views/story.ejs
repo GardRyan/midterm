@@ -22,22 +22,31 @@
 <body>
   <h1>Have fun! STORY 🥔</h1>
 <div class="story-header">
-  <h2><%= story.name %></h2>
-  <p><%= story.content %></p>
+  <span><%= stories.name %> </span>
+  <p><%= stories.content %></p>
 </div>
-  <form method="POST" action="/story/:id">
+  <form method="POST" action="/story">
     <input
     class="form-control"
     type="text"
     name="new-contribution"
      placeholder="What comes next...?"
      style="width: 300px; margin: 1em"
-     value="<%= contribution %>"
+     value=""
      />
    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
-  <div>
-    <p> <%= contribution.content %></p>
+  <div href="db/contributions">
+    <div><%= contributions.story_step %></div>
+    <p><%= contributions.contributer_id %></p>
+    <div>
+    <span href="db/contributions">
+      <%= contributions.content %>
+      <%= contributions.created_date %>
+      <%= contributions.upvotes %>
+      <%= contributions.downvotes %>
+    </span>
+  </div>
   </div>
 </body>
 

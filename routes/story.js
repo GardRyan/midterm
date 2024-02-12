@@ -1,25 +1,48 @@
 // all routes for showing and updating one story
-const express = require('express');
-const router  = express.Router();
-const getContributions = require ('../queries_contributions.js')
+const express = require("express");
+const router = express.Router();
 
+//queries and other middleware
+const { getContributions, getStoryById } = require("../db/queries/queries_contributions");
+
+//define your routes
 router.get('/:id', (req, res) => {
-  // get and return one story);
+  const storyId = req.params.id;
+  // console.log('req.params.id', req.params.id);
+
+  getContributions(storyId)
+    .then((contributions) => {
+      // console.log('storyId', storyId);
+      getStoryById(storyId)
+        .then((story) => {
+          // console.log('story', story);
+      res.render("story", { story, contributions });
+        });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+
+  // res.render('story');
 });
 
-router.get('/', (req, res) => {
-  // get and return one story);
-  res.render('story')
-});
+//filter previously added additions to the story
+//show current story_step contributions only
+//two containers -> one to show iteration of story, one to show story_step contributions
+//
 
-router.post('/', (req, res) => {
-  // create and insert one story
+// router.get('/', (req, res) => {
+//   // get and return one story);
+//   res.render('story')
+// });
 
-});
+// router.post('/', (req, res) => {
+//   // create and insert one contribution
+// //const newContribition = req.body.
+// });
 
-router.post('/:id', (req, res) => {
+router.post("/story", (req, res) => {
   // update one story
 });
 
 module.exports = router;
-
