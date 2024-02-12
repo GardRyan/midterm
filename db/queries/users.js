@@ -26,6 +26,19 @@ const getUser = (id) => {
     });
 };
 
+//get one user by id query
+const getUserByUsername = (username) => {
+  const _username = `${username}`;
+  return db.query('SELECT * FROM users WHERE username = $1;', [_username])
+    .then(data => {
+      return data.rows[0];
+    })
+    .catch((error) => {
+      console.log(error);
+      throw(error);
+    });
+};
+
 //get query parameters for update/insert
 const getQueryParams = function(user) {
   let queryParams = [];
@@ -74,4 +87,4 @@ const insertUser = (user) => {
     });
 };
 
-module.exports = { getUsers, getUser, updateUser, insertUser};
+module.exports = { getUsers, getUser, getUserByUsername, updateUser, insertUser};

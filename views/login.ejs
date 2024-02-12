@@ -20,17 +20,13 @@
 </head>
 
 <body>
-  <h1>User Details</h1>
-  <label>Username:</label>
-  <textarea id="username"></textarea>
-  <label>First Name:</label>
-  <textarea id="firstName"></textarea>
-  <label>Last Name:</label>
-  <textarea id="lastName"></textarea>
-  <label>Email:</label>
-  <textarea id="email"></textarea>
-  <label>Password:</label>
-  <textarea id="password"></textarea>
+  <h1>Login</h1>
+  <FORM action="/login" method="POST">
+    <label>Username:</label>
+    <input id="username" type="text" name="username"/>
+    <label>Password:</label>
+    <input id="password" type="password" name="password"/>
+    <button type="submit">Login</button>
+  </FORM>
 </body>
-
 </html>
