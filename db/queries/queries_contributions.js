@@ -1,37 +1,7 @@
 //require('dotenv').config();
 const db = require("../connection");
 
-const getContributions = (storyId) => {
-  let queryParams = [storyId];
-  let queryString = `
-  SELECT * FROM contributions WHERE contributions.story_id = $1`;
-  //   (SELECT COUNT(*)
-  //     FROM contribution_votes as upvotes
-  //     WHERE contributions.id = upvotes.contributions_id AND upvotes.vote = TRUE) AS upvotes
-  //   (SELECT COUNT(*)
-  //     FROM contribution_votes as downvotes
-  //     WHERE contributions.id = downvotes.contributions_id AND downvotes.vote = FALSE) AS downvotes
-  // FROM contributions
-  // GROUP BY
-  //   contributions.id,
-  //   contributions.story_id,
-  //   contributions.story_step,
-  //   contributions.content,
-  //   contributions.picked,
-  //   contributions.contributer_id,
-  //   contributions.created_date,
-  //   contributions.picked_date
-  return db
-    .query(queryString, queryParams)
-    .then((data) => {
-      console.log(data.rows);
-      return data.rows;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
+//returns story for storyId
 const getStoryById = (storyId) => {
   let queryParams = [storyId];
   let queryString = `
@@ -62,6 +32,41 @@ const getStoryById = (storyId) => {
     });
 };
 
+//returns all contributions for specified storyId
+//returns current story step
+//
+const getContributions = (storyId) => {
+  let queryParams = [storyId];
+  let queryString = `
+  SELECT *,
+  (SELECT COUNT(*)
+   FROM contribution_votes AS upvotes
+   WHERE contributions.id = upvotes.contribution_id AND upvotes.vote = TRUE) AS upvotes,
+  (SELECT COUNT(*)
+   FROM contribution_votes AS downvotes
+   WHERE contributions.id = downvotes.contribution_id AND downvotes.vote = FALSE) AS downvotes
+FROM contributions
+WHERE contributions.story_id = $1
+AND contributions.story_step = COALESCE(
+  (SELECT MAX(contributions.story_step)
+  FROM contributions
+  WHERE contributions.story_id = $1
+  AND contributions.picked = TRUE
+), 1)
+ORDER BY contributions.created_date DESC
+`;
+  return db
+    .query(queryString, queryParams)
+    .then((data) => {
+      console.log(data.rows);
+      return data.rows;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+//saves a new story contribution
 const saveContributions = (newContribution) => {
   const {
     story_id,
@@ -92,12 +97,31 @@ const saveContributions = (newContribution) => {
       console.error("Error saving contribution:", error);
     });
 };
-//to-do list
-//update contributions
-//pick contributions by picked attribute
-//pick by story_id, picked = true
-//order by story_step
-//get all contributions from unfinished step
-//what is story_step
-//select by story + story_Step
+
+//picks contribution -> only to be used by story_creator -> updates to come
+const pickContribution = (contributionId, storyId) => {
+  return db
+    .query(
+      `
+    UPDATE stories
+    SET story_step = story_step + 1
+    WHERE id = $1
+  `,
+      [storyId]
+    )
+    .then(() => {
+      return db.query(
+        `
+      UPDATE contributions
+      SET picked = TRUE
+      WHERE id = $1
+    `,
+        [contributionId]
+      );
+    })
+    .catch((error) => {
+      console.error("Error picking contribution:", error);
+    });
+};
+
 module.exports = { getContributions, saveContributions, getStoryById };

@@ -11,7 +11,7 @@ router.get('/:id', (req, res) => {
 
   getContributions(storyId)
     .then((contributions) => {
-
+      console.log(contributions);
       getStoryById(storyId)
         .then((story) => {
           console.log(story);
