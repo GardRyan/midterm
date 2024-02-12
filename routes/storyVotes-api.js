@@ -2,15 +2,14 @@
 const express = require('express');
 const router  = express.Router();
 
+const { StoryVotesDb } = require(`../db/queries/storyVotes`)
 const { Votes } = require('./votes-api');
 
 class StoryVotes extends Votes {
   constructor(router) {
-    super(router);
+    super(router, new StoryVotesDb());
     this._type = 'story';
-    this._router = router
   }
-
 };
 
 let storyVotes = new StoryVotes(router);
