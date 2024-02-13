@@ -124,4 +124,39 @@ const pickContribution = (contributionId, storyId) => {
     });
 };
 
-module.exports = { getContributions, saveContributions, getStoryById };
+//saves a new story
+
+const saveStory = (newStory) => {
+  const {
+    title,
+    content,
+    creator_id,
+    completed,
+    created_date,
+    completed_date,
+    public,
+    deleted,
+  } = newStory;
+  const query =
+    "INSERT INTO stories (title, content, creator_id, completed, created_date, completed_date, public, deleted) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
+
+  return db
+    .query(query, [
+      title,
+      content,
+      creator_id,
+      completed,
+      created_date,
+      completed_date,
+      public,
+      deleted,
+    ])
+    .then((result) => {
+      return result.rows[0].id;
+    })
+    .catch((error) => {
+      console.error("Error saving contribution:", error);
+    });
+};
+
+module.exports = { getContributions, saveContributions, getStoryById, pickContribution, saveStory};
