@@ -17,19 +17,26 @@ const renderStories = function (stories) {
 };
 
 const createStoryElement = function (storyObj) {
+
+  const { id , title, username, created_date, completed_date, upvotes, downvotes, completed} = storyObj
+  
   const $story = $("<article>");
   const $div = $("<div>");
+  // const $span = $("<span>")
   const $pId = $("<p>");
-  const $pTitle = $("<p>");
+  const $aTitle = $(`<a href='/story/${storyObj.id}'>`);
   const $pUsername = $("<p>");
   const $pCreated_date = $("<p>");
   const $pCompleted_date = $("<p>");
   const $pUpVotes = $("<p>");
   const $pDownVotes = $("<p>");
   const $pCompleted = $("<p>");
+
+  $story.addClass("story_article")
+  $div.addClass("story_content")
   
   $pId.text(storyObj.id);
-  $pTitle.text(storyObj.title);
+  $aTitle.text(storyObj.title);
   $pUsername.text(storyObj.username);
   $pCreated_date.text(storyObj.created_date);
   $pCompleted_date.text(storyObj.completed_date);
@@ -38,13 +45,22 @@ const createStoryElement = function (storyObj) {
   $pCompleted.text(storyObj.completed);
 
   $div.append($pId);
-  $div.append($pTitle);
+  $div.append($aTitle);
   $div.append($pUsername);
   $div.append($pCreated_date);
   $div.append($pCompleted_date);
   $div.append($pUpVotes);
   $div.append($pDownVotes);
   $div.append($pCompleted);
+ 
+  // for testing
+  // let storyString = `${id} ${title} ${username} ${created_date} ${completed_date} ${upvotes} ${downvotes} ${completed}`;
+  
+
+  // $span.text(storyString)
+  // $div.append($span)
+
+
 
   $story.append($div);
 
