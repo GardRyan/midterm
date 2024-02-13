@@ -1,14 +1,4 @@
 
-const convertToLocaleDate = function (date) {
-  const dateOptions = {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  }
-  const localDate = (new Date(date)).toLocaleDateString(undefined, dateOptions);
-  return localDate
-}
 
 
 // renders stories
@@ -29,8 +19,8 @@ const createStoryElement = function (storyObj) {
   const { id , title, username, created_date, completed_date, upvotes, downvotes, completed} = storyObj
 
   // the dates in the db are in in text so 
-  const created_dateLocal = convertToLocaleDate(created_date)
-  const completed_dateLocal = convertToLocaleDate(completed_date)
+  const created_dateLocal = convertToLocaleTime(created_date)
+  const completed_dateLocal = convertToLocaleTime(completed_date)
   
   const $story = $("<article>");
   const $div = $("<div>");
@@ -70,3 +60,5 @@ const createStoryElement = function (storyObj) {
 
   return $story;
 };
+
+

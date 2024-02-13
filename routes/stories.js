@@ -11,14 +11,6 @@ router.get("/", (req, res) => {
     orderUpvotes: "DESC",
   };
 
-  // gets the options specified by users adds to / changes the options
-  const optionsObj = req.query;
-  if (Object.keys(optionsObj).length > 0) {
-    for (let option in optionsObj) {
-      options[option] = optionsObj[option];
-    };
-  };
-
   // makes query to db with options
   storiesQueries
     .getStories(options)
