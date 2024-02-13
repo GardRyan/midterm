@@ -1,14 +1,15 @@
 
-
+//document ready for /stories
 $(() => {
+  // listens for submit on form
   $("#optionsForm").on("submit", function (event) {
     event.preventDefault();
 
+    //serialize the form
     const form = $(this);
-    console.log(form);
-
     let formInfo = form.serialize();
 
+    // post form to /api/stories
     $.post(`/api/stories`, formInfo, (response) => {
       renderStories(response)
     });
