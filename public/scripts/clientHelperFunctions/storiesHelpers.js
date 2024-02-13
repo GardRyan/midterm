@@ -2,8 +2,7 @@
 
 
 
-// render stories
-
+// renders stories
 const renderStories = function (stories) {
   const $stories_container = $("#stories_container");
 
@@ -16,10 +15,16 @@ const renderStories = function (stories) {
   });
 };
 
+//wip progress createStoryElement
 const createStoryElement = function (storyObj) {
 
   const { id , title, username, created_date, completed_date, upvotes, downvotes, completed} = storyObj
+
+  const created_dateLocal = new Date (created_date)
+  const completed_dateLocal = new Date(completed_date)
   
+  
+
   const $story = $("<article>");
   const $div = $("<div>");
   // const $span = $("<span>")
@@ -34,15 +39,19 @@ const createStoryElement = function (storyObj) {
 
   $story.addClass("story_article")
   $div.addClass("story_content")
+
+
   
-  $pId.text(storyObj.id);
-  $aTitle.text(storyObj.title);
-  $pUsername.text(storyObj.username);
-  $pCreated_date.text(storyObj.created_date);
-  $pCompleted_date.text(storyObj.completed_date);
-  $pUpVotes.text(storyObj.upvotes);
-  $pDownVotes.text(storyObj.downvotes);
-  $pCompleted.text(storyObj.completed);
+  $pId.text(id);
+  $aTitle.text(title);
+  $pUsername.text(username);
+  $pCreated_date.text(created_dateLocal);
+  $pCompleted_date.text(completed_dateLocal);
+  $pUpVotes.text(upvotes);
+  $pDownVotes.text(downvotes);
+  $pCompleted.text(completed);
+
+  console.log(created_date);
 
   $div.append($pId);
   $div.append($aTitle);
@@ -66,19 +75,3 @@ const createStoryElement = function (storyObj) {
 
   return $story;
 };
-/* <section id="stories_container">
-<% for (let story of stories) { %>
-<article>
-  <span>
-    <%= story.id %>
-    <%= story.title %>
-    <%= story.username %>
-    <%= story.created_date %>
-    <%= story.completed_date %>
-    <%= story.upvotes %>
-    <%= story.downvotes %>
-    <%= story.completed %><br>
-  </span>
-</article>
-<% } %>
-</section> */
