@@ -6,6 +6,6 @@ CREATE TABLE contributions (
   content TEXT,
   picked BOOLEAN NOT NULL DEFAULT FALSE,
   contributer_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  created_date DATE NOT NULL,
-  picked_date DATE NOT NULL
+  created_date TIMESTAMP NOT NULL,
+  picked_date TIMESTAMP NOT NULL
 );

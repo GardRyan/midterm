@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/stories.css" />
   <link
     rel="stylesheet"
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
@@ -24,12 +25,29 @@
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/app.js"></script>
+  <script defer src="/scripts/stories.js"></script>
+  <script defer src="/scripts/clientHelperFunctions/storiesHelpers.js"></script>
+  <script defer src="/scripts/clientHelperFunctions/convertToLocalTime.js"></script>
+  
 </head>
 
 <body>
   <%- include('partials/_header') %>
   <main>
     <h1>Have fun! STORIES🥔</h1>
+    
+    <form id="optionsForm" name="optionsForm">
+      <label><input type="checkbox" id="checkbox" name="orderDate" value="ASC">Order Oldest First</label>
+      <label><input type="checkbox" id="checkbox" name="completed" value="TRUE">Show Only Finished Stories</label>
+      <label><input type="checkbox" id="checkbox" name="orderUpvotes" value="ASC">Order by lowest to highest</label>
+      <label><input type="checkbox" id="checkbox" name="showMyStories" value="1">Show My Stories</label>
+      <input type="text" id="title" name="title" placeholder="Search By Title">
+      <input type="text" id="username" name="username" placeholder="Search By Author Name">
+      <button type="submit" class="button">SUBMIT</button>
+    </form>
+    
+    <section id="stories_container">
+    </section>
   </main>
 </body>
 
