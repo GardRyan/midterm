@@ -162,5 +162,4 @@ module.exports = {
   editContributions,
   deleteContributions,
   pickContribution,
-  saveStory,
 };
