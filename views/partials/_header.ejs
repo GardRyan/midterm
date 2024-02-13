@@ -17,9 +17,9 @@
         <a class="nav-item nav-link" href="/stories">My Stories</a>
         <a class="nav-item nav-link" href="/stories">My Contributions</a>
         <a class="nav-item nav-link" href="/story/new">Create Story</a>
-        <a class="nav-item nav-link" href="/stories">Search</a>   
+        <a class="nav-item nav-link" href="/stories">Search</a>
         <% if ((typeof user !== 'undefined') && (user.id)) { %>
-          <a class="nav-item nav-link" href="/users/<%= user.id %>">User info</a>   
+          <a class="nav-item nav-link" href="/users/<%= user.id %>">User info</a>
         <% } else { %>
             <a class="nav-item nav-link" href="/users/new">Register</a>
         <% } %>
@@ -31,7 +31,7 @@
         <div style="position:absolute; right:75px">
           <% if ((typeof user !== 'undefined') && (user.id)) { %>
             <form action="/login/logout" method="POST">
-              <h5>Logged in as: <%= user.email %> 
+              <h5>Logged in as: <%= user.email %>
                 <button type="submit" class="btn btn-primary">Logout</button>
               </h5>
             </form>
