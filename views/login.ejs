@@ -28,8 +28,25 @@
 <body>
   <%- include('partials/_header') %>
   <main>
-    <h1>Have fun! LOGIN 🥔</h1>
+    <h1>Login</h1>
+    <% if (message !== 'undefined') { %>
+      <span class="errorMessage"><%= message %></span>
+    <% } %>
+    <% if (typeof user === 'undefined') { %>
+    <FORM action="/login" method="POST"> 
+      <label>Username:</label>
+      <input id="username" type="text" name="username"/>
+      <label>Password:</label>
+      <input id="password" type="password" name="password"/>
+      <button type="submit">Login</button>
+    </FORM>
+    <% } else { %>
+      <FORM action="/login/logout" method="POST"> 
+        <label><%= user.username %> is logged in.</label>
+        <button type="submit">Logout</button>
+      </FORM>
+
+    <% } %>
   </main>
 </body>
-
 </html>
