@@ -98,6 +98,37 @@ const saveContributions = (newContribution) => {
     });
 };
 
+//edit contributions
+const editContributions = (contribution) => {
+  const { id, content } = contribution;
+  const query =
+    "UPDATE contributions SET content = $1 WHERE id = $2 RETURNING *";
+
+  return db
+    .query(query, [id, content])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((error) => {
+      console.error("Error saving contribution:", error);
+    });
+};
+
+//delete contributions
+const deleteContributions = (contribution) => {
+  const { id } = newContribution;
+  const query = "DELETE FROM contributions WHERE id = $1 RETURNING *";
+
+  return db
+    .query(query, [id])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((error) => {
+      console.error("Error deleting contribution:", error);
+    });
+};
+
 //picks contribution -> only to be used by story_creator -> updates to come
 const pickContribution = (contributionId, storyId) => {
   return db
@@ -159,4 +190,12 @@ const saveStory = (newStory) => {
     });
 };
 
-module.exports = { getContributions, saveContributions, getStoryById, pickContribution, saveStory};
+module.exports = {
+  getStoryById,
+  getContributions,
+  saveContributions,
+  editContributions,
+  deleteContributions,
+  pickContribution,
+  saveStory,
+};
