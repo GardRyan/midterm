@@ -39,21 +39,8 @@
   </form>
   
   <section id="stories_container">
-    <% for (let story of stories) { %>
-    <article class="story_article">
-      <div class="story_content">
-        <p><%= story.id %></p>
-        <a href="/story/<%= story.id %>"><%= story.title %></a>
-        <p><%= story.username %></p>
-        <p><%= story.created_date %></p>
-        <p><%= story.completed_date %></p>
-        <p><%= story.upvotes %></p>
-        <p><%= story.downvotes %></p>
-        <p><%= story.completed %></p>
-      </div>
-    </article>
-    <% } %>
   </section>
+  
 </body>
 
 </html>

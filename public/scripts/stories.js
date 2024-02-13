@@ -1,6 +1,12 @@
 
 //document ready for /stories
-$(() => {
+$(document).ready(function () {
+
+  $.get('/stories/load', (response) => {
+    console.log("response", response);
+    renderStories(response);
+  })
+  
   // listens for submit on form
   $("#optionsForm").on("submit", function (event) {
     event.preventDefault();
@@ -11,7 +17,9 @@ $(() => {
 
     // post form to /api/stories
     $.post(`/api/stories`, formInfo, (response) => {
-      renderStories(response)
+      renderStories(response);
     });
   });
+
+
 });

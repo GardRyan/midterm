@@ -3,8 +3,14 @@ const express = require("express");
 const router = express.Router();
 const storiesQueries = require("../db/queries/stories");
 
-// basic show all stories
+//loads html skeleton
 router.get("/", (req, res) => {
+
+ res.render("stories")
+});
+
+// gets called by ajax and does db query and sends it to render function
+router.get("/load", (req, res) => {
   // default options
   const options = {
     orderDate: "DESC",
@@ -15,9 +21,8 @@ router.get("/", (req, res) => {
   storiesQueries
     .getStories(options)
     .then((stories) => {
-      // renders the page "stories"
-      // stories is passed as an object here so ejs can work with it.
-      res.render("stories", { stories });
+      //sends it to stories script
+      res.json(stories)
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
