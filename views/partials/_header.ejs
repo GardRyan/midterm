@@ -19,9 +19,9 @@
         <a class="nav-item nav-link" href="/story/new">Create Story</a>
         <a class="nav-item nav-link" href="/stories">Search</a>   
         <% if ((typeof user !== 'undefined') && (user.id)) { %>
-          <a class="nav-item nav-link" href="/users/new">Register</a>
+          <a class="nav-item nav-link" href="/users/<%= user.id %>">User info</a>   
         <% } else { %>
-          <a class="nav-item nav-link" href="/users/${users.id}">User info</a>   
+            <a class="nav-item nav-link" href="/users/new">Register</a>
         <% } %>
         <div style="position:absolute; right:175px">
           <% if (!((typeof user !== 'undefined') && (user.id))) { %>
