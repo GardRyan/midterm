@@ -44,6 +44,7 @@ const loginRoutes = require('./routes/login');
 const homeRoutes = require('./routes/home')
 const storiesRoutes = require('./routes/stories');
 const storyRoutes = require('./routes/story');
+const createStoryRoutes = require('./routes/createStory');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -59,6 +60,7 @@ app.use('/api/storyVotes', storyVotesApiRoutes);
 app.use('/login', loginRoutes);
 app.use('/stories', storiesRoutes);
 app.use('/story', storyRoutes);
+app.use('/createStory', createStoryRoutes);
 app.use('/', homeRoutes);
 
 // Home page
