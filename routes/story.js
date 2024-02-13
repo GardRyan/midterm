@@ -3,44 +3,48 @@ const express = require("express");
 const router = express.Router();
 
 //queries and other middleware
-const { getContributions, getStoryById } = require("../db/queries/queries_contributions");
+const {
+  getContributions,
+  getStoryById,
+  saveContributions,
+} = require("../db/queries/queries_contributions");
 
 //define your routes
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
   const storyId = req.params.id;
 
   getContributions(storyId)
     .then((contributions) => {
       console.log(contributions);
-      getStoryById(storyId)
-        .then((story) => {
-          console.log(story);
-      res.render("story", { story, contributions });
-        });
+      getStoryById(storyId).then((story) => {
+        console.log(story);
+        res.render("story", { story, contributions });
+      });
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
     });
-
 });
 
-//filter previously added additions to the story
-//show current story_step contributions only
-//two containers -> one to show iteration of story, one to show story_step contributions
-//
+router.post("/:id", (req, res) => {
+  const newContributions = {
+    story_id: req.body.story_id,
+    story_step: req.body.story_step,
+    content: req.body.content,
+    picked: req.body.picked,
+    contributor_id: req.body.contributor_id,
+    created_date: req.body.created_date,
+    picked_date: req.body.picked_date,
+  };
 
-// router.get('/', (req, res) => {
-//   // get and return one story);
-//   res.render('story')
-// });
-
-// router.post('/', (req, res) => {
-//   // create and insert one contribution
-// //const newContribition = req.body.
-// });
-
-router.post("/story", (req, res) => {
-  // update one story
+  saveContributions(newContribution)
+    .then((contributionId) => {
+      res.render("story", { story, contributions });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error: `An error occured while saving the contribution`});
+    });
 });
 
 module.exports = router;

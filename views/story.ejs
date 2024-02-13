@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="/styles/layout.css" />
 
   <script src="/vendor/jquery-3.0.0.js"></script>
-  <script defer src="/scripts/app.js"></script>
+  <script defer src="/scripts/scripst_contributions.js"></script>
 </head>
 
 <body>
@@ -36,19 +36,23 @@
      />
    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
-  <div>
-    <% contributions.forEach(contribution => { %>
-    <div><%= contribution.story_step %></div>
-    <p><%= contribution.contributer_id %></p>
+  <section id="contributions-container">
+    <article>
     <div>
-      <%= contribution.content %>
-      <%= contribution.created_date %>
-      <%= contribution.upvotes %>
-      <%= contribution.downvotes %>
-    </span>
-  </div>
-  <% }); %>
-  </div>
+      <% contributions.forEach(contribution => { %>
+      <div><%= contribution.story_step %></div>
+      <p><%= contribution.contributer_id %></p>
+      <div>
+        <%= contribution.content %>
+        <%= contribution.created_date %>
+        <%= contribution.upvotes %>
+        <%= contribution.downvotes %>
+     </span>
+   </div>
+    <% }); %>
+    </div>
+  </article>
+</section>
 </body>
 
 </html>
