@@ -5,7 +5,6 @@ const runWithLoginUser = function(loggedInId, callback) {
   if (loggedInId) {
     db.getUser(loggedInId) 
     .then((result) => {
-      console.log('result',result);
       callback({ loggedInUser: result, loggedInMessage: undefined });
     })
     .catch((error) => {
