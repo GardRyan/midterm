@@ -22,8 +22,15 @@
 <body>
   <h1>Have fun! STORY 🥔</h1>
 <div class="story-header">
-  <span><%= story.title %></span>
-  <p><%= story.content %></p>
+  <span><strong><%= story.title %></strong></span>
+  <div>
+    <p><%= story.content %></p>
+    <div>user.username</div>
+    <div>
+      story.upvotes
+      story.downvotes
+    </div>
+
 </div>
   <form method="POST" action="/story">
     <input
@@ -47,8 +54,9 @@
         <%= contribution.created_date %>
         <%= contribution.upvotes %>
         <%= contribution.downvotes %>
-     </span>
    </div>
+   <button type="submit" class="edit-contribution">edit</button>
+   <button type="submit" class="delete-contribution">delete</button>
     <% }); %>
     </div>
   </article>
