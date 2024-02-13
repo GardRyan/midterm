@@ -2,40 +2,38 @@
   <html lang="en">
   <head>
     <meta charset="UTF-8" >
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-      
-      <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
-      <link rel="stylesheet" href="/vendor/border-box.css" />
-      <link rel="stylesheet" href="/styles/main.css" />
-      <link rel="stylesheet" href="/styles/layout.css" />
-      
-      <script src="/vendor/jquery-3.0.0.js"></script>
-      <script defer src="/scripts/users.js"></script>
-      
-      <title>User Details</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    
+    <script src="/vendor/jquery-3.0.0.js"></script>
+    <script defer src="/scripts/users.js"></script>
+    
+    <title>User Details</title>
   </head>
   <body>
     <main>
-      <div>
-        <h1>User Details</h1>
-        <Form class="form-inline" action="/users" method="POST">
-          <div>
-            <input hidden class="form-control" type="text" name="id" autocomplete="off" value="<%= typeof id === 'undefined' ? '' : id %>"></input>
-            <label>Username:</label>
-            <input class="form-control" type="text" placeholder="Username" name="username" autocomplete="off" value="<%=  typeof username === 'undefined' ? '' : username %>"></input>
-            <label>First Name:</label>
-            <input class="form-control" type="text" placeholder="First Name" name="first_name" autocomplete="off" value="<%=  typeof first_name === 'undefined' ? '' : first_name %>"></input>
-            <label>Last Name:</label>
-            <input class="form-control" type="text" placeholder="Last Name" name="last_name" autocomplete="off" value="<%=  typeof last_name === 'undefined' ? '' : last_name %>"></input>
-            <label>Email:</label>
-            <input class="form-control" type="text" placeholder="email" name="email" autocomplete="off" value="<%=  typeof email === 'undefined' ? '' : email  %>"></input>
-            <label>Password:</label>
-            <input class="form-control" type="text" placeholder="password" name="password" autocomplete="off" value="<%=  typeof password === 'undefined' ? '' : password %>"></input>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </Form>
-      </div>
+      <h1>User Details</h1>
+      <Form class="form-inline" action="/users" method="POST">
+        <div>
+          <input hidden class="form-control" type="text" name="id" autocomplete="off" value="<%= typeof id === 'undefined' ? '' : id %>"></input>
+          <label>Username:</label>
+          <input class="form-control" type="text" placeholder="Username" name="username" autocomplete="off" value="<%=  typeof username === 'undefined' ? '' : username %>"></input>
+          <label>First Name:</label>
+          <input class="form-control" type="text" placeholder="First Name" name="first_name" autocomplete="off" value="<%=  typeof first_name === 'undefined' ? '' : first_name %>"></input>
+          <label>Last Name:</label>
+          <input class="form-control" type="text" placeholder="Last Name" name="last_name" autocomplete="off" value="<%=  typeof last_name === 'undefined' ? '' : last_name %>"></input>
+          <label>Email:</label>
+          <input class="form-control" type="text" placeholder="email" name="email" autocomplete="off" value="<%=  typeof email === 'undefined' ? '' : email  %>"></input>
+          <label>Password:</label>
+          <input class="form-control" type="text" placeholder="password" name="password" autocomplete="off" value="<%=  typeof password === 'undefined' ? '' : password %>"></input>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </Form>
     </main>
     <!-- Bootstrap JS -->
     <script

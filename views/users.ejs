@@ -2,40 +2,39 @@
   <html lang="en">
   <head>
     <meta charset="UTF-8" >
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
 
-      <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
-      <link rel="stylesheet" href="/vendor/border-box.css" />
-      <link rel="stylesheet" href="/styles/main.css" />
-      <link rel="stylesheet" href="/styles/layout.css" />
-      
-      <script src="/vendor/jquery-3.0.0.js"></script>
-      <script defer src="/scripts/users.js"></script>
-      
-      <title>User Listing</title>
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    
+    <script src="/vendor/jquery-3.0.0.js"></script>
+    <script defer src="/scripts/users.js"></script>
+    
+    <title>User Listing</title>
   </head>
   <body>
     <main>
+      <h1>User Listing</h1>
       <div>
-        <h1>User Listing</h1>
-          <div>
-            <% for(const user of users) { %>
-              <label>Id:</label>
-              <span><a href="/users/<%= user.id %>"><%= user.id %></a></span>
-              <label>Username:</label>
-              <span><%= user.username %></span>
-              <label>First Name:</label>
-              <span><%= user.first_name %></span>
-              <label>Last Name:</label>
-              <span><%= user.last_name %></span>
-              <label>Email:</label>
-              <span><%= user.email %></span>
-              <label>Password:</label>
-              <span><%= user.password %></span>
-              <br>
-            <% } %>
-          </div>
+        <% if (typeof users !== 'undefined') { %>
+          <% for(const user of users) { %>
+            <label>Id:</label>
+            <span><a href="/users/<%= user.id %>"><%= user.id %></a></span>
+            <label>Username:</label>
+            <span><%= user.username %></span>
+            <label>First Name:</label>
+            <span><%= user.first_name %></span>
+            <label>Last Name:</label>
+            <span><%= user.last_name %></span>
+            <label>Email:</label>
+            <span><%= user.email %></span>
+            <label>Password:</label>
+            <span><%= user.password %></span>
+            <br>
+        <% }} %>
       </div>
     </main>
     <!-- Bootstrap JS -->
