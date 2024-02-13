@@ -29,23 +29,22 @@
   <%- include('partials/_header') %>
   <main>
     <h1>Login</h1>
-    <% if (message !== 'undefined') { %>
+    <% if (locals.message) { %>
       <span class="errorMessage"><%= message %></span>
     <% } %>
-    <% if (typeof user === 'undefined') { %>
-    <FORM action="/login" method="POST"> 
-      <label>Username:</label>
-      <input id="username" type="text" name="username"/>
-      <label>Password:</label>
-      <input id="password" type="password" name="password"/>
-      <button type="submit">Login</button>
-    </FORM>
-    <% } else { %>
+    <% if (locals.user) { %>
       <FORM action="/login/logout" method="POST"> 
         <label><%= user.username %> is logged in.</label>
         <button type="submit">Logout</button>
       </FORM>
-
+      <% } else { %>
+        <FORM action="/login" method="POST"> 
+          <label>Username:</label>
+          <input id="username" type="text" name="username"/>
+          <label>Password:</label>
+          <input id="password" type="password" name="password"/>
+          <button type="submit">Login</button>
+        </FORM>
     <% } %>
   </main>
 </body>

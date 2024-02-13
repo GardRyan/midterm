@@ -25,7 +25,7 @@
   <main>
     <h1>User Listing</h1>
     <div>
-      <% if (typeof users !== 'undefined') { %>
+      <% if (locals.users) { %>
         <% for(const user of users) { %>
           <label>Id:</label>
           <span><a href="/users/<%= user.id %>"><%= user.id %></a></span>
