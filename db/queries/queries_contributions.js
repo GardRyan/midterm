@@ -116,7 +116,7 @@ const editContributions = (contribution) => {
 
 //delete contributions
 const deleteContributions = (contribution) => {
-  const { id } = newContribution;
+  const { id } = contribution;
   const query = "DELETE FROM contributions WHERE id = $1 RETURNING *";
 
   return db
@@ -187,6 +187,35 @@ const saveStory = (newStory) => {
     })
     .catch((error) => {
       console.error("Error saving contribution:", error);
+    });
+};
+
+const editStory = (story) => {
+  const { id, content } = story;
+  const query =
+    "UPDATE stories SET content = $1 WHERE id = $2 RETURNING *";
+
+  return db
+    .query(query, [id, content])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((error) => {
+      console.error("Error saving contribution:", error);
+    });
+};
+
+const deleteStory = (story) => {
+  const { id } = story;
+  const query = "DELETE FROM contributions WHERE id = $1 RETURNING *";
+
+  return db
+    .query(query, [id])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((error) => {
+      console.error("Error deleting contribution:", error);
     });
 };
 
