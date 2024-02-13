@@ -3,7 +3,6 @@
 $(document).ready(function () {
 
   $.get('/stories/load', (response) => {
-    console.log("response", response);
     renderStories(response);
   })
   

@@ -5,7 +5,6 @@ const storiesQueries = require("../db/queries/stories");
 
 //loads html skeleton
 router.get("/", (req, res) => {
-
  res.render("stories")
 });
 

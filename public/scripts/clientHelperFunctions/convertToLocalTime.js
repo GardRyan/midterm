@@ -6,9 +6,10 @@ const convertToLocaleTime = function (date) {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
-  }
-  console.log("date", date);
+  };
+
   const localDate = (new Date(date)).toLocaleTimeString(undefined, dateOptions);
   return localDate
-}
+
+};
 
