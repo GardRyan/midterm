@@ -32,9 +32,9 @@
     <% if (locals.message) { %>
       <span class="errorMessage"><%= message %></span>
     <% } %>
-    <% if (locals.user) { %>
+    <% if (loginInfo.loggedInUser) { %>
       <FORM action="/login/logout" method="POST"> 
-        <label><%= user.username %> is logged in.</label>
+        <label><%= loginInfo.loggedInUser.username %> is logged in.</label>
         <button type="submit">Logout</button>
       </FORM>
       <% } else { %>

@@ -1,6 +1,7 @@
 // all routes for showing and updating one story
 const express = require("express");
 const router = express.Router();
+const { runWithLoginUser } = require('./partials/_loginUser')
 
 //queries and other middleware
 const { saveStory } = require("../db/queries/queries_contributions");
@@ -17,7 +18,7 @@ router
 
 
 router.post("/", (req, res) => {
-
+  runWithLoginUser(req.session.user_id, (loginInfo) => {
     const newStory = {
       title: req.body.title,
       content: req.body.content,
@@ -37,6 +38,7 @@ router.post("/", (req, res) => {
         console.error('Error saving story:', error);
         res.status(500).json({ error: 'An error occurred while saving the story' });
       });
+  });
 
 });
 

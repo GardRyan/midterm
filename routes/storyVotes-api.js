@@ -4,6 +4,7 @@ const router  = express.Router();
 
 const { StoryVotesDb } = require(`../db/queries/storyVotes`)
 const { Votes } = require('./votes-api');
+const { runWithLoginUser } = require('./partials/_loginUser')
 
 class StoryVotes extends Votes {
   constructor(router) {

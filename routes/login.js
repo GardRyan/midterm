@@ -4,22 +4,17 @@ const bcrypt = require("bcrypt");
 const router  = express.Router();
 const db = require('../db/queries/users'); 
 const { Template } = require('ejs');
+const { runWithLoginUser } = require('./partials/_loginUser')
 
 // route to show login page
 router.get('/', (req, res) => {
-  const userId = req.session.user_id
-  if (userId) {
-    db.getUser(userId)
-    .then((result) => {
-      templateParams = { user: result};
-      res.render('login', { user: result, message: undefined});
-    })
-    .catch((error) => {
-      res.render('login', {user: undefined, message: `Error looking up user data: ${error}`});
-    });
-  } else {
-    res.render('login', {user: undefined, message: undefined});
-  }
+  runWithLoginUser(req.session.user_id, (loginInfo) => {
+    if (loginInfo.loggedInUser) {
+      res.render('login', { loginInfo, user: loginInfo.loggedInUser, message: undefined});
+    } else {
+      res.render('login', { loginInfo, user: undefined, message: undefined});
+    }
+  });
 }); 
 
 // route to handle log in requests
@@ -34,7 +29,7 @@ router.post('/', (req, res) => {
     return;
   }
 
-  db.getUserByUsername(req.body.username)
+  db.getUserByUsername(req.body.username.trim())
     .then((result) => {
       if (result) {
         //note, we would encrypt passwords ideally
@@ -42,15 +37,15 @@ router.post('/', (req, res) => {
           req.session.user_id = result.id;
           res.redirect("/login");
         } else {
-          res.render('login', {user: undefined, message: errorMessage});
+          res.render('login', {loginInfo: {loggedInUser: result, message: errorMessage}, user: undefined, message: errorMessage});
         }
       } else {
-        res.render('login', {user: undefined, message: errorMessage});
+        res.render('login', {loginInfo: {loggedInUser: undefined, message: errorMessage}, user: undefined, message: errorMessage});
       }
     })
     .catch((error) => {
       console.log(error);
-      res.render('login', {user: undefined, message: errorMessage});
+      res.render('login', {loginInfo: {loggedInUser: undefined, message: errorMessage}, user: undefined, message: errorMessage});
     });
 }); 
 

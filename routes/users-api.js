@@ -8,19 +8,21 @@
 const express = require('express');
 const router  = express.Router();
 const userQueries = require('../db/queries/users');
+const { runWithLoginUser } = require('./partials/_loginUser')
 
 router.get('/', (req, res) => {
   //TODO: I DON"T THINK WE NEED THIS
-  
-  userQueries.getUsers()
-    .then(users => {
-      res.json({ users });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+  runWithLoginUser(req.session.user_id, (loginInfo) => {
+    userQueries.getUsers()
+      .then(users => {
+        res.json({ users });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
 });
 
 module.exports = router;
