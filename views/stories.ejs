@@ -28,6 +28,7 @@
     <label><input type="checkbox" id="checkbox" name="orderDate" value="ASC">Order Oldest First</label>
     <label><input type="checkbox" id="checkbox" name="completed" value="TRUE">Show Only Finished Stories</label>
     <label><input type="checkbox" id="checkbox" name="orderUpvotes" value="ASC">Order by lowest to highest</label>
+    <label><input type="checkbox" id="checkbox" name="showMyStories" value="1">Show My Stories</label>
     <input type="text" id="title" name="title" placeholder="Search By Title">
     <input type="text" id="username" name="username" placeholder="Search By Author Name">
     <button type="submit" class="button">SUBMIT</button>
@@ -35,7 +36,7 @@
   <section id="stories_container">
     <% for (let story of stories) { %>
     <article>
-      <span>
+      <div class="story_content">
         <%= story.id %>
         <%= story.title %>
         <%= story.username %>
@@ -44,7 +45,7 @@
         <%= story.upvotes %>
         <%= story.downvotes %>
         <%= story.completed %><br>
-      </span>
+      </div>
     </article>
     <% } %>
   </section>

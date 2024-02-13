@@ -26,13 +26,13 @@ router.post("/", (req, res) => {
     }
   }
 
-  console.log("HERE",{ options });
-  console.log("THERE",{ optionsObj });
+  // console.log("HERE",{ options });
+  // console.log("THERE",{ optionsObj });
   
   storiesQueries
     .getStories(options)
     .then((stories) => {
-      res.json({ stories })
+      res.json(stories)
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });

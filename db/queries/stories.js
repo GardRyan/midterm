@@ -46,7 +46,7 @@ const getStories = (options) => {
         WHERE stories.id = downvotes.story_id AND downvotes.vote = FALSE) AS downvotes
     FROM stories
     JOIN users ON users.id = stories.creator_id
-    WHERE 1 = 1
+    WHERE TRUE
     `;
 
   if (options.title && options.title.length > 0) {
@@ -61,6 +61,10 @@ const getStories = (options) => {
 
   if (options.completed && options.completed.length > 0) {
     queryString += ` AND completed = '${options.completed}'`;
+  };
+
+  if (options.showMyStories && options.showMyStories.length > 0) {
+    queryString += ` AND creator_id = '${options.showMyStories}'`;
   };
 
   queryString += `

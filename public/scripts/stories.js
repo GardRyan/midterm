@@ -11,8 +11,7 @@ $(() => {
     console.log(formInfo);
 
     $.post(`/api/stories`, formInfo, (response) => {
-      console.log(response);
-
+      renderStories(response)
     });
   });
 });
