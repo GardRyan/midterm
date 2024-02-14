@@ -1,7 +1,7 @@
 //document ready for /stories
 $(document).ready(function () {
 
-  $.get("/stories/load", (response) => {
+  $.get("/api/stories/load", (response) => {
     renderStories(response);
   });
 

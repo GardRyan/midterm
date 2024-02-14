@@ -47,6 +47,7 @@
       <% if (loginInfo.loggedInUser) { %>
         <label><input type="checkbox" id="checkbox" name="showMyStories" value="<%= loginInfo.loggedInUser.id%>">Show My Stories</label>
       <% } %>
+      <button id="reset" type="reset" class="btn btn-primary">Reset Search</button>
       <input type="text" id="title" name="title" placeholder="Search By Title">
       <input type="text" id="username" name="username" placeholder="Search By Author Name">
       <button type="submit" class="btn btn-primary">SEARCH</button>
@@ -55,6 +56,4 @@
     <section id="stories_container">
     </section>
   </main>
-</body>
-
 </html>
