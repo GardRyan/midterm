@@ -66,9 +66,9 @@ const saveStory = (newStory) => {
 };
 
 const editStory = (story) => {
-  const { id, title, content } = story;
+  const { title, content, id} = story;
   const query =
-    "UPDATE stories SET title = $2 AND content = $3  WHERE id = $1 RETURNING *";
+    "UPDATE stories SET title = $1 AND content = $2  WHERE id = $3 RETURNING *";
 
   return db
     .query(query, [id, title, content])
@@ -82,7 +82,7 @@ const editStory = (story) => {
 
 const deleteStory = (story) => {
   const { id } = story;
-  const query = "DELETE FROM contributions WHERE id = $1 RETURNING *";
+  const query = "UPDATE stories SET deleted = true WHERE id = $1 RETURNING *";
 
   return db
     .query(query, [id])

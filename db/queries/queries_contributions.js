@@ -77,18 +77,17 @@ const saveContributions = (newContribution) => {
     created_date,
     picked_date,
   } = newContribution;
+  console.log(newContribution);
   const query =
-    "INSERT INTO contributions (story_id, story_step, content, picked, contributer_id, created_date, picked_date) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
+    "INSERT INTO contributions (story_id, story_step, content, picked, contributer_id, created_date, picked_date) VALUES ($1, $2, $3, $4, $5, NOW(), NOW()) RETURNING *";
 
   return db
     .query(query, [
       story_id,
       story_step,
       content,
-      picked,
+      false,
       contributer_id,
-      created_date,
-      picked_date,
     ])
     .then((result) => {
       return result.rows[0].id;

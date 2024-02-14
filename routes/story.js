@@ -21,8 +21,29 @@ router.get("/new", (req, res) => {
     res.render("createStory");
   });
 
+  router.get("/:id/edit", (req, res) => {
+    const storyId = req.params.id;
+    const userId = req.session.user_id
+
+
+
+    res.render("createStory");
+  });
+
+  router.get("/:id/delete", (req, res) => {
+    const storyId = req.params.id;
+    const userId = req.session.user_id
+
+
+
+    res.render("createStory");
+  });
+
 router.get("/:id", (req, res) => {
   const storyId = req.params.id;
+  const userId = req.session.user_id
+
+  console.log(req.params);
 
   getContributions(storyId)
     .then((contributions) => {
@@ -40,13 +61,12 @@ router.get("/:id", (req, res) => {
 router.post("/new", (req, res) => {
   const userId = req.session.user_id
 
+
   const newStory = {
     title: req.body.title,
     content: req.body.content,
     creator_id: userId,
   };
-
-  console.log(newStory);
 
   saveStory(newStory)
     .then((storyId) => {
@@ -60,21 +80,19 @@ router.post("/new", (req, res) => {
 });
 
 router.post("/:id", (req, res) => {
-
+  const storyId = req.params.id;
+  const userId = req.session.user_id
 
   const newContributions = {
-    story_id: req.body.story_id,
-    story_step: req.body.story_step,
+    story_id: storyId,
+    story_step: 1,
     content: req.body.content,
-    picked: req.body.picked,
-    contributor_id: req.body.contributor_id,
-    created_date: req.body.created_date,
-    picked_date: req.body.picked_date,
+    contributor_id: userId,
   };
 
   saveContributions(newContribution)
     .then((contributionId) => {
-      res.render("story", { story, contributions });
+      res.status(201).send();
     })
     .catch((error) => {
       console.log(error);
@@ -82,5 +100,22 @@ router.post("/:id", (req, res) => {
     });
 });
 
+router.post("/:id/edit", (req, res) => {
+
+});
+
+router.post("/:id/delete", (req, res) => {
+  const storyId = req.params.id;
+
+
+  deleteStory(storyId)
+  .then(() => {
+    res.redirect("/stories")
+    })
+    .catch((error) => {
+      console.error('Error deleting story:', error);
+      res.status(500).json({ error: 'An error occurred while deleting the story' });
+    });
+});
 
 module.exports = router;
