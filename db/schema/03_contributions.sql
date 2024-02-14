@@ -7,5 +7,5 @@ CREATE TABLE contributions (
   picked BOOLEAN NOT NULL DEFAULT FALSE,
   contributer_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   created_date TIMESTAMP NOT NULL,
-  picked_date TIMESTAMP NOT NULL
+  picked_date TIMESTAMP
 );

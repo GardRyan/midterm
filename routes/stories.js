@@ -9,35 +9,14 @@ router.get("/", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     res.render("stories", {loginInfo})
   });
- 
 });
 
-// gets called by ajax and does db query and sends it to render function
-router.get("/load", (req, res) => {
-  // default options
+// loads page for my Stories
+router.get("/myStories", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    
-    const options = {
-      orderDate: "DESC",
-      orderUpvotes: "DESC",
-    };
-  
-    // makes query to db with options
-    storiesQueries
-      .getStories(options)
-      .then((stories) => {
-        //sends it to stories script
-        res.json(stories)
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err.message });
-      });
+    res.render("myStories", {loginInfo})
   });
-  
 });
 
 module.exports = router;
 
-//options to make.
-// by user id.
-// stories i contributed to.

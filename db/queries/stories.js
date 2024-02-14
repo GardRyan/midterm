@@ -3,7 +3,7 @@ const db = require("../connection");
 
 const getOrderBy = (options) => {
   let orderString = "";
-
+  
   if (options.orderUpvotes && options.orderUpvotes.length > 0) {
     if (orderString.length === 0) {
       orderString += `ORDER BY upvotes ${options.orderUpvotes}`;
@@ -25,7 +25,7 @@ const getOrderBy = (options) => {
 
 const getStories = (options) => {
   let queryParams = [];
-
+  console.log("******************************\n options in query \n", options, "\n", "******************************");
   let queryString = `
     SELECT  
       stories.id,

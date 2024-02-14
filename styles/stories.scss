@@ -9,6 +9,13 @@
   width: 88%;
   justify-content: space-around;
   padding: 15px;
+  gap: 10px;
+}
+
+#optionsForm label {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
 }
 
 #stories_container {

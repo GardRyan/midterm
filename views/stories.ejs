@@ -37,12 +37,18 @@
   <%- include('partials/_header') %>
   <main>
     <h1>╰(*°▽°*)╯</h1>
-    
+
     <form id="optionsForm" name="optionsForm">
-      <label><input type="checkbox" id="checkbox" name="orderDate" value="ASC">Order Oldest First</label>
-      <label><input type="checkbox" id="checkbox" name="completed" value="TRUE">Show Only Finished Stories</label>
-      <label><input type="checkbox" id="checkbox" name="orderUpvotes" value="ASC">Order by lowest to highest</label>
-      <label><input type="checkbox" id="checkbox" name="showMyStories" value="1">Show My Stories</label>
+      <label><input type="radio" id="orderAsc" name="orderDate" value="ASC">Order Oldest First</label>
+      <label><input type="radio" id="orderDesc" name="orderDate" value="DESC">Order Newest First</label>
+      <label><input type="radio" id="showComplete" name="completed" value="TRUE">Show Only Finished Stories</label>
+      <label><input type="radio" id="showIncomplete" name="completed" value="False">Show Only Unfinished Stories</label>
+      <label><input type="radio" id="lowFirst" name="orderUpvotes" value="ASC">Order by lowest to highest</label>
+      <label><input type="radio" id="highFirst" name="orderUpvotes" value="DESC">Order by highest to lowest</label>
+      <% if (loginInfo.loggedInUser) { %>
+        <label><input type="checkbox" id="myStories" name="showMyStories" value="<%= loginInfo.loggedInUser.id%>">Show My Stories</label>
+      <% } %>
+      <button id="reset" type="reset" class="btn btn-primary">Reset Search</button>
       <input type="text" id="title" name="title" placeholder="Search By Title">
       <input type="text" id="username" name="username" placeholder="Search By Author Name">
       <button type="submit" class="btn btn-primary">SEARCH</button>
@@ -51,6 +57,4 @@
     <section id="stories_container">
     </section>
   </main>
-</body>
-
 </html>

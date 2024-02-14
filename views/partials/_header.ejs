@@ -12,10 +12,12 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse">
-      <div class="navbar-nav" id="navbar-nav">
-        <a class="nav-item nav-link" href="/stories">My Stories</a>
-        <a class="nav-item nav-link" href="/stories">My Contributions</a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <% if (loginInfo.loggedInUser) { %>
+          <a id="my_story_link" class="nav-item nav-link"  href="/stories/myStories">My Stories</a>
+        <%}%>
+        <!-- <a class="nav-item nav-link" href="/stories">My Contributions</a> -->
         <a class="nav-item nav-link" href="/story/new">Create Story</a>
         <a class="nav-item nav-link" href="/stories">Search</a>   
         <% if ((loginInfo.loggedInUser ) && (loginInfo.loggedInUser.id)) { %>
