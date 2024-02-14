@@ -45,7 +45,7 @@
       <label><input type="radio" id="lowFirst" name="orderUpvotes" value="ASC">Order by lowest to highest</label>
       <label><input type="radio" id="highFirst" name="orderUpvotes" value="DESC">Order by highest to lowest</label>
       <% if (loginInfo.loggedInUser) { %>
-        <label><input type="checkbox" id="checkbox" name="showMyStories" value="<%= loginInfo.loggedInUser.id%>">Show My Stories</label>
+        <label><input type="checkbox" id="myStories" name="showMyStories" value="<%= loginInfo.loggedInUser.id%>">Show My Stories</label>
       <% } %>
       <button id="reset" type="reset" class="btn btn-primary">Reset Search</button>
       <input type="text" id="title" name="title" placeholder="Search By Title">

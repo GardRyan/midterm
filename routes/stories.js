@@ -20,30 +20,5 @@ router.get("/myStories", (req, res) => {
  
 });
 
-// gets called by ajax and does db query and sends it to renderStory  function
-router.get("/load", (req, res) => {
-  // default options
-  runWithLoginUser(req.session.user_id, (loginInfo) => {
-    
-    const options = {
-      orderDate: "DESC",
-      orderUpvotes: "DESC",
-    };
-    // makes query to db with options
-    storiesQueries
-      .getStories(options)
-      .then((stories) => {
-        //sends it to stories script
-        res.json(stories)
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err.message });
-      });
-  });
-  
-});
-
-
-
 module.exports = router;
 
