@@ -16,3 +16,10 @@ body {
     rgba(163, 208, 219, 1) 100%
   );
 }
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}

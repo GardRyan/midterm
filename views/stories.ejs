@@ -13,15 +13,16 @@
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
+  <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
   <link rel="stylesheet" href="/styles/stories.css" />
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-    crossorigin="anonymous"
-  />
+  
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/app.js"></script>
@@ -34,7 +35,7 @@
 <body>
   <%- include('partials/_header') %>
   <main>
-    <h1>Have fun! STORIES🥔</h1>
+    <h1>╰(*°▽°*)╯</h1>
     
     <form id="optionsForm" name="optionsForm">
       <label><input type="checkbox" id="checkbox" name="orderDate" value="ASC">Order Oldest First</label>
@@ -43,7 +44,7 @@
       <label><input type="checkbox" id="checkbox" name="showMyStories" value="1">Show My Stories</label>
       <input type="text" id="title" name="title" placeholder="Search By Title">
       <input type="text" id="username" name="username" placeholder="Search By Author Name">
-      <button type="submit" class="button">SUBMIT</button>
+      <button type="submit" class="btn btn-primary">SEARCH</button>
     </form>
     
     <section id="stories_container">

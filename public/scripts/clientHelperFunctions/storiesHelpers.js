@@ -36,7 +36,7 @@ const createStoryElement = function (storyObj) {
 
   $story.addClass("story_article")
   $div.addClass("story_content")
-  $aTitle.attr("href", id)
+  $aTitle.attr("href", `/story/${id}`)
 
   $pId.text(id);
   $aTitle.text(title);
