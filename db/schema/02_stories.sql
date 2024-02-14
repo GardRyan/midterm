@@ -6,7 +6,7 @@ CREATE TABLE stories (
   creator_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   completed BOOLEAN NOT NULL DEFAULT FALSE,
   created_date DATE NOT NULL,
-  completed_date DATE NOT NULL,
+  completed_date DATE,
   public BOOLEAN NOT NULL DEFAULT TRUE,
   deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
