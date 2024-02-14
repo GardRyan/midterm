@@ -2,3 +2,17 @@ body {
   background: white;
   color: black;
 }
+
+.navbar-custom {
+  background-color: rgb(236, 236, 236);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-nav,
+.navbar-custom a {
+    color: black;
+}
+
+.navbar-custom a:hover {
+  color: rgb(99, 99, 99);
+}

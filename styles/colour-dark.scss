@@ -1,4 +1,18 @@
 body {
-  background: black;
+  background:rgb(34, 34, 34);
+  color: rgb(226, 226, 226);
+}
+
+.navbar-custom {
+  background-color: rgb(26, 26, 26);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-nav,
+.navbar-custom a {
+    color: rgb(226, 226, 226);
+}
+
+.navbar-custom a:hover {
   color: white;
 }
