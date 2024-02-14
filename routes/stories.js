@@ -12,7 +12,15 @@ router.get("/", (req, res) => {
  
 });
 
-// gets called by ajax and does db query and sends it to render function
+// loads page for my Stories
+router.get("/myStories", (req, res) => {
+  runWithLoginUser(req.session.user_id, (loginInfo) => {
+    res.render("myStories", {loginInfo})
+  });
+ 
+});
+
+// gets called by ajax and does db query and sends it to renderStory  function
 router.get("/load", (req, res) => {
   // default options
   runWithLoginUser(req.session.user_id, (loginInfo) => {
@@ -21,7 +29,6 @@ router.get("/load", (req, res) => {
       orderDate: "DESC",
       orderUpvotes: "DESC",
     };
-  
     // makes query to db with options
     storiesQueries
       .getStories(options)
@@ -36,8 +43,7 @@ router.get("/load", (req, res) => {
   
 });
 
+
+
 module.exports = router;
 
-//options to make.
-// by user id.
-// stories i contributed to.

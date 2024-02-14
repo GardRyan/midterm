@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
   //todo - redirect to - if logged in then my stories (login determined by cookie)
   //                     if not logged in then login page
   runWithLoginUser(req.session.user_id, (loginInfo) => {
-    res.render('users');
+    res.render('users', {loginInfo});
   });
 });
 
