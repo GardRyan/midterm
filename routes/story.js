@@ -38,17 +38,15 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/new", (req, res) => {
+  const userId = req.session.user_id
 
   const newStory = {
     title: req.body.title,
     content: req.body.content,
-    creator_id: req.body.creator_id,
-    completed: req.body.completed,
-    created_date: req.body.created_date,
-    completed_date: req.body.completed_date,
-    public: req.body.public,
-    deleted: req.body.deleted,
+    creator_id: userId,
   };
+
+  console.log(newStory);
 
   saveStory(newStory)
     .then((storyId) => {
@@ -62,6 +60,8 @@ router.post("/new", (req, res) => {
 });
 
 router.post("/:id", (req, res) => {
+
+
   const newContributions = {
     story_id: req.body.story_id,
     story_step: req.body.story_step,

@@ -44,19 +44,18 @@ const saveStory = (newStory) => {
     public,
     deleted,
   } = newStory;
+
   const query =
-    "INSERT INTO stories (title, content, creator_id, completed, created_date, completed_date, public, deleted) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
+    "INSERT INTO stories (title, content, creator_id, completed, created_date, completed_date, public, deleted) VALUES ($1, $2, $3, $4, NOW(), NOW(), $5, $6) RETURNING *";
 
   return db
     .query(query, [
       title,
       content,
       creator_id,
-      completed,
-      created_date,
-      completed_date,
-      public,
-      deleted,
+      false,
+      true,
+      false,
     ])
     .then((result) => {
       return result.rows[0].id;
@@ -67,12 +66,12 @@ const saveStory = (newStory) => {
 };
 
 const editStory = (story) => {
-  const { id, content } = story;
+  const { id, title, content } = story;
   const query =
-    "UPDATE stories SET content = $1 WHERE id = $2 RETURNING *";
+    "UPDATE stories SET title = $2 AND content = $3  WHERE id = $1 RETURNING *";
 
   return db
-    .query(query, [id, content])
+    .query(query, [id, title, content])
     .then((result) => {
       return result.rows[0];
     })
