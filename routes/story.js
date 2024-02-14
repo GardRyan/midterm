@@ -12,7 +12,7 @@ const {
 
 //define your routes
 router.get("/:id", (req, res) => {
-  runWithLoginUser(req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const storyId = req.params.id;
 
     getContributions(storyId)
@@ -31,7 +31,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/:id", (req, res) => {
-  runWithLoginUser(req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const newContributions = {
       story_id: req.body.story_id,
       story_step: req.body.story_step,

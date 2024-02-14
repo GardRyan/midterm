@@ -5,7 +5,7 @@ const storiesQueries = require("../db/queries/stories");
 const { runWithLoginUser } = require('./partials/_loginUser')
 
 router.post("/", (req, res) => {
-  runWithLoginUser(req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     
     const userInfo = loginInfo.loggedInUser;
 

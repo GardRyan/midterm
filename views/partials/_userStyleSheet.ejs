@@ -1,0 +1,5 @@
+<% if ((loginInfo) && (loginInfo.styleSheets)) { %> 
+  <link rel="stylesheet" href="/styles/<%= loginInfo.styleSheets.colour %>" />
+  <% } else { %>
+    <link rel="stylesheet" href="/styles/colour-white.css" />
+<% } %>

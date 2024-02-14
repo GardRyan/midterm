@@ -15,6 +15,7 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
+    <%- include('partials/_userStyleSheet') %>
 
     <script src="/vendor/jquery-3.0.0.js"></script>
     <script defer src="/scripts/users.js"></script>
@@ -38,6 +39,16 @@
           <input class="form-control" type="text" placeholder="email" name="email" autocomplete="off" value="<%= (user && user.email) ? user.email : '' %>"></input>
           <label>Password:</label>
           <input class="form-control" type="text" placeholder="password" name="password" autocomplete="off" value="<%= (user && user.password) ? user.password : '' %>"></input>
+          <% if (loginInfo.styleSheets) { %>
+            <div class = "userRadio">
+              <label> Default</label>
+              <input type="radio"  name="userStyleSelection" id="defaultStyle" <%= loginInfo.styleSheets.colour === 'colour-default.css'  ? 'checked' : '' %> value="colour-default.css" />
+              <label> Light</label>
+              <input type="radio"  name="userStyleSelection" id="lightStyle" <%= loginInfo.styleSheets.colour === 'colour-light.css'  ? 'checked' : '' %> value="colour-light.css" />
+              <label> Dark</label>
+              <input type="radio"  name="userStyleSelection" id="darkStyle" <%= loginInfo.styleSheets.colour === 'colour-dark.css'  ? 'checked' : '' %> value="colour-dark.css"/>                     
+          </div>
+          <% } %>
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </Form>

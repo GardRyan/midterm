@@ -6,7 +6,7 @@ const { runWithLoginUser } = require('./partials/_loginUser');
 
 //loads html skeleton
 router.get("/", (req, res) => {
-  runWithLoginUser(req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     res.render("stories", {loginInfo})
   });
  
@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 // gets called by ajax and does db query and sends it to render function
 router.get("/load", (req, res) => {
   // default options
-  runWithLoginUser(req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     
     const options = {
       orderDate: "DESC",

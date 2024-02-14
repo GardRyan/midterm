@@ -18,7 +18,7 @@ router
 
 
 router.post("/", (req, res) => {
-  runWithLoginUser(req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const newStory = {
       title: req.body.title,
       content: req.body.content,

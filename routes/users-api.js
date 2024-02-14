@@ -12,7 +12,7 @@ const { runWithLoginUser } = require('./partials/_loginUser')
 
 router.get('/', (req, res) => {
   //TODO: I DON"T THINK WE NEED THIS
-  runWithLoginUser(req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     userQueries.getUsers()
       .then(users => {
         res.json({ users });
