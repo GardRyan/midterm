@@ -11,6 +11,7 @@ const db = require('../db/queries/users');
 const { runWithLoginUser } = require('./partials/_loginUser')
 
 // route to get and display all users
+// leaving this available during testing.  In future this should be removed or limited to admin folks
 router.get('/', (req, res) => {
   runWithLoginUser(req.session.user_id, (loginInfo) => {
     db.getUsers()
@@ -27,21 +28,33 @@ router.get('/', (req, res) => {
 // route to present blank user form for entry
 router.get('/new', (req, res) => {
   runWithLoginUser(req.session.user_id, (loginInfo) => {
-    res.render('user', { loginInfo, user: undefined });
+    if (loginInfo.loggedInUser === undefined) {
+      res.render('user', { loginInfo, user: undefined });
+    } else {
+      res.redirect(`/users/${loginInfo.loggedInUser.id}`);
+    }
   });
 }); 
 
 // route to present user form for the user with the specified id
 router.get('/:id', (req, res) => {
   runWithLoginUser(req.session.user_id, (loginInfo) => {
-    db.getUser(req.params.id)
-      .then((result) => {
-        res.render('user', {loginInfo, user: result});
-      })
-      .catch((error) => {
-        console.log(error);
-        res.send(error);
-      }); 
+    if (loginInfo.loggedInUser === undefined) {
+      res.redirect("/users/new")
+    } else {
+      if (Number(loginInfo.loggedInUser.id) === Number(req.params.id)) {
+        db.getUser(req.params.id)
+          .then((result) => {
+            res.render('user', {loginInfo, user: result});
+          })
+          .catch((error) => {
+            console.log(error);
+            res.send(error);
+          }); 
+      } else {
+        res.redirect(`/users/${loginInfo.loggedInUser.id}`)
+      }
+    };
   }); 
 });
 
@@ -49,7 +62,9 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   runWithLoginUser(req.session.user_id, (loginInfo) => {
     const user = req.body;
-    if (user.id) {
+    if ((loginInfo.loggedInUser) &&
+        (user.id) && 
+        (Number(user.id) === Number(loginInfo.loggedInUser.id))) {
       db.updateUser(user) 
       .then((result) => {
         res.redirect(`/users/${user.id}`)
@@ -58,7 +73,9 @@ router.post('/', (req, res) => {
         console.log(error);
         res.send(error);
       });
-    } else {
+    } else if 
+        ((loginInfo.loggedInUser === undefined)
+        (user.id === undefined)) {
       db.insertUser(user)
       .then((result) => {
         res.redirect(`/users/${result.id}`)
@@ -67,6 +84,8 @@ router.post('/', (req, res) => {
         console.log(error);
         res.send(error);
       });
+    } else {
+      res.redirect("/");
     }
   }); 
 });

@@ -32,24 +32,28 @@ router.get("/:id", (req, res) => {
 
 router.post("/:id", (req, res) => {
   runWithLoginUser(req.session.user_id, (loginInfo) => {
-    const newContributions = {
-      story_id: req.body.story_id,
-      story_step: req.body.story_step,
-      content: req.body.content,
-      picked: req.body.picked,
-      contributor_id: req.body.contributor_id,
-      created_date: req.body.created_date,
-      picked_date: req.body.picked_date,
-    };
+    if (loginInfo.loggedInUser === undefined) {
+      res.redirect("/login");
+    } else {
+      const newContributions = {
+        story_id: req.body.story_id,
+        story_step: req.body.story_step,
+        content: req.body.content,
+        picked: req.body.picked,
+        contributor_id: req.body.contributor_id,
+        created_date: req.body.created_date,
+        picked_date: req.body.picked_date,
+      };
 
-    saveContributions(newContribution)
-      .then((contributionId) => {
-        res.render("story", {  loginInfo, story, contributions });
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(500).json({ error: `An error occured while saving the contribution`});
-      });
+      saveContributions(newContribution)
+        .then((contributionId) => {
+          res.render("story", {  loginInfo, story, contributions });
+        })
+        .catch((error) => {
+          console.log(error);
+          res.status(500).json({ error: `An error occured while saving the contribution`});
+        });
+      }
   });
 });
 

@@ -9,10 +9,10 @@ const { runWithLoginUser } = require('./partials/_loginUser')
 // route to show login page
 router.get('/', (req, res) => {
   runWithLoginUser(req.session.user_id, (loginInfo) => {
-    if (loginInfo.loggedInUser) {
-      res.render('login', { loginInfo, user: loginInfo.loggedInUser, message: undefined});
-    } else {
+    if (loginInfo.loggedInUser === undefined) {
       res.render('login', { loginInfo, user: undefined, message: undefined});
+    } else {
+      res.redirect("/");
     }
   });
 }); 
