@@ -5,21 +5,23 @@ const { runWithLoginUser } = require("./partials/_loginUser");
 // this file deals with making queries to the stories table and sending them to  the render function
 
 const getOptions = function (user_id, req) {
-  const options = {
-    orderDate: "DESC",
-    orderUpvotes: "DESC",
-  };
+  const options = {};
   
   if (user_id) {
     options.showMyStories = `${user_id}`;
   };
 
-  if (req.body) {
+  if (Object.keys(req.body).length > 0) {
+    console.log("reqBody", req.body);
     const optionsObj = req.body;
     for (let option in optionsObj) {
       options[option] = optionsObj[option];
     }
-  }
+  } else {
+    options.orderDate = "DESC";
+    options.orderUpvotes  = "DESC";
+    console.log("options in else", options);
+  };
 
   return options;
 };

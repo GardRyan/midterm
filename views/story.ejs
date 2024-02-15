@@ -20,6 +20,7 @@
   />
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/story.css" />
   <%- include('partials/_userStyleSheet') %>
 
   <script src="/vendor/jquery-3.0.0.js"></script>
@@ -39,6 +40,7 @@
         <p><%= story && story.content %></p>
       </div>
       <footer>
+        <p> story id <%= story.id %></p>
         <p><%= story.username %></p>
         <p><%= story.upvotes %></p>
         <p><%= story.downvotes %></p>
@@ -59,30 +61,33 @@
     <section id="contributions-container">
       <% if (contributions && contributions.length > 0) { %>
         <% contributions.forEach(contribution => { %>
-          <article>      
-            <div><%= contribution.story_step %></div>
-            <p><%= contribution.contributer_id %></p>
-            <div class="contribution" id="<%= contribution.id %>">
-              <%= contribution.content %>
+          <article>
+            <header>
+              <p><%= contribution.story_step %></p>
+              <p><%= contribution.story_step %></p>
+            </header>     
+            
+            <div class="contribution_content">
+              <p><%= contribution.content %></p>
             </div>
-            <div>
-              <%= contribution.created_date.toLocaleTimeString(undefined, {weekday: "short", year: "numeric", month: "short", day: "numeric",}) %>
-              <%= contribution.upvotes %>
-              <%= contribution.downvotes %>
-            </div>
+            
+            <footer>
+              <div>
+                <%= contribution.created_date.toLocaleTimeString(undefined, {weekday: "short", year: "numeric", month: "short", day: "numeric",}) %>
+                <%= contribution.upvotes %>
+                <%= contribution.downvotes %>
+              </div>
+              <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
+                <button type="submit" class="edit-contribution">edit</button>
+              </form>
+              <form action="/story/<%= contribution.id %>/delete-contributions" method="post">
+                <button type="submit" class="delete-contribution">delete</button>
+              </form>
+              <form action="/story/<%= contribution.id %>/pick-contributions" method="post">
+                <button type="submit" class="pick-contribution">Pick</button>
+              </form>
+            </footer>
           </article>
-
-          <div class="contribution_forms">
-            <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
-              <button type="submit" class="edit-contribution">edit</button>
-            </form>
-            <form action="/story/<%= contribution.id %>/delete-contributions" method="post">
-              <button type="submit" class="delete-contribution">delete</button>
-            </form>
-            <form action="/story/<%= contribution.id %>/pick-contributions" method="post">
-              <button type="submit" class="pick-contribution">Pick</button>
-            </form>
-          </div>
         <% }) %>
       <% }; %>
     </section>

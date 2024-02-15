@@ -1,18 +1,27 @@
 body {
-  background: white;
   color: black;
+  background: rgb(136, 13, 193);
+  background: linear-gradient(
+    227deg,
+    rgb(45, 25, 227) 0%,
+    rgb(151, 9, 198) 20%,
+    rgb(204, 16, 163) 34%,
+    rgb(85, 17, 212) 59%,
+    rgb(169, 13, 217) 74%,
+    rgb(211, 9, 134) 100%
+  );
 }
 
 .navbar-custom {
-  background-color: rgb(236, 236, 236);
+  background-color: rgb(23, 55, 63);
 }
 
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-nav,
 .navbar-custom a {
-    color: rgb(236, 10, 10);
+    color: white;
 }
 
 .navbar-custom a:hover {
-  color: rgb(242, 8, 8);
+  color: rgb(226, 226, 226);
 }

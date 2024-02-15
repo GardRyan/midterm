@@ -1,0 +1,20 @@
+article {
+  margin: 50px;
+  border: solid;
+  width: 90%;
+  padding: 30px;
+}
+
+article header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+article div {
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-word;
+}
+
+

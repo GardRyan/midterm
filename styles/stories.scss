@@ -4,9 +4,13 @@
   flex-direction: row;
 }
 
-.mySideBar {
-  flex-direction: row;
+#mySidebar {
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 60px;
 }
+
 #optionsForm {
   flex-direction: column;
   margin: 10px;
@@ -33,8 +37,6 @@
   justify-content: center;
 }
 
-
-
 .radio_container div {
   display: flex;
   flex-direction: column;
@@ -46,8 +48,6 @@
   padding: 10px;
 }
 
-
-
 #optionsForm .search_field {
   display: flex;
   flex-direction: column;
@@ -56,16 +56,24 @@
 
 .story_article {
   display: flex;
+  flex-direction: column;
   border-style: solid;
   border-radius: 30px;
-  justify-content: center;
-  align-content: center;
   border-width: 5px;
   margin: 10px;
   padding: 15px;
 }
 
-.story_content {
+.story_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+}
+
+.story_footer {
   display: flex;
   flex-direction: row;
   justify-content: center;
