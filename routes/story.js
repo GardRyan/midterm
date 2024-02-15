@@ -211,10 +211,11 @@ router.post("/:id/edit-contributions", (req, res) => {
 
 router.post("/:id/pick-contributions", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    const { storyId, contributionId } = req.params;
+    const contributionId = req.params.id;
 
-    pickContribution(contributionId, storyId)
+    pickContribution(contributionId)
       .then(() => {
+        
         res.redirect('back');
       })
       .catch((error) => {
