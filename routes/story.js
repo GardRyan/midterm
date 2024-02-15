@@ -5,52 +5,79 @@ const router = express.Router();
 //queries and other middleware
 const {
   getContributions,
-  getStoryById,
   saveContributions,
+  editContributions,
+  deleteContributions,
+  pickContribution,
 } = require("../db/queries/queries_contributions");
 
-const { saveStory, editStory, deleteStory } = require("../db/queries/story");
+const {
+  getStoryById,
+  saveStory,
+  editStory,
+  deleteStory,
+} = require("../db/queries/story");
 
 //define your routes
 router.get("/new", (req, res) => {
-    // const userId = req.session.userId;
-    // const user = users[userId];
-    // const userURLs = urlsForUser(user);
+  res.render("createStory");
+});
 
-
-    res.render("createStory");
-  });
-
-  router.get("/:id/edit", (req, res) => {
-    const storyId = req.params.id;
-    const userId = req.session.user_id
-
-
-
-    res.render("createStory");
-  });
-
-  router.get("/:id/delete", (req, res) => {
-    const storyId = req.params.id;
-    const userId = req.session.user_id
-
-
-
-    res.render("createStory");
-  });
-
-router.get("/:id", (req, res) => {
+router.get("/:id/edit-story", (req, res) => {
   const storyId = req.params.id;
-  const userId = req.session.user_id
+  const userId = req.session.user_id;
 
-  console.log(req.params);
+  getStoryById(storyId).then((story) => {
+    if (story.deleted === false) {
+      res.render("edit-story", { story });
+    } else {
+      return res
+        .status(423)
+        .send(
+          `Error 423: The story you are trying to access has been deleted!`
+        );
+    }
+  });
+});
+
+router.get("/:id/edit-contribution", (req, res) => {
+
+  const storyId = req.params.id;
+
+  console.log(`why do we do this?`, storyId)
 
   getContributions(storyId)
     .then((contributions) => {
-      console.log(contributions);
+      res.render("edit-contribution", { contributions });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+router.get("/:id/delete", (req, res) => {
+  const storyId = req.params.id;
+  const userId = req.session.user_id;
+
+  res.render("createStory");
+});
+
+router.get("/:id", (req, res) => {
+  const storyId = req.params.id;
+  const userId = req.session.user_id;
+
+  getContributions(storyId)
+    .then((contributions) => {
       getStoryById(storyId).then((story) => {
-        console.log(story);
-        res.render("story", { story, contributions });
+        if (story.deleted === false) {
+          res.render("story", { story, contributions });
+        } else {
+          return res
+            .status(423)
+            .send(
+              `Error 423: The story you are trying to access has been deleted!`
+            );
+        }
       });
     })
     .catch((err) => {
@@ -59,8 +86,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/new", (req, res) => {
-  const userId = req.session.user_id
-
+  const userId = req.session.user_id;
 
   const newStory = {
     title: req.body.title,
@@ -70,18 +96,19 @@ router.post("/new", (req, res) => {
 
   saveStory(newStory)
     .then((storyId) => {
-      res.redirect("/stories")
+      res.redirect("/stories");
     })
     .catch((error) => {
-      console.error('Error saving story:', error);
-      res.status(500).json({ error: 'An error occurred while saving the story' });
+      console.error("Error saving story:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while saving the story" });
     });
-
 });
 
 router.post("/:id", (req, res) => {
   const storyId = req.params.id;
-  const userId = req.session.user_id
+  const userId = req.session.user_id;
 
   const newContributions = {
     story_id: storyId,
@@ -90,31 +117,127 @@ router.post("/:id", (req, res) => {
     contributor_id: userId,
   };
 
-  saveContributions(newContribution)
+  saveContributions(newContributions)
     .then((contributionId) => {
       res.status(201).send();
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).json({ error: `An error occured while saving the contribution`});
+      res
+        .status(500)
+        .json({ error: `An error occured while saving the contribution` });
     });
 });
 
 router.post("/:id/edit", (req, res) => {
+  const storyId = req.params.id;
 
+  console.log(`storyId`, storyId);
+  if (storyId) {
+    res.redirect(`/story/${storyId}/edit-story`);
+  } else {
+    res.redirect("/stories");
+  }
 });
 
+router.post("/contribution/:id/edit", (req, res) => {
+  const contributionId = req.params.id;
+
+  if (contributionId) {
+    console.log(`what am I?`, contributionId)
+    res.redirect(`/story/${contributionId}/edit-contribution`);
+  } else {
+    res.redirect("/stories");
+  }
+});
+
+router.post("/:id/edit-story", (req, res) => {
+  const storyId = req.params.id;
+  const { title, content } = req.body;
+
+  editStory({ id: storyId, title, content })
+    .then((editedStory) => {
+      if (editedStory) {
+        res.status(200).json(editedStory);
+      } else {
+        res.status(404).send("Story not found");
+      }
+    })
+    .catch((error) => {
+      console.error("Error editing story:", error);
+      res.status(500).send("An error occurred while editing the story");
+    });
+});
+
+router.post("/:id/edit-contributions", (req, res) => {
+  const contributionId = req.params.id;
+  const { content } = req.body;
+  console.log(`contibrution`, contributionId);
+  editContributions({ id: contributionId, content })
+    .then((editedContribution) => {
+      console.log(`what is this?`, editedContribution);
+      if (editedContribution) {
+        res.status(200).json(editedContribution);
+      } else {
+        res.status(404).send("Contribution not found");
+      }
+    })
+    .catch((error) => {
+      console.error("Error editing contribution:", error);
+      res.status(500).send("An error occurred while editing the contribution");
+    });
+});
+router.post("/:id/pick-contributions", (req, res) => {
+  const { storyId, contributionId } = req.params;
+
+  pickContribution(contributionId, storyId)
+    .then(() => {
+      res.status(200).send("Contribution picked successfully.");
+    })
+    .catch((error) => {
+      console.error("Error picking contribution:", error);
+      res.status(500).send("An error occurred while picking the contribution.");
+    });
+});
 router.post("/:id/delete", (req, res) => {
   const storyId = req.params.id;
 
-
   deleteStory(storyId)
-  .then(() => {
-    res.redirect("/stories")
+    .then(() => {
+      return deleteContributions({ story_id: storyId });
+    })
+    .then((deletedContributions) => {
+      if (deletedContributions) {
+        console.log("Contributions deleted:", deletedContributions);
+      }
+
+      res.redirect("/stories");
     })
     .catch((error) => {
-      console.error('Error deleting story:', error);
-      res.status(500).json({ error: 'An error occurred while deleting the story' });
+      console.error("Error deleting story:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while deleting the story" });
+    });
+});
+
+router.post("/:id/delete-contributions", (req, res) => {
+  const storyId = req.params.id;
+  const story_id = storyId;
+
+  deleteContributions(story_id)
+    .then((deletedContribution) => {
+      console.log(`deletedContribution`, deletedContribution);
+      console.log(`story_id`, story_id);
+      if (deletedContribution) {
+        res.status(201).send();
+      } else {
+        res.status(404).send("Contribution not found");
+      }
+    })
+    .catch((error) => {
+      console.error("Error deleting contribution:", error);
+      res.status(500).send("An error occurred while deleting the contribution");
     });
 });
 
