@@ -6,7 +6,16 @@ const getStoryById = (storyId) => {
   let queryParams = [storyId];
   let queryString = `
       SELECT 
-        *,
+        stories.id,
+        stories.title,
+        stories.content,
+        stories.creator_id,
+        stories.completed,
+        stories.created_date,
+        stories.completed_date,
+        stories.public,
+        stories.deleted,
+        users.username,
         (SELECT COUNT(*)
           FROM story_votes AS upvotes
           WHERE stories.id = upvotes.story_id AND upvotes.vote = TRUE) AS upvotes,

@@ -35,13 +35,12 @@
         <% if (story && story.title) { %>
           <h2><%= story.title %></h2>
         <% } %>
+        <p>Written By: <b><%= story.username %></b></p>
       </header>
       <div>
         <p><%= story && story.content %></p>
       </div>
       <footer>
-        <p> story id <%= story.id %></p>
-        <p><%= story.username %></p>
         <p><%= story.upvotes %></p>
         <p><%= story.downvotes %></p>
         <form action="/story/<%= story.id %>/edit" method="post">
@@ -63,8 +62,8 @@
         <% contributions.forEach(contribution => { %>
           <article>
             <header>
-              <p><%= contribution.story_step %></p>
-              <p><%= contribution.story_step %></p>
+              <p>Story Step: <%= contribution.story_step %></p>
+              <p>Contributer: <%= contribution.story_step %></p>
             </header>     
             
             <div class="contribution_content">

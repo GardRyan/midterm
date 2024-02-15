@@ -7,14 +7,34 @@ article {
 
 article header {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin-bottom: 10px;
 }
 
 article div {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   word-break: break-word;
+}
+
+article footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+
+}
+
+#contributions-container {
+  width: 90%;
+  align-items: center;
+}
+
+#contribution-form {
+  display: flex;
+  flex-direction: column;
 }
 
 
