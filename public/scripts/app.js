@@ -1,6 +1,6 @@
-// Client facing scripts here
+// // Client facing scripts here
 
-//contributions AJAX
+// //contributions AJAX
 // $(document).ready(function () {
 
 //   const renderContributions = function (contributions) {
@@ -28,6 +28,7 @@
 //       console.error('Error saving contribution:', error);
 //     });
 // });
+
 
 // const loadContributions = function () {
 
