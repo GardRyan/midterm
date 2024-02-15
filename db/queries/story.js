@@ -5,8 +5,16 @@ const db = require("../connection");
 const getStoryById = (storyId) => {
   let queryParams = [storyId];
   let queryString = `
-      SELECT *
+      SELECT 
+        *,
+        (SELECT COUNT(*)
+          FROM story_votes AS upvotes
+          WHERE stories.id = upvotes.story_id AND upvotes.vote = TRUE) AS upvotes,
+        (SELECT COUNT(*)
+          FROM story_votes AS downvotes
+          WHERE stories.id = downvotes.story_id AND downvotes.vote = FALSE) AS downvotes
       FROM stories
+      JOIN users ON users.id = stories.creator_id
       WHERE stories.id = $1
       GROUP BY
         stories.id,
@@ -17,7 +25,9 @@ const getStoryById = (storyId) => {
         stories.created_date,
         stories.completed_date,
         stories.public,
-        stories.deleted
+        stories.deleted,
+        users.username,
+        users.id
     `;
   return db
     .query(queryString, queryParams)

@@ -29,73 +29,64 @@
 <body>
   <%- include('partials/_header') %>
   <main>
-    <h1>Have fun! STORY 🥔</h1>
-  </main>
-
-  <div class="story-header">
-    <% if (story && story.title) { %>
-      <span><strong><%= story.title %></strong></span>
-    <% } %>
-    <div>
-      <p><%= story && story.content %></p>
-      <div>users.username</div>
-      <form action="/story/<%= story.id %>/edit" method="post">
-      <button type="submit" class="edit-story">edit</button>
+    <article class="story_container">
+      <header>
+        <% if (story && story.title) { %>
+          <h2><%= story.title %></h2>
+        <% } %>
+      </header>
+      <div>
+        <p><%= story && story.content %></p>
+      </div>
+      <footer>
+        <p><%= story.username %></p>
+        <p><%= story.upvotes %></p>
+        <p><%= story.downvotes %></p>
+        <form action="/story/<%= story.id %>/edit" method="post">
+          <button type="submit" class="edit-story">edit</button>
+        </form>
+        <form action="/story/<%= story.id %>/delete" method="post">
+          <button type="submit" class="delete-story">delete</button>
+        </form>
+      </footer>
+    </article>
+    
+    <form id="contribution-form" method="POST" action="/story/<%= story.id %>">
+      <input class="form-control" id="contribution-content" type="text" name="content" placeholder="What comes next...?" style="width: 300px; margin: 1em" value=""/>
+      <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-      <form action="/story/<%= story.id %>/delete" method="post">
-      <button type="submit" class="delete-story">delete</button>
-    </form>
-    </div>
-  </div>
 
-
-</div>
-  <form id="contribution-form" method="POST" action="/story/<%= story.id %>">
-    <input
-    class="form-control"
-    id="contribution-content"
-    type="text"
-    name="content"
-     placeholder="What comes next...?"
-     style="width: 300px; margin: 1em"
-     value=""
-     />
-   <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  <section id="contributions-container">
-    <article>
+    <section id="contributions-container">
       <% if (contributions && contributions.length > 0) { %>
         <% contributions.forEach(contribution => { %>
-          <div><%= contribution.story_step %></div>
-          <p><%= contribution.contributer_id %></p>
-          <div>
-            <!-- Other contribution properties -->
-          </div>
+          <article>      
+            <div><%= contribution.story_step %></div>
+            <p><%= contribution.contributer_id %></p>
+            <div class="contribution" id="<%= contribution.id %>">
+              <%= contribution.content %>
+            </div>
+            <div>
+              <%= contribution.created_date.toLocaleTimeString(undefined, {weekday: "short", year: "numeric", month: "short", day: "numeric",}) %>
+              <%= contribution.upvotes %>
+              <%= contribution.downvotes %>
+            </div>
+          </article>
 
-      </article>
-      <div class="contribution" id="<%= contribution.id %>">
-        <%= contribution.content %>
-      </div>
-    <div>
-        <%= contribution.created_date %>
-        <%= contribution.upvotes %>
-        <%= contribution.downvotes %>
-   </div>
-   <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
-   <button type="submit" class="edit-contribution">edit</button>
-  </form>
-   <form action="/story/<%= contribution.id %>/delete-contributions" method="post">
-   <button type="submit" class="delete-contribution">delete</button>
-  </form>
-</form>
-<form action="/story/<%= contribution.id %>/pick-contributions" method="post">
-<button type="submit" class="pick-contribution">Pick</button>
-</form>
-   <% }) %>
-   <% }; %>
-    </div>
-  </article>
-</section>
+          <div class="contribution_forms">
+            <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
+              <button type="submit" class="edit-contribution">edit</button>
+            </form>
+            <form action="/story/<%= contribution.id %>/delete-contributions" method="post">
+              <button type="submit" class="delete-contribution">delete</button>
+            </form>
+            <form action="/story/<%= contribution.id %>/pick-contributions" method="post">
+              <button type="submit" class="pick-contribution">Pick</button>
+            </form>
+          </div>
+        <% }) %>
+      <% }; %>
+    </section>
+  </main>
 </body>
 
 </html>
