@@ -22,7 +22,7 @@ const {
 //define your routes
 router.get("/new", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-  res.render("createStory", { loginInfo });
+    res.render("createStory", { loginInfo });
   });
 });
 
@@ -63,10 +63,10 @@ router.get("/:id/edit-contribution", (req, res) => {
 
 router.get("/:id/delete", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-  const storyId = req.params.id;
-  const userId = req.session.user_id;
+    const storyId = req.params.id;
+    const userId = req.session.user_id;
 
-  res.render("createStory", { loginInfo });
+    res.render("createStory", { loginInfo });
   });
 });
 
@@ -91,7 +91,7 @@ router.get("/:id", (req, res) => {
       })
       .catch((err) => {
         console.log(error);
-        res.status(500).json({ error: err.message });
+        sendJsonErrorMessag(res, 500, err.message);
       });
   });
 });

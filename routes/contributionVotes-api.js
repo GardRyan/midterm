@@ -1,7 +1,6 @@
 // all routes for getting or updating story votes async
 const express = require('express');
 const router  = express.Router();
-const { runWithLoginUser } = require('./partials/_loginUser')
 
 const { ContributionVotesDb } = require(`../db/queries/contributionVotes`)
 

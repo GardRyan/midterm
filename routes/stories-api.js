@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const storiesQueries = require("../db/queries/stories");
-const { runWithLoginUser } = require("./partials/_loginUser");
+const { runWithLoginUser, sendJsonErrorMessage } = require("./partials/_loginUser");
 // this file deals with making queries to the stories table and sending them to  the render function
 
 const getOptions = function (user_id, req) {
@@ -32,7 +32,8 @@ const makeQuery = function (user_id, req, res) {
       res.json(stories);
     })
     .catch((err) => {
-      res.status(500).json({ error: err.message });
+      sendJsonErrorMessage(res, 500, err.message);
+      //res.status(500).json({ error: err.message });
     });
 };
 
