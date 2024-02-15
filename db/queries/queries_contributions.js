@@ -26,7 +26,9 @@ ORDER BY contributions.created_date DESC
 `;
   return db
     .query(queryString, queryParams)
+
     .then((data) => {
+      console.log(`getContributions`, getContributions);
       return data.rows;
     })
     .catch((error) => {
@@ -34,8 +36,25 @@ ORDER BY contributions.created_date DESC
     });
 };
 
+const editThisContribution = (contributionId) => {
+  const [id]  = contributionId;
+  const query = `
+  SELECT * FROM contributions WHERE id = $1`;
+  return db
+    .query(query, [contributionId])
+    .then((result) => {
+      console.log(`are we editing?`, contributionId);
+      return result.rows[0].id;
+    })
+    .catch((error) => {
+      console.error("Error saving contribution:", error);
+      throw error; // Propagate the error
+    });
+};
+
 //saves a new story contribution
 const saveContributions = (newContribution) => {
+  console.log(`are we saving?`, newContribution)
   const { story_id, content, contributer_id } = newContribution;
   const query = `
     INSERT INTO contributions (
@@ -64,8 +83,9 @@ const saveContributions = (newContribution) => {
   `;
 
   return db
-    .query(query, [story_id, content, contributer_id,])
+    .query(query, Object.values(newContribution))
     .then((result) => {
+      console.log(`newContribution`, newContribution);
       return result.rows[0].id;
     })
     .catch((error) => {
@@ -77,13 +97,15 @@ const saveContributions = (newContribution) => {
 
 //edit contributions
 const editContributions = (contribution) => {
-  const { id, content } = contribution;
+  const { content, id} = contribution;
   const query =
-    "UPDATE contributions SET content = $1 WHERE id = $2 RETURNING *";
+    "UPDATE contributions SET content = $1 WHERE contributions.id = $2 RETURNING *";
 
   return db
-    .query(query, [contribution])
+    .query(query, Object.values(contribution))
     .then((result) => {
+      console.log(`result`, result)
+      console.log(`contribution`, contribution)
       return result.rows[0];
     })
     .catch((error) => {
@@ -97,7 +119,7 @@ const deleteContributions = (contribution) => {
   const query = "DELETE FROM contributions WHERE id = $1";
   console.log(`contribution`, contribution);
   return db
-    .query(query, [contribution])
+    .query(query, Object.values(contribution))
     .then((result) => {
       return true;
     })
@@ -134,6 +156,7 @@ const pickContribution = (contributionId, storyId) => {
 
 module.exports = {
   getContributions,
+  editThisContribution,
   saveContributions,
   editContributions,
   deleteContributions,
