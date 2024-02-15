@@ -30,6 +30,15 @@
   <script defer src="/scripts/stories.js"></script>
   <script defer src="/scripts/clientHelperFunctions/storiesHelpers.js"></script>
   <script defer src="/scripts/clientHelperFunctions/convertToLocalTime.js"></script>
+  <script>
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "inline";
+    }
+    
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+  </script>
   
 </head>
 
@@ -37,30 +46,43 @@
   <%- include('partials/_header') %>
   <main>
     <h1>╰(*°▽°*)╯</h1>
+    <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button> 
+    <div class="content_container" >
+      <div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+        <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+        <form id="optionsForm" name="optionsForm">
+          <div class="radio_container">
+            <div>
+              <label><input type="radio" id="orderAsc" name="orderDate" value="ASC">Sort By Oldest</label>
+              <label><input type="radio" id="orderDesc" name="orderDate" value="DESC">Sort By Newest</label>
+            </div>
+            <div>
+              <label><input type="radio" id="showComplete" name="completed" value="TRUE">Show Complete Stories</label>
+              <label><input type="radio" id="showIncomplete" name="completed" value="False">Show Incomplete Stories</label>
+            </div>
+            <div>
+              <label><input type="radio" id="lowFirst" name="orderUpvotes" value="ASC">Highest Ratings</label>
+              <label><input type="radio" id="highFirst" name="orderUpvotes" value="DESC">Lowest Ratings</label>
+            </div>
+          </div>
 
-    <form id="optionsForm" name="optionsForm">
-      <div class="radio_container">
-        <label><input type="radio" id="orderAsc" name="orderDate" value="ASC">Order Oldest First</label>
-        <label><input type="radio" id="orderDesc" name="orderDate" value="DESC">Order Newest First</label>
-        <label><input type="radio" id="showComplete" name="completed" value="TRUE">Show Only Finished Stories</label>
-        <label><input type="radio" id="showIncomplete" name="completed" value="False">Show Only Unfinished Stories</label>
-        <label><input type="radio" id="lowFirst" name="orderUpvotes" value="ASC">Order by lowest to highest</label>
-        <label><input type="radio" id="highFirst" name="orderUpvotes" value="DESC">Order by highest to lowest</label>
-      </div>
-
-      <div class="search_container">
-        <% if (loginInfo.loggedInUser) { %>
-          <label><input type="checkbox" id="myStories" name="showMyStories" value="<%= loginInfo.loggedInUser.id%>">Show My Stories</label>
-        <% } %>
-        <input class="search_field" type="text" id="title" name="title" placeholder="Search By Title">
-        <input class="search_field" type="text" id="username" name="username" placeholder="Search By Author Name">
-        <button id="reset" type="reset" class="btn btn-primary">Reset Search</button>
-        <button type="submit" class="btn btn-primary">SEARCH</button>
-      </div>
-    </form>
+          <div class="search_container">
+            <% if (loginInfo.loggedInUser) { %>
+              <label><input type="checkbox" id="myStories" name="showMyStories" value="<%= loginInfo.loggedInUser.id%>">Show My Stories</label>
+            <% } %>
+            <input class="search_field" type="text" id="title" name="title" placeholder="Search By Title">
+            <input class="search_field" type="text" id="username" name="username" placeholder="Search By Author Name">
+            <button type="submit" class="btn btn-primary">SEARCH</button>
+            <button id="reset" type="reset" class="btn btn-primary">Reset Search</button>
+          </div>
+        </form>
+    </div>
+   
     
     <section id="stories_container">
     </section>
+    </div>
+   
 
   </main>
 </html>

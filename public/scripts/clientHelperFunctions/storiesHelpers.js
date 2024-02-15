@@ -45,7 +45,12 @@ const createStoryElement = function (storyObj) {
   $pCompleted_date.text(completed_dateLocal);
   $pUpVotes.text(upvotes);
   $pDownVotes.text(downvotes);
-  $pCompleted.text(completed);
+
+  if (completed) {
+    $pCompleted.text("Finished");
+  } else {
+    $pCompleted.text("Ongoing");
+  };
 
   $div.append($pId);
   $div.append($aTitle);

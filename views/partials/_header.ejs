@@ -19,7 +19,8 @@
         <%}%>
         <!-- <a class="nav-item nav-link" href="/stories">My Contributions</a> -->
         <a class="nav-item nav-link" href="/story/new">Create Story</a>
-        <a class="nav-item nav-link" href="/stories">Search</a>   
+        <a class="nav-item nav-link" href="/stories">Search</a> 
+         
         <% if ((loginInfo.loggedInUser ) && (loginInfo.loggedInUser.id)) { %>
           <a class="nav-item nav-link" href="/users/<%= loginInfo.loggedInUser.id %>">User info</a>   
         <% } else { %>
