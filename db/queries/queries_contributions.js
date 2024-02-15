@@ -1,37 +1,6 @@
 //require('dotenv').config();
 const db = require("../connection");
 
-//returns story for storyId
-const getStoryById = (storyId) => {
-  let queryParams = [storyId];
-  let queryString = `
-      SELECT *
-      FROM stories
-      WHERE stories.id = $1
-      GROUP BY
-        stories.id,
-        stories.title,
-        stories.content,
-        stories.creator_id,
-        stories.completed,
-        stories.created_date,
-        stories.completed_date,
-        stories.public,
-        stories.deleted
-    `;
-  return db
-    .query(queryString, queryParams)
-    .then((data) => {
-      if (data.rows.length === 0) {
-        throw new Error("story not found");
-      }
-      return data.rows[0];
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
 //returns all contributions for specified storyId
 //returns current story step
 //
@@ -58,7 +27,6 @@ ORDER BY contributions.created_date DESC
   return db
     .query(queryString, queryParams)
     .then((data) => {
-      console.log(data.rows);
       return data.rows;
     })
     .catch((error) => {
@@ -68,35 +36,44 @@ ORDER BY contributions.created_date DESC
 
 //saves a new story contribution
 const saveContributions = (newContribution) => {
-  const {
-    story_id,
-    story_step,
-    content,
-    picked,
-    contributer_id,
-    created_date,
-    picked_date,
-  } = newContribution;
-  const query =
-    "INSERT INTO contributions (story_id, story_step, content, picked, contributer_id, created_date, picked_date) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
-
-  return db
-    .query(query, [
+  const { story_id, content, contributer_id } = newContribution;
+  const query = `
+    INSERT INTO contributions (
       story_id,
       story_step,
       content,
       picked,
       contributer_id,
       created_date,
-      picked_date,
-    ])
+      picked_date
+    )
+    VALUES (
+      $1,
+      (
+        SELECT COALESCE(MAX(story_step), 0) + 1
+        FROM contributions
+        WHERE story_id = $1 AND picked = TRUE
+      ),
+      $2,
+      false,
+      $3,
+      NOW(),
+      NOW()
+    )
+    RETURNING id
+  `;
+
+  return db
+    .query(query, [story_id, content, contributer_id,])
     .then((result) => {
       return result.rows[0].id;
     })
     .catch((error) => {
       console.error("Error saving contribution:", error);
+      throw error; // Propagate the error
     });
 };
+
 
 //edit contributions
 const editContributions = (contribution) => {
@@ -105,7 +82,7 @@ const editContributions = (contribution) => {
     "UPDATE contributions SET content = $1 WHERE id = $2 RETURNING *";
 
   return db
-    .query(query, [id, content])
+    .query(query, [contribution])
     .then((result) => {
       return result.rows[0];
     })
@@ -117,12 +94,12 @@ const editContributions = (contribution) => {
 //delete contributions
 const deleteContributions = (contribution) => {
   const { id } = contribution;
-  const query = "DELETE FROM contributions WHERE id = $1 RETURNING *";
-
+  const query = "DELETE FROM contributions WHERE id = $1";
+  console.log(`contribution`, contribution);
   return db
-    .query(query, [id])
+    .query(query, [contribution])
     .then((result) => {
-      return result.rows[0];
+      return true;
     })
     .catch((error) => {
       console.error("Error deleting contribution:", error);
@@ -155,76 +132,10 @@ const pickContribution = (contributionId, storyId) => {
     });
 };
 
-//saves a new story
-
-const saveStory = (newStory) => {
-  const {
-    title,
-    content,
-    creator_id,
-    completed,
-    created_date,
-    completed_date,
-    public,
-    deleted,
-  } = newStory;
-  const query =
-    "INSERT INTO stories (title, content, creator_id, completed, created_date, completed_date, public, deleted) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
-
-  return db
-    .query(query, [
-      title,
-      content,
-      creator_id,
-      completed,
-      created_date,
-      completed_date,
-      public,
-      deleted,
-    ])
-    .then((result) => {
-      return result.rows[0].id;
-    })
-    .catch((error) => {
-      console.error("Error saving contribution:", error);
-    });
-};
-
-const editStory = (story) => {
-  const { id, content } = story;
-  const query =
-    "UPDATE stories SET content = $1 WHERE id = $2 RETURNING *";
-
-  return db
-    .query(query, [id, content])
-    .then((result) => {
-      return result.rows[0];
-    })
-    .catch((error) => {
-      console.error("Error saving contribution:", error);
-    });
-};
-
-const deleteStory = (story) => {
-  const { id } = story;
-  const query = "DELETE FROM contributions WHERE id = $1 RETURNING *";
-
-  return db
-    .query(query, [id])
-    .then((result) => {
-      return result.rows[0];
-    })
-    .catch((error) => {
-      console.error("Error deleting contribution:", error);
-    });
-};
-
 module.exports = {
-  getStoryById,
   getContributions,
   saveContributions,
   editContributions,
   deleteContributions,
   pickContribution,
-  saveStory,
 };

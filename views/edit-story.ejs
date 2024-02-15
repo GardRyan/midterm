@@ -30,29 +30,32 @@
     <main>
       <h1>Have fun! Create Story! 🥔</h1>
     </main>
-    <section id="create-story-container">
+    <section id="edit-story-container">
       <article>
-        <form method="POST" action="/story/new">
+        <div class="story-header">
+          <% if (story && story.title) { %>
+            <span><strong></strong></span>
+
+        <form method="POST" action="/story/<%= story.id %>/edit-story">
           <input
           class="form-control"
           type="text"
           name="title"
-           placeholder="Give me a title!"
            style="width: 300px; margin: 1em"
-           value=""
+           value="<%= story.title %>"
            />
-        <form method="POST" action="/story/new">
+        <form method="POST" action="/story/<%= story.id %>/edit-story">
           <input
             class="form-control"
             type="text"
             name="content"
-            placeholder="How should we start it?"
             style="width: 300px; margin: 1em"
-            value=""
+            value="<%= story.content %>"
           />
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="edit-story">edit</button>
-          <button type="submit" class="delete-story">delete</button>
+          <form action="/story/<%= story.id %>/edit-story" method="post">
+            <button type="submit" class="edit-story">edit</button>
+           </form>
+          <% } %>
         </form>
       </article>
     </section>
