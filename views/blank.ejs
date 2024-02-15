@@ -28,21 +28,7 @@
 <body>
   <%- include('partials/_header') %>
   <main>
-    <h1>Login</h1>
-    <% if ((locals.loginInfo) && (loginInfo.loggedInUser )) { %>
-      <FORM action="/login/logout" method="POST"> 
-        <label><%= loginInfo.loggedInUser.username %> is logged in.</label>
-        <button type="submit">Logout</button>
-      </FORM>
-      <% } else { %>
-        <FORM action="/login" method="POST"> 
-          <label>Username:</label>
-          <input id="username" type="text" name="username"/>
-          <label>Password:</label>
-          <input id="password" type="password" name="password"/>
-          <button type="submit">Login</button>
-        </FORM>
-    <% } %>
+    <!-- THIS PAGE LEFT BLANK ON PURPOSE.  USE IT IF YOU WANT TO SHOW A MESSAGE WITH NO OTHER ELEMENTS -->
   </main>
 </body>
 </html>

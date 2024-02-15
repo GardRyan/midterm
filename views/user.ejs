@@ -27,17 +27,17 @@
       <h1>User Details</h1>
       <Form class="form-inline" action="/users" method="POST">
         <div>
-          <input hidden class="form-control" type="text" name="id" autocomplete="off" value="<%= (user && user.id) ? user.id : undefined %>"></input>
+          <input hidden class="form-control" type="text" name="id" autocomplete="off" value="<%= (locals.user && user.id) ? user.id : undefined %>"></input>
           <label>Username:</label>
-          <input class="form-control" type="text" placeholder="Username" name="username" autocomplete="off" value="<%= (user && user.username) ? user.username : '' %>"></input>
+          <input class="form-control" type="text" placeholder="Username" name="username" autocomplete="off" value="<%= (locals.user && user.username) ? user.username : '' %>"></input>
           <label>First Name:</label>
-          <input class="form-control" type="text" placeholder="First Name" name="first_name" autocomplete="off" value="<%= (user && user.first_name) ? user.first_name : '' %>"></input>
+          <input class="form-control" type="text" placeholder="First Name" name="first_name" autocomplete="off" value="<%= (locals.user && user.first_name) ? user.first_name : '' %>"></input>
           <label>Last Name:</label>
-          <input class="form-control" type="text" placeholder="Last Name" name="last_name" autocomplete="off" value="<%= (user && user.last_name) ? user.last_name : '' %>"></input>
+          <input class="form-control" type="text" placeholder="Last Name" name="last_name" autocomplete="off" value="<%= (locals.user && user.last_name) ? user.last_name : '' %>"></input>
           <label>Email:</label>
-          <input class="form-control" type="text" placeholder="email" name="email" autocomplete="off" value="<%= (user && user.email) ? user.email : '' %>"></input>
+          <input class="form-control" type="text" placeholder="email" name="email" autocomplete="off" value="<%= (locals.user && user.email) ? user.email : '' %>"></input>
           <label>Password:</label>
-          <input class="form-control" type="text" placeholder="password" name="password" autocomplete="off" value="<%= (user && user.password) ? user.password : '' %>"></input>
+          <input class="form-control" type="text" placeholder="password" name="password" autocomplete="off" value="<%= (locals.user && user.password) ? user.password : '' %>"></input>
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </Form>
