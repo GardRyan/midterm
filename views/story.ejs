@@ -12,14 +12,14 @@
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
-  <link rel="stylesheet" href="/styles/main.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
   <link
     rel="stylesheet"
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
     integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
     crossorigin="anonymous"
   />
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
   <%- include('partials/_userStyleSheet') %>
 
   <script src="/vendor/jquery-3.0.0.js"></script>
@@ -29,49 +29,52 @@
 <body>
   <%- include('partials/_header') %>
   <main>
-    <h1>Have fun! STORY 🥔</h1>
-  </main>
-  <h1>Have fun! STORY 🥔</h1>
-<div class="story-header">
-  <span><strong><%= story.title %></strong></span>
-  <div>
-    <p><%= locals.story ? story.content : '' %></p>
-    <div>user.username</div>
-    <div>
-      story.upvotes
-      story.downvotes
-    </div>
+    <article class="story_container">
+      <header class="story-header">
+        <h1><%= story.title %></h1>
+      </header>
 
-</div>
-  <form method="POST" action="/story">
-    <input
-    class="form-control"
-    type="text"
-    name="new-contribution"
-     placeholder="What comes next...?"
-     style="width: 300px; margin: 1em"
-     value=""
-     />
-   <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  <section id="contributions-container">
-    <article>
-    <div>
-      <% contributions.forEach(contribution => { %>
-      <div><%= contribution.story_step %></div>
-      <p><%= contribution.contributer_id %></p>
-      <div>
-        <%= contribution.content %>
-        <%= contribution.created_date %>
-        <%= contribution.upvotes %>
-        <%= contribution.downvotes %>
-   </div>
-   <button type="submit" class="edit-contribution">edit</button>
-   <button type="submit" class="delete-contribution">delete</button>
-    <% }); %>
-    </div>
-  </article>
-</section>
+      <div class="story_content">
+        <p><%= locals.story ? story.content : '' %></p>
+      </div>
+
+      <footer class="story_footer">
+        <p><%= loginInfo.loggedInUser.username %></p> 
+        <p><%= story.upvotes %></p>
+        <p><%= story.downvotes %></p>
+      </footer >
+
+    </article>
+    
+    <section id="contributions-container">
+      <form method="POST" action="/story">
+        <input class="form-control" type="text" name="new-contribution" placeholder="What comes next...?" style="width: 300px; margin: 1em" value=""/>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      
+      <article>
+        <div>
+          <% contributions.forEach(contribution => { %>
+          <div><%= contribution.story_step %></div>
+          <p><%= contribution.contributer_id %></p>
+          <div>
+            <%= contribution.content %>
+            <%= contribution.created_date %>
+            <%= contribution.upvotes %>
+            <%= contribution.downvotes %>
+          </div>
+        <button type="submit" class="edit-contribution">edit</button>
+        <button type="submit" class="delete-contribution">delete</button>
+          <% }); %>
+          </div>
+      </article>
+    </section>
+    
+  </main>
+  
+
+  
+
 </body>
 
 </html>

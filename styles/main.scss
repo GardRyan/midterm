@@ -30,3 +30,18 @@ main {
   align-items: center;
   justify-content: space-evenly;
 }
+
+section {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+}
+
+p {
+  margin: 0px;
+}
