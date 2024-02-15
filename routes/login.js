@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const router  = express.Router();
 const db = require('../db/queries/users'); 
 const { Template } = require('ejs');
-const { runWithLoginUser } = require('./partials/_loginUser')
+const { runWithLoginUser, renderErrorMessage } = require('./partials/_loginUser')
 
 // route to show login page
 router.get('/', (req, res) => {
@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.render('login', {loginInfo: {loggedInUser: undefined, message: errorMessage}, user: undefined, message: errorMessage});
+      renderErrorMessage(res, loginInfo, 500);
     });
 }); 
 

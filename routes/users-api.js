@@ -18,9 +18,8 @@ router.get('/', (req, res) => {
         res.json({ users });
       })
       .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
+        console.log(err);
+        sendJsonErrorMessag(res, 500, err.message);
       });
   });
 });

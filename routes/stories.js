@@ -30,7 +30,8 @@ router.get("/load", (req, res) => {
         res.json(stories)
       })
       .catch((err) => {
-        res.status(500).json({ error: err.message });
+        console.log(err);
+        sendJsonErrorMessag(res, 500, err.message);
       });
   });
   

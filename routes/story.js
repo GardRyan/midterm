@@ -25,11 +25,13 @@ router.get("/:id", (req, res) => {
       })
       .catch((err) => {
         console.log(error);
-        res.status(500).json({ error: err.message });
+        sendJsonErrorMessag(res, 500, err.message);
       });
   });
 });
 
+//todo:  we should pull up the story first, and check if it has a matching user id
+//dodo:  we should make sure that any important story fields are set (eg title and content)
 router.post("/:id", (req, res) => {
   runWithLoginUser(req.session.user_id, (loginInfo) => {
     if (loginInfo.loggedInUser === undefined) {
@@ -51,7 +53,7 @@ router.post("/:id", (req, res) => {
         })
         .catch((error) => {
           console.log(error);
-          res.status(500).json({ error: `An error occured while saving the contribution`});
+          sendJsonErrorMessag(res, 500, `An error occured while saving the contribution`);
         });
       }
   });

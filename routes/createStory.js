@@ -1,7 +1,7 @@
 // all routes for showing and updating one story
 const express = require("express");
 const router = express.Router();
-const { runWithLoginUser } = require('./partials/_loginUser')
+const { runWithLoginUser, renderErrorMessage } = require('./partials/_loginUser')
 
 //queries and other middleware
 const { saveStory } = require("../db/queries/queries_contributions");
@@ -10,7 +10,8 @@ router
   .get("/", (req, res) => {
     runWithLoginUser(req.session.user_id, (loginInfo) => {
       if (loginInfo.loggedInUser === undefined) {
-        res.redirect("/login");
+        renderErrorMessage(res, loginInfo, 401);
+        //res.redirect("/login");
       } else {
         // const userId = req.session.userId;
         // const user = users[userId];
@@ -20,11 +21,11 @@ router
     });
   });
 
-
 router.post("/", (req, res) => {
   runWithLoginUser(req.session.user_id, (loginInfo) => {
     if (loginInfo.loggedInUser === undefined) {
-      res.redirect("/login");
+      //res.redirect("/login");
+      renderErrorMessage(res, loginInfo, 401);
     } else {
       const newStory = {
         title: req.body.title,
@@ -43,7 +44,7 @@ router.post("/", (req, res) => {
         })
         .catch((error) => {
           console.error('Error saving story:', error);
-          res.status(500).json({ error: 'An error occurred while saving the story' });
+          renderErrorMessage(res, loginInfo, 500, 'An error occurred while saving the story');
         })
     };
   });
