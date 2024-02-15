@@ -10,6 +10,7 @@ const {
   editContributions,
   deleteContributions,
   pickContribution,
+  editThisContribution
 } = require("../db/queries/queries_contributions");
 
 const {
@@ -45,14 +46,17 @@ router.get("/:id/edit-story", (req, res) => {
 });
 });
 
+//page renders, but doesn't show contribution to edit.
 router.get("/:id/edit-contribution", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-  const storyId = req.params.id;
+  const contributionId = req.params.id;
 
-  console.log(`why do we do this?`, storyId);
 
-  getContributions(storyId)
+
+  editThisContribution(contributionId)
+
     .then((contributions) => {
+      console.log(`contributions`, contributions);
       res.render("edit-contribution", { loginInfo, contributions });
     })
     .catch((err) => {
@@ -96,6 +100,8 @@ router.get("/:id", (req, res) => {
   });
 });
 
+//this still needs editing!!
+//trying to redirect to the new story page.
 router.post("/new", (req, res) => {
   const userId = req.session.user_id;
 
@@ -103,11 +109,28 @@ router.post("/new", (req, res) => {
     title: req.body.title,
     content: req.body.content,
     creator_id: userId,
+    story_id: req.body.story_id, // Provide the required parameters
+    picked: req.body.picked,
+    contributor_id: req.body.contributor_id,
+    created_date: req.body.created_date,
+    picked_date: req.body.picked_date
   };
 
   saveStory(newStory)
     .then((storyId) => {
-      res.redirect("/stories");
+
+      //this is what we're editing.
+      getStoryById(storyId).then((story) => {
+        if (story.deleted === false) {
+          res.redirect(`/story/${storyId}`);
+        } else {
+          return res
+            .status(423)
+            .send(
+              `Error 423: The story you are trying to access has been deleted!`
+            );
+        }
+      });
     })
     .catch((error) => {
       console.error("Error saving story:", error);
@@ -117,54 +140,30 @@ router.post("/new", (req, res) => {
     });
 });
 
-router.post("/:id", (req, res) => {
-  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    const storyId = req.params.id;
-    const userId = req.session.user_id;
+router.post("/contribution/:id/edit", (req, res) => {
+  const contributionId = req.params.id;
 
-    const newContributions = {
-      story_id: storyId,
-      story_step: 1,
-      content: req.body.content,
-      contributor_id: userId,
-    };
+  if (contributionId !== undefined) {
 
-    saveContributions(newContributions)
-      .then((contributionId) => {
-        res.status(201).send();
-      })
-      .catch((error) => {
-        console.log(error);
-        res
-          .status(500)
-          .json({ error: `An error occured while saving the contribution` });
-      });
-  });
+    res.redirect(`/story/${contributionId}/edit-contribution`);
+  } else {
+    res.redirect("/stories");
+  }
 });
 
 router.post("/:id/edit", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const storyId = req.params.id;
 
-    console.log(`storyId`, storyId);
+
     if (storyId) {
       res.redirect(`/story/${storyId}/edit-story`);
     } else {
       res.redirect("/stories");
     }
   });
-
-  router.post("/contribution/:id/edit", (req, res) => {
-    const contributionId = req.params.id;
-
-    if (contributionId) {
-      console.log(`what am I?`, contributionId);
-      res.redirect(`/story/${contributionId}/edit-contribution`);
-    } else {
-      res.redirect("/stories");
-    }
-  });
 });
+
 
 router.post("/:id/edit-story", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
@@ -174,7 +173,7 @@ router.post("/:id/edit-story", (req, res) => {
     editStory({ id: storyId, title, content })
       .then((editedStory) => {
         if (editedStory) {
-          res.status(200).json(editedStory);
+          res.redirect('back');
         } else {
           res.status(404).send("Story not found");
         }
@@ -188,14 +187,15 @@ router.post("/:id/edit-story", (req, res) => {
 
 router.post("/:id/edit-contributions", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    const contributionId = req.params.id;
-    const { content } = req.body;
-    console.log(`contibrution`, contributionId);
-    editContributions({ id: contributionId, content })
+    const id = req.params.id;
+    const content  = req.body.content;
+    console.log(req.params);
+    console.log(req.body);
+    editContributions({content, id})
       .then((editedContribution) => {
-        console.log(`what is this?`, editedContribution);
+
         if (editedContribution) {
-          res.status(200).json(editedContribution);
+          res.redirect('back');
         } else {
           res.status(404).send("Contribution not found");
         }
@@ -215,7 +215,7 @@ router.post("/:id/pick-contributions", (req, res) => {
 
     pickContribution(contributionId, storyId)
       .then(() => {
-        res.status(200).send("Contribution picked successfully.");
+        res.redirect('back');
       })
       .catch((error) => {
         console.error("Error picking contribution:", error);
@@ -235,7 +235,7 @@ router.post("/:id/delete", (req, res) => {
     })
     .then((deletedContributions) => {
       if (deletedContributions) {
-        console.log("Contributions deleted:", deletedContributions);
+
       }
 
       res.redirect("/stories");
@@ -255,10 +255,9 @@ router.post("/:id/delete-contributions", (req, res) => {
 
     deleteContributions(story_id)
       .then((deletedContribution) => {
-        console.log(`deletedContribution`, deletedContribution);
-        console.log(`story_id`, story_id);
+
         if (deletedContribution) {
-          res.status(201).send();
+          res.redirect('back');
         } else {
           res.status(404).send("Contribution not found");
         }
@@ -268,6 +267,30 @@ router.post("/:id/delete-contributions", (req, res) => {
         res
           .status(500)
           .send("An error occurred while deleting the contribution");
+      });
+  });
+});
+
+router.post("/:id", (req, res) => {
+  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
+    const storyId = req.params.id;
+    const userId = req.session.user_id;
+
+    const newContributions = {
+      story_id: storyId,
+      content: req.body.content,
+      contributor_id: userId,
+    };
+
+    saveContributions(newContributions)
+      .then((contributionId) => {
+        res.redirect('back');
+      })
+      .catch((error) => {
+        console.log(error);
+        res
+          .status(500)
+          .json({ error: `An error occured while saving the contribution` });
       });
   });
 });
