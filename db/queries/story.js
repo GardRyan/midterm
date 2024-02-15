@@ -50,7 +50,7 @@ const saveStory = (newStory) => {
 
   return db
     .query(query, [
-      newStory,
+      Object.values(newStory),
     ])
     .then((result) => {
       return result.rows[0].id;
@@ -66,8 +66,9 @@ const editStory = (story) => {
     "UPDATE stories SET title = $1 AND content = $2  WHERE id = $3 RETURNING *";
 
   return db
-    .query(query, [story])
+    .query(query, Object.values(story))
     .then((result) => {
+
       return result.rows[0];
     })
     .catch((error) => {
@@ -80,7 +81,7 @@ const deleteStory = (story) => {
   const query = "UPDATE stories SET deleted = true WHERE id = $1 RETURNING *";
 
   return db
-    .query(query, [story])
+    .query(query, Object.values(story))
     .then((result) => {
       return result.rows[0];
     })
