@@ -17,21 +17,37 @@ const getContributions = (storyId) => {
 FROM contributions
 JOIN users ON users.id = contributions.contributer_id
 WHERE contributions.story_id = $1
-AND contributions.story_step = COALESCE(
-  (SELECT MAX(contributions.story_step)
-  FROM contributions
-  WHERE contributions.story_id = $1
-  AND contributions.picked = TRUE
-), 1)
+  AND contributions.story_step = (
+    SELECT COALESCE( MAX(c2.story_step), 0) + 1
+    FROM contributions AS c2
+    WHERE c2.story_id = $1
+      AND c2.picked = TRUE
+  )
 ORDER BY contributions.created_date DESC
-`;
+  `;
   return db
     .query(queryString, queryParams)
     .then((data) => {
+      console.log(data.rows);
       return data.rows;
     })
     .catch((error) => {
       console.log(error);
+    });
+};
+
+const editThisContribution = (contributionId) => {
+  const [id] = contributionId;
+  const query = `
+  SELECT * FROM contributions WHERE id = $1`;
+  return db
+    .query(query, [contributionId])
+    .then((result) => {
+      return result.rows[0].id;
+    })
+    .catch((error) => {
+      console.error("Error saving contribution:", error);
+      throw error; // Propagate the error
     });
 };
 
@@ -65,7 +81,7 @@ const saveContributions = (newContribution) => {
   `;
 
   return db
-    .query(query, [story_id, content, contributer_id,])
+    .query(query, Object.values(newContribution))
     .then((result) => {
       return result.rows[0].id;
     })
@@ -75,15 +91,14 @@ const saveContributions = (newContribution) => {
     });
 };
 
-
 //edit contributions
 const editContributions = (contribution) => {
-  const { id, content } = contribution;
+  const { content, id } = contribution;
   const query =
-    "UPDATE contributions SET content = $1 WHERE id = $2 RETURNING *";
+    "UPDATE contributions SET content = $1 WHERE contributions.id = $2 RETURNING *";
 
   return db
-    .query(query, [contribution])
+    .query(query, Object.values(contribution))
     .then((result) => {
       return result.rows[0];
     })
@@ -96,9 +111,9 @@ const editContributions = (contribution) => {
 const deleteContributions = (contribution) => {
   const { id } = contribution;
   const query = "DELETE FROM contributions WHERE id = $1";
-  console.log(`contribution`, contribution);
+
   return db
-    .query(query, [contribution])
+    .query(query, Object.values(contribution))
     .then((result) => {
       return true;
     })
@@ -108,33 +123,34 @@ const deleteContributions = (contribution) => {
 };
 
 //picks contribution -> only to be used by story_creator -> updates to come
-const pickContribution = (contributionId, storyId) => {
-  return db
-    .query(
-      `
-    UPDATE stories
-    SET story_step = story_step + 1
+const pickContribution = (contributionId) => {
+  const updateContributionQuery = `
+    UPDATE contributions
+    SET picked = true
     WHERE id = $1
-  `,
-      [storyId]
-    )
-    .then(() => {
-      return db.query(
-        `
-      UPDATE contributions
-      SET picked = TRUE
-      WHERE id = $1
-    `,
-        [contributionId]
-      );
+    RETURNING story_id, content
+  `;
+
+  return db
+    .query(updateContributionQuery, [contributionId])
+    .then((result) => {
+      const { story_id, content } = result.rows[0];
+      const updateStoryQuery = `
+        UPDATE stories
+        SET content = content || $1
+        WHERE id = $2
+      `;
+      return db.query(updateStoryQuery, [content, story_id]);
     })
     .catch((error) => {
       console.error("Error picking contribution:", error);
+      throw error; // Propagate the error to the caller
     });
 };
 
 module.exports = {
   getContributions,
+  editThisContribution,
   saveContributions,
   editContributions,
   deleteContributions,

@@ -3,6 +3,7 @@
 
 <!-- TODO:  this is for showing one and updating one story -->
 <!-- todo: review for proper routing and error handling-->>
+<!-- todo: review for proper routing and error handling-->>
 <head>
   <title>Home Page</title>
 
@@ -51,7 +52,7 @@
         </form>
       </footer>
     </article>
-    
+
     <form id="contribution-form" method="POST" action="/story/<%= story.id %>">
       <textarea id="contribution-content" type="text" name="content" placeholder="What comes next...?"value=""></textarea>
       <button type="submit" class="btn btn-primary">Submit</button>
@@ -64,12 +65,12 @@
             <header>
               <p>Story Step: <%= contribution.story_step %></p>
               <p>Contributer: <%= contribution.username %></p>
-            </header>     
-            
+            </header>
+
             <div class="contribution_content">
               <p><%= contribution.content %></p>
             </div>
-            
+
             <footer>
               <div>
                 <%= contribution.created_date.toLocaleTimeString(undefined, {weekday: "short", year: "numeric", month: "short", day: "numeric",}) %>

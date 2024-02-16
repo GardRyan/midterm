@@ -5,7 +5,7 @@ const db = require("../connection");
 const getStoryById = (storyId) => {
   let queryParams = [storyId];
   let queryString = `
-      SELECT 
+      SELECT
         stories.id,
         stories.title,
         stories.content,
@@ -65,16 +65,11 @@ const saveStory = (newStory) => {
   } = newStory;
 
   const query =
-    "INSERT INTO stories (title, content, creator_id, completed, created_date, completed_date, public, deleted) VALUES ($1, $2, $3, $4, NOW(), NOW(), $5, $6) RETURNING *";
+    "INSERT INTO stories (title, content, creator_id, completed, created_date, completed_date, public, deleted) VALUES ($1, $2, $3, $4, NOW(), null, $5, $6) RETURNING *";
 
   return db
     .query(query, [
-      title,
-      content,
-      creator_id,
-      false,
-      true,
-      false,
+      Object.values(newStory),
     ])
     .then((result) => {
       return result.rows[0].id;
@@ -90,8 +85,9 @@ const editStory = (story) => {
     "UPDATE stories SET title = $1 AND content = $2  WHERE id = $3 RETURNING *";
 
   return db
-    .query(query, [id, title, content])
+    .query(query, Object.values(story))
     .then((result) => {
+
       return result.rows[0];
     })
     .catch((error) => {
@@ -104,12 +100,12 @@ const deleteStory = (story) => {
   const query = "UPDATE stories SET deleted = true WHERE id = $1 RETURNING *";
 
   return db
-    .query(query, [id])
+    .query(query, Object.values(story))
     .then((result) => {
       return result.rows[0];
     })
     .catch((error) => {
-      console.error("Error deleting contribution:", error);
+      console.error("Error deleting story:", error);
     });
 };
 
