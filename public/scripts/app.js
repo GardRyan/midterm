@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
   const loggedInUserId = $("#loggedInUserId").text();
 
   if (loggedInUserId.length > 0) {
     let storyVote = undefined;
     let contributionVotes = {};
 
-    const updateVote = function(vote, contributionId, callback) {
+    const updateVote = function (vote, contributionId, callback) {
       let queryUrl = "";
       if (contributionId) {
         queryUrl = `http://localhost:8080/api/contributionVotes/${vote.id}`;
@@ -16,7 +16,7 @@ $(document).ready(function() {
         url: queryUrl,
         data: vote,
         method: "POST",
-        success: function(data) {
+        success: function (data) {
           if (contributionId) {
             contributionVotes[contributionId] = data;
           } else {
@@ -24,13 +24,13 @@ $(document).ready(function() {
           }
           callback(contributionId, true);
         },
-        error: function(jqXHR) {
+        error: function (jqXHR) {
           console.log("error", jqXHR);
         },
       });
     };
 
-    const insertVote = function(vote, contributionId, callback) {
+    const insertVote = function (vote, contributionId, callback) {
       if (contributionId) {
         queryUrl = `http://localhost:8080/api/contributionVotes/new`;
       } else {
@@ -40,7 +40,7 @@ $(document).ready(function() {
         url: queryUrl,
         data: vote,
         method: "POST",
-        success: function(data) {
+        success: function (data) {
           if (contributionId) {
             contributionVotes[contributionId] = data;
           } else {
@@ -48,13 +48,13 @@ $(document).ready(function() {
           }
           callback(contributionId, true);
         },
-        error: function(jqXHR) {
+        error: function (jqXHR) {
           console.log("error", jqXHR);
         },
       });
     };
 
-    const deleteVote = function(vote, contributionId, callback) {
+    const deleteVote = function (vote, contributionId, callback) {
       if (contributionId) {
         queryUrl = `http://localhost:8080/api/contributionVotes/delete/${vote.id}`;
       } else {
@@ -64,7 +64,7 @@ $(document).ready(function() {
         url: queryUrl,
         data: vote,
         method: "POST",
-        success: function(data) {
+        success: function (data) {
           if (contributionId) {
             contributionVotes[contributionId] = data;
           } else {
@@ -72,13 +72,13 @@ $(document).ready(function() {
           }
           callback(contributionId, true);
         },
-        error: function(jqXHR) {
+        error: function (jqXHR) {
           console.log("error", jqXHR);
         },
       });
     };
 
-    const setVoteUp = function(contributionId) {
+    const setVoteUp = function (contributionId) {
       let vote = undefined;
       if (contributionId) {
         vote = contributionVotes[contributionId];
@@ -105,7 +105,7 @@ $(document).ready(function() {
       }
     };
 
-    const deleteVoteUp = function(contributionId) {
+    const deleteVoteUp = function (contributionId) {
       let vote = undefined;
       if (contributionId) {
         vote = contributionVotes[contributionId];
@@ -117,7 +117,7 @@ $(document).ready(function() {
       }
     };
 
-    const setVoteDown = function(contributionId) {
+    const setVoteDown = function (contributionId) {
       let vote = undefined;
       if (contributionId) {
         vote = contributionVotes[contributionId];
@@ -144,7 +144,7 @@ $(document).ready(function() {
       }
     };
 
-    const deleteVoteDown = function(contributionId) {
+    const deleteVoteDown = function (contributionId) {
       let vote = undefined;
       if (contributionId) {
         vote = contributionVotes[contributionId];
@@ -172,7 +172,7 @@ $(document).ready(function() {
       }
     });
 
-    const markUpVote = function(contributionId, adjustCounts) {
+    const markUpVote = function (contributionId, adjustCounts) {
       if (contributionId) {
         if (adjustCounts) {
           $(`#contributionUpVoteCount${contributionId}`).text(
@@ -205,7 +205,7 @@ $(document).ready(function() {
       }
     };
 
-    const clearUpVote = function(contributionId, adjustCounts) {
+    const clearUpVote = function (contributionId, adjustCounts) {
       if (contributionId) {
         if (adjustCounts) {
           $(`#contributionUpVoteCount${contributionId}`).text(
@@ -223,7 +223,7 @@ $(document).ready(function() {
       }
     };
 
-    const markDownVote = function(contributionId, adjustCounts) {
+    const markDownVote = function (contributionId, adjustCounts) {
       if (contributionId) {
         if (adjustCounts) {
           $(`#contributionDownVoteCount${contributionId}`).text(
@@ -253,7 +253,7 @@ $(document).ready(function() {
       }
     };
 
-    const clearDownVote = function(contributionId, adjustCounts) {
+    const clearDownVote = function (contributionId, adjustCounts) {
       if (contributionId) {
         if (adjustCounts) {
           $(`#contributionDownVoteCount${contributionId}`).text(
@@ -279,7 +279,7 @@ $(document).ready(function() {
       context: document.body,
       data: true,
       method: "GET",
-      success: function(data) {
+      success: function (data) {
         storyVote = data[0];
         if (storyVote && !storyVote.deleted) {
           if (storyVote.vote) {
@@ -289,7 +289,7 @@ $(document).ready(function() {
           }
         }
       },
-      error: function(jqXHR, textStatus) {
+      error: function (jqXHR, textStatus) {
         if (jqXHR.status === 404) {
           return;
         }
@@ -298,7 +298,7 @@ $(document).ready(function() {
     });
 
     //for each contribution, load this users vote for that contribution
-    $.each($(".contribution"), function(i, val) {
+    $.each($(".contribution"), function (i, val) {
       const contributionId = val.id;
       //load this users story vote for this story
       $.ajax({
@@ -306,7 +306,7 @@ $(document).ready(function() {
         context: document.body,
         data: true,
         method: "GET",
-        success: function(data) {
+        success: function (data) {
           contributionVotes[contributionId] = data[0];
           if (
             contributionVotes[contributionId] &&
@@ -319,7 +319,7 @@ $(document).ready(function() {
             }
           }
         },
-        error: function(jqXHR, textStatus) {
+        error: function (jqXHR, textStatus) {
           if (jqXHR.status === 404) {
             return;
           }

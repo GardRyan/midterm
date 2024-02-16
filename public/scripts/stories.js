@@ -1,12 +1,11 @@
 //document ready for /stories
-$(document).ready(function() {
-
+$(document).ready(function () {
   $.get("/api/stories/load", (response) => {
     renderStories(response);
   });
-  
+
   // listens for submit on form
-  $("#optionsForm").on("submit", function(event) {
+  $("#optionsForm").on("submit", function (event) {
     event.preventDefault();
 
     //serialize the form
@@ -15,9 +14,7 @@ $(document).ready(function() {
 
     // post form to /api/stories
     $.post(`/api/stories`, formInfo, (response) => {
-      
       renderStories(response);
     });
   });
-
 });

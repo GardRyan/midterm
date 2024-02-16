@@ -1,5 +1,5 @@
 // converts to local time
-const convertToLocaleTime = function (date) {
+const convertToLocaleTime = function(date) {
   if (date !== null) {
     const dateOptions = {
       weekday: "short",
