@@ -15,6 +15,7 @@ const {
 
 const {
   getStoryById,
+  getNewStoryById,
   saveStory,
   editStory,
   deleteStory,
@@ -64,8 +65,6 @@ router.get("/:id/delete", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const storyId = req.params.id;
     const userId = req.session.user_id;
-
-   
   });
 });
 
@@ -106,32 +105,32 @@ router.get("/:id", (req, res) => {
 //trying to redirect to the new story page.
 router.post("/new", (req, res) => {
   const userId = req.session.user_id;
+  const title = req.body.title;
+  const content = req.body.content;
+  const creator_id = userId;
 
   const newStory = {
-    title: req.body.title,
-    content: req.body.content,
-    creator_id: userId,
-    story_id: req.body.story_id, // Provide the required parameters
-    picked: req.body.picked,
-    contributor_id: req.body.contributor_id,
-    created_date: req.body.created_date,
-    picked_date: req.body.picked_date,
+    title,
+    content,
+    creator_id,
   };
-
+console.log(title, content, creator_id)
   saveStory(newStory)
+
+
     .then((storyId) => {
+      console.log(`storyId`, storyId);
       //this is what we're editing.
-      getStoryById(storyId).then((story) => {
-        if (story.deleted === false) {
+      getNewStoryById(storyId)
+        .then((story) => {
           res.redirect(`/story/${storyId}`);
-        } else {
-          return res
-            .status(423)
-            .send(
-              `Error 423: The story you are trying to access has been deleted!`
-            );
-        }
-      });
+        })
+        .catch((error) => {
+          console.error("Error saving story:", error);
+          res
+            .status(500)
+            .json({ error: "An error occurred while saving the story" });
+        });
     })
     .catch((error) => {
       console.error("Error saving story:", error);

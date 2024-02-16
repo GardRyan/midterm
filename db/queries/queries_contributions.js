@@ -75,7 +75,7 @@ const saveContributions = (newContribution) => {
       false,
       $3,
       NOW(),
-      NOW()
+      null
     )
     RETURNING id
   `;
