@@ -14,7 +14,11 @@ router.get("/", (req, res) => {
 // loads page for my Stories
 router.get("/myStories", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    res.render("myStories", {loginInfo})
+    if (loginInfo.loggedInUser === undefined) {
+      return res.redirect("/login")
+    }
+    return res.render("myStories", {loginInfo})
+
   });
 });
 

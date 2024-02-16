@@ -81,7 +81,7 @@ const getStories = (options) => {
       users.username
     ${getOrderBy(options)};
     `;
-  console.log("query String", queryString);
+  
   return db
     .query(queryString, queryParams)
     .then((data) => {
