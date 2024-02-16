@@ -3,8 +3,14 @@
 article {
   margin: 50px;
   border: solid;
+  border-width: 5px;
+  border-radius: 20px;
   width: 90%;
   padding: 30px;
+}
+
+.story_container {
+  margin-top: 100px;
 }
 
 article header {

@@ -77,15 +77,15 @@
                 <%= contribution.upvotes %>
                 <%= contribution.downvotes %>
               </div>
-              <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
-                <button type="submit" class="edit-contribution">edit</button>
-              </form>
-              <form action="/story/<%= contribution.id %>/delete-contributions" method="post">
-                <button type="submit" class="delete-contribution">delete</button>
-              </form>
-              <form action="/story/<%= contribution.id %>/pick-contributions" method="post">
-                <button type="submit" class="pick-contribution">Pick</button>
-              </form>
+                <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
+                  <button type="submit" class="edit-contribution">edit</button>
+                </form>
+                <form action="/story/<%= contribution.id %>/delete-contributions" method="post">
+                  <button type="submit" class="delete-contribution">delete</button>
+                </form>
+                <form action="/story/<%= contribution.id %>/pick-contributions" method="post">
+                  <button type="submit" class="pick-contribution">Pick</button>
+                </form>
             </footer>
           </article>
         <% }) %>

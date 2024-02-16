@@ -72,7 +72,7 @@ router.get("/:id", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const storyId = req.params.id;
     const userId = req.session.user_id;
-
+  
     getContributions(storyId)
       .then((contributions) => {
         getStoryById(storyId)

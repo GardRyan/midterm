@@ -4,5 +4,11 @@ section {
 
 form {
   flex-direction: column;
-  
+  align-items: center;
+}
+
+textarea {
+  display: flex;
+  width: 90%;
+  height: 200px;
 }
