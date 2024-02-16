@@ -36,7 +36,14 @@
 - sass 1.35.1
 
 ## Screenshots
-
+!["Home page as logged in user with search bar"](https://github.com/GardRyan/midterm/blob/master/docs/Screen%20Shot%202024-02-16%20at%2013.00.01-fullpage.png)
+!["My Stories page"](https://github.com/GardRyan/midterm/blob/master/docs/Screen%20Shot%202024-02-16%20at%2013.03.13-fullpage.png)
+!["Create story page"](https://github.com/GardRyan/midterm/blob/master/docs/Screen%20Shot%202024-02-16%20at%2013.03.17-fullpage.png)
+!["User Info Page"](https://github.com/GardRyan/midterm/blob/master/docs/Screen%20Shot%202024-02-16%20at%2013.03.22-fullpage.png)
+!["Story/story contribution page when logged in"](https://github.com/GardRyan/midterm/blob/master/docs/Screen%20Shot%202024-02-16%20at%2013.03.31-fullpage.png)
+!["Log in page"](https://github.com/GardRyan/midterm/blob/master/docs/Screen%20Shot%202024-02-16%20at%2013.03.42-fullpage.png)
+!["Register page"](https://github.com/GardRyan/midterm/blob/master/docs/Screen%20Shot%202024-02-16%20at%2013.03.47-fullpage.png)
+!["Home page with search bar hidden"](https://github.com/GardRyan/midterm/blob/master/docs/Screen%20Shot%202024-02-16%20at%2013.04.04-fullpage.png)
 
 ## Created By
 
