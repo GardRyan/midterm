@@ -13,7 +13,7 @@ form {
   align-items: center;
 }
 
-input {
+textarea {
   display: flex;
   flex-direction: column;
   width: 50%;
@@ -23,8 +23,6 @@ input {
   box-sizing: border-box;
   border: 2px solid #ccc;
   border-radius: 4px;
-  resize: none;
-
 }
 
 input.title {

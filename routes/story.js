@@ -290,7 +290,7 @@ router.post("/:id", (req, res) => {
 
     const newContributions = {
       story_id: storyId,
-      content: req.body.content,
+      content: ` ${req.body.content}`,
       contributor_id: userId,
     };
 
