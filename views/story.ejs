@@ -57,8 +57,10 @@
           <form action="/story/<%= story.id %>/complete" method="post">
             <button type="submit" class="complete-story">complete</button>
           </form>
-          <i class="fa-solid fa-angles-up" id="storyUp" name="storyUp"></i>
-          <i class="fa-solid fa-angles-down" id="storyDown" name="storyDown"></i>
+          <% } %>
+          <% if (locals.userId) { %>
+            <i class="fa-solid fa-angles-up" id="storyUp" name="storyUp"></i>
+            <i class="fa-solid fa-angles-down" id="storyDown" name="storyDown"></i>
           <% } %>
         </footer>
       </article>
@@ -99,7 +101,7 @@
               "numeric",}) %> &nbsp;<span id="contributionUpVoteCount<%= contribution.id %>"><%= contribution.upvotes %></span>&nbsp;
               <span id="contributionDownVoteCount<%= contribution.id %>"><%= contribution.downvotes %></span>
             </div>
-            <% if (userId === contribution.contributer_id) { %>}
+            <% if (userId === contribution.contributer_id) { %>
             <form
               action="/story/contribution/<%= contribution.id %>/edit"
               method="post"
@@ -120,9 +122,11 @@
             >
 
               <button type="submit" class="pick-contribution">Pick</button>
+            </form>
+            <% } %>
+            <% if (locals.userId) { %>
               <i class="fa-solid fa-angles-up" id="contributionUp<%= contribution.id %>" name="contributionUp<%= contribution.id %>"></i>
               <i class="fa-solid fa-angles-down" id="contributionDown<%= contribution.id %>" name="contributionDown<%= contribution.id %>"></i>
-            </form>
             <% } %>
           </footer>
         </article>
