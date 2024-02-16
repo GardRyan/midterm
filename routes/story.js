@@ -168,7 +168,7 @@ router.post("/:id/edit-story", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const storyId = req.params.id;
     const { title, content } = req.body;
-
+    
     editStory({ id: storyId, title, content })
       .then((editedStory) => {
         if (editedStory) {
