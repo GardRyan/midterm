@@ -166,13 +166,17 @@ router.post("/:id/edit", (req, res) => {
 
 router.post("/:id/edit-story", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    const storyId = req.params.id;
-    const { title, content } = req.body;
-    
-    editStory({ id: storyId, title, content })
+    const id = req.params.id;
+    const title = req.body.title;
+    const content = req.body.content;
+
+    console.log(title, content, id);
+
+    editStory({ title, content, id })
       .then((editedStory) => {
+        console.log(`editstory`, editedStory)
         if (editedStory) {
-          res.redirect("back");
+          res.redirect(`/story/${editedStory.id}`);
         } else {
           res.status(404).send("Story not found");
         }
@@ -192,6 +196,7 @@ router.post("/:id/edit-contributions", (req, res) => {
 
     editContributions({ content, id })
       .then((editedContribution) => {
+        console.log(`edit`, editedContribution);
         if (editedContribution) {
           res.redirect(`/story/${editedContribution.story_id}`);
         } else {
@@ -252,6 +257,7 @@ router.post("/:id/delete-contributions", (req, res) => {
 
     deleteContributions(story_id)
       .then((deletedContribution) => {
+        console.log(`why???`, deletedContribution)
         if (deletedContribution) {
           res.redirect("back");
         } else {
