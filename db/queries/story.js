@@ -7,17 +7,8 @@ const getStoryById = (storyId) => {
   let queryString = `
       SELECT *
       FROM stories
+      JOIN users ON users.id = stories.creator_id
       WHERE stories.id = $1
-      GROUP BY
-        stories.id,
-        stories.title,
-        stories.content,
-        stories.creator_id,
-        stories.completed,
-        stories.created_date,
-        stories.completed_date,
-        stories.public,
-        stories.deleted
     `;
   return db
     .query(queryString, queryParams)

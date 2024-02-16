@@ -35,7 +35,7 @@
       <% } %>
       <div>
         <p><%= story && story.content %></p>
-        <div>users.username</div>
+        <div><%= story.username %></div>
         <form action="/story/<%= story.id %>/edit" method="post">
         <button type="submit" class="edit-story">edit</button>
       </form>
@@ -81,6 +81,7 @@
           <%= contribution.created_date %>
           <%= contribution.upvotes %>
           <%= contribution.downvotes %>
+          <%= contribution.username %>
       </div>
       <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
         <button type="submit" class="edit-contribution">edit</button>
