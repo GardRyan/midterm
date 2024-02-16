@@ -23,7 +23,7 @@ const {
 //define your routes
 router.get("/new", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-  res.render("createStory", { loginInfo });
+    res.render("createStory", { loginInfo });
   });
 });
 
@@ -46,7 +46,6 @@ router.get("/:id/edit-story", (req, res) => {
   });
 });
 
-
 router.get("/:id/edit-contribution", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const contributionId = req.params.id;
@@ -63,10 +62,10 @@ router.get("/:id/edit-contribution", (req, res) => {
 
 router.get("/:id/delete", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-  const storyId = req.params.id;
-  const userId = req.session.user_id;
+    const storyId = req.params.id;
+    const userId = req.session.user_id;
 
-  res.render("createStory", { loginInfo });
+   
   });
 });
 
@@ -174,7 +173,7 @@ router.post("/:id/edit-story", (req, res) => {
 
     editStory({ title, content, id })
       .then((editedStory) => {
-        console.log(`editstory`, editedStory)
+        console.log(`editstory`, editedStory);
         if (editedStory) {
           res.redirect(`/story/${editedStory.id}`);
         } else {
@@ -234,12 +233,7 @@ router.post("/:id/delete", (req, res) => {
 
   deleteStory(storyId)
     .then(() => {
-      return deleteContributions({ story_id: storyId });
-    })
-    .then((deletedContributions) => {
-      if (deletedContributions) {
-      }
-
+      console.log(`storyId`, storyId);
       res.redirect("/stories");
     })
     .catch((error) => {
@@ -257,7 +251,7 @@ router.post("/:id/delete-contributions", (req, res) => {
 
     deleteContributions(story_id)
       .then((deletedContribution) => {
-        console.log(`why???`, deletedContribution)
+        console.log(`why???`, deletedContribution);
         if (deletedContribution) {
           res.redirect("back");
         } else {

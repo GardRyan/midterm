@@ -96,11 +96,11 @@ const editStory = (story) => {
 };
 
 const deleteStory = (story) => {
-  const { id } = story;
-  const query = "UPDATE stories SET deleted = true WHERE id = $1 RETURNING *";
+  const [id] = story;
+  const query = "UPDATE stories SET deleted = true WHERE id = $1";
 
   return db
-    .query(query, Object.values(story))
+    .query(query, [story])
     .then((result) => {
       return result.rows[0];
     })
