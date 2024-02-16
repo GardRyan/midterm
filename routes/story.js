@@ -25,7 +25,10 @@ const {
 //define your routes
 router.get("/new", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    res.render("createStory", { loginInfo });
+    if (loginInfo.loggedInUser) {
+      res.render("createStory", { loginInfo });
+    }
+    res.redirect("/login")
   });
 });
 
