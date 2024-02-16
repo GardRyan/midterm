@@ -1,7 +1,10 @@
 // all routes for showing and updating one story
 const express = require("express");
 const router = express.Router();
-const { runWithLoginUser, validRequestForUser } = require("./partials/_loginUser");
+const {
+  runWithLoginUser,
+  sendJsonErrorMessage,
+} = require("./partials/_loginUser");
 
 //queries and other middleware
 const {
@@ -28,15 +31,14 @@ router.get("/new", (req, res) => {
     if (loginInfo.loggedInUser) {
       res.render("createStory", { loginInfo });
     } else {
-      res.redirect("/login")
-    };
+      res.redirect("/login");
+    }
   });
 });
 
 router.get("/:id/edit-story", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const storyId = req.params.id;
-    const userId = req.session.user_id;
 
     getStoryById(storyId).then((story) => {
       if (story.deleted === false) {
@@ -66,18 +68,11 @@ router.get("/:id/edit-contribution", (req, res) => {
   });
 });
 
-router.get("/:id/delete", (req, res) => {
-  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    const storyId = req.params.id;
-    const userId = req.session.user_id;
-  });
-});
-
 router.get("/:id", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     const storyId = req.params.id;
     const userId = req.session.user_id;
-  
+
     getContributions(storyId)
       .then((contributions) => {
         getStoryById(storyId)
@@ -99,9 +94,9 @@ router.get("/:id", (req, res) => {
               .json({ error: "An error occurred while fetching the story" });
           });
       })
-      .catch((err) => {
+      .catch((error) => {
         console.log(error);
-        sendJsonErrorMessag(res, 500, err.message);
+        sendJsonErrorMessage(res, 500, err.message);
       });
   });
 });
@@ -119,9 +114,8 @@ router.post("/new", (req, res) => {
   };
   saveStory(newStory)
     .then((storyId) => {
-
       getNewStoryById(storyId)
-        .then((story) => {
+        .then(() => {
           res.redirect(`/story/${storyId}`);
         })
         .catch((error) => {
@@ -142,16 +136,15 @@ router.post("/new", (req, res) => {
 router.post("/contribution/:id/edit", (req, res) => {
   const contributionId = req.params.id;
 
-    if (contributionId !== undefined) {
-      res.redirect(`/story/${contributionId}/edit-contribution`);
-    } else {
-      res.redirect("/stories");
-    }
-
+  if (contributionId !== undefined) {
+    res.redirect(`/story/${contributionId}/edit-contribution`);
+  } else {
+    res.redirect("/stories");
+  }
 });
 
 router.post("/:id/edit", (req, res) => {
-  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (/*loginInfo*/) => {
     const storyId = req.params.id;
 
     if (storyId) {
@@ -163,7 +156,7 @@ router.post("/:id/edit", (req, res) => {
 });
 
 router.post("/:id/edit-story", (req, res) => {
-  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (/*loginInfo*/) => {
     const id = req.params.id;
     const title = req.body.title;
     const content = req.body.content;
@@ -184,14 +177,12 @@ router.post("/:id/edit-story", (req, res) => {
 });
 
 router.post("/:id/edit-contributions", (req, res) => {
-  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (/*loginInfo*/) => {
     const id = req.params.id;
     const content = req.body.content;
-    const story_id = req.body.story_id;
 
     editContributions({ content, id })
       .then((editedContribution) => {
-
         if (editedContribution) {
           res.redirect(`/story/${editedContribution.story_id}`);
         } else {
@@ -208,7 +199,7 @@ router.post("/:id/edit-contributions", (req, res) => {
 });
 
 router.post("/:id/pick-contributions", (req, res) => {
-  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (/*loginInfo*/) => {
     const contributionId = req.params.id;
 
     pickContribution(contributionId)
@@ -255,7 +246,7 @@ router.post("/:id/delete", (req, res) => {
 });
 
 router.post("/:id/delete-contributions", (req, res) => {
-  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (/*loginInfo*/) => {
     const storyId = req.params.id;
     const story_id = storyId;
 
@@ -277,7 +268,7 @@ router.post("/:id/delete-contributions", (req, res) => {
 });
 
 router.post("/:id", (req, res) => {
-  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (/*loginInfo*/) => {
     const storyId = req.params.id;
     const userId = req.session.user_id;
 
@@ -288,7 +279,7 @@ router.post("/:id", (req, res) => {
     };
 
     saveContributions(newContributions)
-      .then((contributionId) => {
+      .then(() => {
         res.redirect("back");
       })
       .catch((error) => {

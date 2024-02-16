@@ -2,7 +2,7 @@
 const express = require('express');
 const router  = express.Router();
 
-const { StoryVotesDb } = require(`../db/queries/storyVotes`)
+const { StoryVotesDb } = require(`../db/queries/storyVotes`);
 const { Votes } = require('./votes-api');
 
 class StoryVotes extends Votes {
@@ -10,7 +10,7 @@ class StoryVotes extends Votes {
     super(router, new StoryVotesDb());
     this._type = 'story';
   }
-};
+}
 
 let storyVotes = new StoryVotes(router);
 storyVotes.createRoutes();

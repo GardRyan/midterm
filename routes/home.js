@@ -1,7 +1,7 @@
 // all routes for login/logout
 const express = require('express');
 const router  = express.Router();
-const { runWithLoginUser } = require('./partials/_loginUser')
+const { runWithLoginUser } = require('./partials/_loginUser');
 
 router.get('/', (req, res) => {
   //todo - redirect to - if logged in then my stories (login determined by cookie)

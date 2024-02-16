@@ -8,11 +8,11 @@
 const express = require('express');
 const router  = express.Router();
 const userQueries = require('../db/queries/users');
-const { runWithLoginUser, sendJsonErrorMessag } = require('./partials/_loginUser')
+const { runWithLoginUser, sendJsonErrorMessag } = require('./partials/_loginUser');
 
 router.get('/', (req, res) => {
   //TODO: I DON"T THINK WE NEED THIS
-  runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
+  runWithLoginUser(req.session, req.session.user_id, (/*loginInfo*/) => {
     userQueries.getUsers()
       .then(users => {
         res.json({ users });

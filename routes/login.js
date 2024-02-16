@@ -1,10 +1,9 @@
 // all routes for login/logout
 const express = require('express');
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const router  = express.Router();
-const db = require('../db/queries/users'); 
-const { Template } = require('ejs');
-const { runWithLoginUser, renderErrorMessage } = require('./partials/_loginUser')
+const db = require('../db/queries/users');
+const { runWithLoginUser, renderErrorMessage } = require('./partials/_loginUser');
 
 // route to show login page
 router.get('/', (req, res) => {
@@ -15,7 +14,7 @@ router.get('/', (req, res) => {
       res.redirect("/");
     }
   });
-}); 
+});
 
 // route to handle log in requests
 router.post('/', (req, res) => {
@@ -53,13 +52,12 @@ router.post('/', (req, res) => {
         renderErrorMessage(res, loginInfo, 500);
       });
   });
-}); 
+});
 
 // route to post a logout and reset user id on the cookie
 router.post('/logout', (req, res) => {
-  const userId = req.session.user_id
   req.session.user_id = undefined;
   res.redirect('/login');
-}); 
+});
 
 module.exports = router;
