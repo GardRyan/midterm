@@ -12,15 +12,14 @@
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
   <link
     rel="stylesheet"
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
     integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
     crossorigin="anonymous"
   />
-  <link rel="stylesheet" href="/styles/main.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
-  <%- include('partials/_userStyleSheet') %>
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/app.js"></script>
@@ -29,21 +28,7 @@
 <body>
   <%- include('partials/_header') %>
   <main>
-    <h1>Login</h1>
-    <% if ((locals.loginInfo) && (loginInfo.loggedInUser )) { %>
-      <FORM action="/login/logout" method="POST"> 
-        <label><%= loginInfo.loggedInUser.username %> is logged in.</label>
-        <button type="submit">Logout</button>
-      </FORM>
-      <% } else { %>
-        <FORM action="/login" method="POST"> 
-          <label>Username:</label>
-          <input id="username" type="text" name="username"/>
-          <label>Password:</label>
-          <input id="password" type="password" name="password"/>
-          <button type="submit">Login</button>
-        </FORM>
-    <% } %>
+    <!-- THIS PAGE LEFT BLANK ON PURPOSE.  USE IT IF YOU WANT TO SHOW A MESSAGE WITH NO OTHER ELEMENTS -->
   </main>
 </body>
 </html>

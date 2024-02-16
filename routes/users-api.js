@@ -8,7 +8,7 @@
 const express = require('express');
 const router  = express.Router();
 const userQueries = require('../db/queries/users');
-const { runWithLoginUser } = require('./partials/_loginUser')
+const { runWithLoginUser, sendJsonErrorMessag } = require('./partials/_loginUser')
 
 router.get('/', (req, res) => {
   //TODO: I DON"T THINK WE NEED THIS
@@ -18,9 +18,8 @@ router.get('/', (req, res) => {
         res.json({ users });
       })
       .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
+        console.log(err);
+        sendJsonErrorMessag(res, 500, err.message);
       });
   });
 });

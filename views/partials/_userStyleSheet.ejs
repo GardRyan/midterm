@@ -1,5 +1,5 @@
-<% if ((loginInfo) && (loginInfo.styleSheets)) { %> 
+<% if ((locals.loginInfo) && (loginInfo.styleSheets)) { %> 
   <link rel="stylesheet" href="/styles/<%= loginInfo.styleSheets.colour %>" />
-  <% } else { %>
-    <link rel="stylesheet" href="/styles/colour-white.css" />
+<% } else { %>
+  <link rel="stylesheet" href="/styles/colour-default.css" />
 <% } %>
