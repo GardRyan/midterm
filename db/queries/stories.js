@@ -46,7 +46,7 @@ const getStories = (options) => {
         WHERE stories.id = downvotes.story_id AND downvotes.vote = FALSE) AS downvotes
     FROM stories
     JOIN users ON users.id = stories.creator_id
-    WHERE TRUE
+    WHERE deleted = FALSE
     `;
 
   if (options.title && options.title.length > 0) {
@@ -81,7 +81,7 @@ const getStories = (options) => {
       users.username
     ${getOrderBy(options)};
     `;
-
+  console.log("query String", queryString);
   return db
     .query(queryString, queryParams)
     .then((data) => {

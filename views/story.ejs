@@ -53,7 +53,7 @@
     </article>
     
     <form id="contribution-form" method="POST" action="/story/<%= story.id %>">
-      <input class="form-control" id="contribution-content" type="text" name="content" placeholder="What comes next...?" style="width: 300px; margin: 1em" value=""/>
+      <textarea id="contribution-content" type="text" name="content" placeholder="What comes next...?"value=""></textarea>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
@@ -63,7 +63,7 @@
           <article>
             <header>
               <p>Story Step: <%= contribution.story_step %></p>
-              <p>Contributer: <%= contribution.story_step %></p>
+              <p>Contributer: <%= contribution.username %></p>
             </header>     
             
             <div class="contribution_content">

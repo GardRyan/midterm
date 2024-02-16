@@ -3,10 +3,12 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 70%;
+  margin-top: 100px;
 }
 
 #stories_container {
-  width: 68%;
+  width: 100%;
   align-content: center;
   justify-content: center;
 }
@@ -15,12 +17,19 @@
   flex-direction: column;
   position: fixed;
   left: 0;
-  top: 60px;
+  top: 100px;
+}
+
+#sidebar-open {
+  position: fixed;
+  left: 0;
+  top: 55px
 }
 
 #optionsForm {
   flex-direction: column;
   margin: 10px;
+  margin-left: 0;
   border-style: solid;
   border-radius: 20px;
   border-width: 5px;

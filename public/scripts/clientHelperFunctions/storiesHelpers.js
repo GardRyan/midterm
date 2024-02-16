@@ -79,7 +79,9 @@ const createStoryElement = function (storyObj) {
 // sidebar code heavily inspired by w3.css sidebar
 const w3_open = function () {
   document.getElementById("mySidebar").style.display = "flex";
+  document.getElementById("sidebar-open").style.display = "none"
 };
 const w3_close = function () {
   document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("sidebar-open").style.display = "flex"
 };

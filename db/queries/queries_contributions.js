@@ -7,7 +7,7 @@ const db = require("../connection");
 const getContributions = (storyId) => {
   let queryParams = [storyId];
   let queryString = `
-  SELECT *,
+  SELECT contributions.*, users.username,
   (SELECT COUNT(*)
    FROM contribution_votes AS upvotes
    WHERE contributions.id = upvotes.contribution_id AND upvotes.vote = TRUE) AS upvotes,
@@ -15,6 +15,7 @@ const getContributions = (storyId) => {
    FROM contribution_votes AS downvotes
    WHERE contributions.id = downvotes.contribution_id AND downvotes.vote = FALSE) AS downvotes
 FROM contributions
+JOIN users ON users.id = contributions.contributer_id
 WHERE contributions.story_id = $1
 AND contributions.story_step = COALESCE(
   (SELECT MAX(contributions.story_step)

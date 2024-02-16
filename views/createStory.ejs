@@ -19,6 +19,8 @@
       />
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/createStory.css" />
+    
     <%- include('partials/_userStyleSheet') %>
 
     
@@ -33,15 +35,11 @@
     <main>
       <h1>Have fun! Create Story! 🥔</h1>
       <section id="create-story-container">
-        <article>
-          <form method="POST" action="/story/new">
-            <input class="form-control" type="text" name="title" placeholder="Give me a title!" style="width: 300px; margin: 1em" value=""/>
-            <input class="form-control" type="text" name="content" placeholder="How should we start it?" style="width: 300px; margin: 1em" value=""/>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="submit" class="edit-story">edit</button>
-            <button type="submit" class="delete-story">delete</button>
-          </form>
-        </article>
+        <form method="POST" action="/story/new">
+          <input  type="text" name="title" placeholder="Give me a title!" style="width: 300px; margin: 1em" value=""/>
+          <textarea  type="text" name="content" placeholder="How should we start it?"  value=""></textarea>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
       </section>
     </main>
   </body>
