@@ -125,10 +125,25 @@ const deleteStory = (story) => {
     });
 };
 
+const completeStory = (story) => {
+  const [id] = story;
+  const query = "UPDATE stories SET completed = true WHERE id = $1";
+
+  return db
+    .query(query, [story])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((error) => {
+      console.error("Error deleting story:", error);
+    });
+};
+
 module.exports = {
   getStoryById,
   getNewStoryById,
   saveStory,
   editStory,
   deleteStory,
+  completeStory,
 };
