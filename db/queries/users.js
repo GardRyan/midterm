@@ -10,7 +10,7 @@ const getUsers = () => {
     })
     .catch((error) => {
       console.log(error);
-      throw(error);
+      throw (error);
     });
 };
 
@@ -22,7 +22,7 @@ const getUser = (id) => {
     })
     .catch((error) => {
       console.log(error);
-      throw(error);
+      throw (error);
     });
 };
 
@@ -35,7 +35,7 @@ const getUserByUsername = (username) => {
     })
     .catch((error) => {
       console.log(error);
-      throw(error);
+      throw (error);
     });
 };
 
@@ -51,7 +51,7 @@ const getQueryParams = function(user) {
     queryParams.push(user.id);
   }
   return queryParams;
-}
+};
 
 //update user query
 const updateUser = (user) => {
@@ -67,7 +67,7 @@ const updateUser = (user) => {
     })
     .catch((error) => {
       console.log(error);
-      throw(error);
+      throw (error);
     });
 };
 
@@ -83,7 +83,7 @@ const insertUser = (user) => {
     })
     .catch((error) => {
       console.log(error);
-      throw(error);
+      throw (error);
     });
 };
 

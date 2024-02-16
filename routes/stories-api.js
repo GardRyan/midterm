@@ -12,7 +12,6 @@ const getOptions = function (user_id, req) {
   };
 
   if (Object.keys(req.body).length > 0) {
-    console.log("reqBody", req.body);
     const optionsObj = req.body;
     for (let option in optionsObj) {
       options[option] = optionsObj[option];
@@ -20,7 +19,6 @@ const getOptions = function (user_id, req) {
   } else {
     options.orderDate = "DESC";
     options.orderUpvotes  = "DESC";
-    console.log("options in else", options);
   };
 
   return options;

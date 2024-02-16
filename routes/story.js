@@ -27,8 +27,9 @@ router.get("/new", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
     if (loginInfo.loggedInUser) {
       res.render("createStory", { loginInfo });
-    }
-    res.redirect("/login")
+    } else {
+      res.redirect("/login")
+    };
   });
 });
 
@@ -116,10 +117,8 @@ router.post("/new", (req, res) => {
     content,
     creator_id,
   };
-  console.log(title, content, creator_id);
   saveStory(newStory)
     .then((storyId) => {
-      console.log(`storyId`, storyId);
 
       getNewStoryById(storyId)
         .then((story) => {
@@ -169,11 +168,8 @@ router.post("/:id/edit-story", (req, res) => {
     const title = req.body.title;
     const content = req.body.content;
 
-    console.log(title, content, id);
-
     editStory({ title, content, id })
       .then((editedStory) => {
-        console.log(`editstory`, editedStory);
         if (editedStory) {
           res.redirect(`/story/${editedStory.id}`);
         } else {
@@ -195,7 +191,7 @@ router.post("/:id/edit-contributions", (req, res) => {
 
     editContributions({ content, id })
       .then((editedContribution) => {
-        console.log(`edit`, editedContribution);
+
         if (editedContribution) {
           res.redirect(`/story/${editedContribution.story_id}`);
         } else {
@@ -233,7 +229,6 @@ router.post("/:id/complete", (req, res) => {
 
   completeStory(storyId)
     .then(() => {
-      console.log(`storyId`, storyId);
       res.redirect(`/story/${storyId}`);
     })
     .catch((error) => {
@@ -249,7 +244,6 @@ router.post("/:id/delete", (req, res) => {
 
   deleteStory(storyId)
     .then(() => {
-      console.log(`storyId`, storyId);
       res.redirect("/stories");
     })
     .catch((error) => {
@@ -267,7 +261,6 @@ router.post("/:id/delete-contributions", (req, res) => {
 
     deleteContributions(story_id)
       .then((deletedContribution) => {
-        console.log(`why???`, deletedContribution);
         if (deletedContribution) {
           res.redirect("back");
         } else {

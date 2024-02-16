@@ -81,7 +81,7 @@ $(document).ready(function () {
           callback(contributionId, true);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-          console.log('problem', jqXHR);
+          console.log('error', jqXHR);
         }
       });
     }
@@ -105,7 +105,7 @@ $(document).ready(function () {
           callback(contributionId, true);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-          console.log('problem', jqXHR);
+          console.log('error', jqXHR);
         }
       });
     }
@@ -129,7 +129,7 @@ $(document).ready(function () {
           callback(contributionId, true);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-          console.log('problem', jqXHR);
+          console.log('error', jqXHR);
         }
       });
     }

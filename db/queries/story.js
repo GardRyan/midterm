@@ -71,8 +71,7 @@ const getNewStoryById = (storyId) => {
 
 //saves a new story
 const saveStory = (newStory) => {
-  const { title, content, creator_id } = newStory;
-
+  
   const query = `INSERT INTO stories (
       title,
       content,
@@ -87,7 +86,6 @@ const saveStory = (newStory) => {
   return db
     .query(query, Object.values(newStory))
     .then((result) => {
-      console.log(`result`, result);
       return result.rows[0].id;
     })
     .catch((error) => {
@@ -96,14 +94,13 @@ const saveStory = (newStory) => {
 };
 
 const editStory = (story) => {
-  const { title, content, id } = story;
+  // const { title, content, id } = story;
   const query =
     "UPDATE stories SET title = $1, content = $2  WHERE id = $3 RETURNING *";
 
   return db
     .query(query, Object.values(story))
     .then((result) => {
-      console.log(`returning`, result.rows[0]);
       return result.rows[0];
     })
     .catch((error) => {
@@ -112,7 +109,6 @@ const editStory = (story) => {
 };
 
 const deleteStory = (story) => {
-  const [id] = story;
   const query = "UPDATE stories SET deleted = true WHERE id = $1";
 
   return db
@@ -126,7 +122,6 @@ const deleteStory = (story) => {
 };
 
 const completeStory = (story) => {
-  const [id] = story;
   const query = "UPDATE stories SET completed = true WHERE id = $1";
 
   return db

@@ -28,7 +28,6 @@ ORDER BY contributions.created_date DESC
   return db
     .query(queryString, queryParams)
     .then((data) => {
-      console.log(data.rows);
       return data.rows;
     })
     .catch((error) => {
@@ -37,7 +36,6 @@ ORDER BY contributions.created_date DESC
 };
 
 const editThisContribution = (contributionId) => {
-  const [id] = contributionId;
   const query = `
   SELECT * FROM contributions WHERE id = $1`;
   return db
@@ -53,7 +51,6 @@ const editThisContribution = (contributionId) => {
 
 //saves a new story contribution
 const saveContributions = (newContribution) => {
-  const { story_id, content, contributer_id } = newContribution;
   const query = `
     INSERT INTO contributions (
       story_id,
@@ -93,7 +90,6 @@ const saveContributions = (newContribution) => {
 
 //edit contributions
 const editContributions = (contribution) => {
-  const { content, id } = contribution;
   const query =
     "UPDATE contributions SET content = $1 WHERE contributions.id = $2 RETURNING *";
 
@@ -109,12 +105,11 @@ const editContributions = (contribution) => {
 
 //delete contributions
 const deleteContributions = (contribution) => {
-  const [ id ] = contribution;
   const query = "DELETE FROM contributions WHERE id = $1";
 
   return db
     .query(query, [contribution])
-    .then((result) => {
+    .then(() => {
       return true;
     })
     .catch((error) => {

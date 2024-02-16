@@ -25,7 +25,7 @@ const getOrderBy = (options) => {
 
 const getStories = (options) => {
   let queryParams = [];
-  console.log("******************************\n options in query \n", options, "\n", "******************************");
+  
   let queryString = `
     SELECT  
       stories.id,
@@ -52,20 +52,20 @@ const getStories = (options) => {
   if (options.title && options.title.length > 0) {
     queryParams.push(`%${options.title}%`);
     queryString += ` AND LOWER(title) LIKE LOWER($${queryParams.length})`;
-  };
+  }
 
   if (options.username && options.username.length > 0) {
-    queryParams.push(`%${options.username}%`)
+    queryParams.push(`%${options.username}%`);
     queryString += ` AND LOWER(username) LIKE LOWER($${queryParams.length})`;
-  };
+  }
 
   if (options.completed && options.completed.length > 0) {
     queryString += ` AND completed = '${options.completed}'`;
-  };
+  }
 
   if (options.showMyStories && options.showMyStories.length > 0) {
     queryString += ` AND creator_id = '${options.showMyStories}'`;
-  };
+  }
 
   queryString += `
     GROUP BY

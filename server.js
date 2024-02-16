@@ -41,7 +41,7 @@ const storiesApi = require('./routes/stories-api');
 const storyVotesApiRoutes = require('./routes/storyVotes-api');
 const usersRoutes = require('./routes/users');
 const loginRoutes = require('./routes/login');
-const homeRoutes = require('./routes/home')
+const homeRoutes = require('./routes/home');
 const storiesRoutes = require('./routes/stories');
 const storyRoutes = require('./routes/story');
 
@@ -66,6 +66,6 @@ app.use('/', homeRoutes);
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-const server = app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`StoryWeave app composing stories on port ${PORT}`);
 });
