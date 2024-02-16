@@ -3,7 +3,7 @@
 
 <!-- TODO:  this is for showing one and updating one story -->
 <!-- todo: review for proper routing and error handling-->>
-<!-- todo: review for proper routing and error handling-->>
+
 <head>
   <title>Home Page</title>
 
@@ -44,6 +44,8 @@
         <footer>
           <p><%= story.upvotes %></p>
           <p><%= story.downvotes %></p>
+
+          <% if (userId === story.creator_id) { %>
           <form action="/story/<%= story.id %>/edit" method="post">
             <button type="submit" class="edit-story">edit</button>
           </form>
@@ -53,6 +55,7 @@
           <form action="/story/<%= story.id %>/complete" method="post">
             <button type="submit" class="complete-story">complete</button>
           </form>
+          <% } %>
         </footer>
       </article>
       <% if (story.completed === true) { %> <% } else { %>
@@ -103,15 +106,19 @@
             >
               <button type="submit" class="delete-contribution">delete</button>
             </form>
+
+            <% if (userId === story.creator_id) { %>
             <form
               action="/story/<%= contribution.id %>/pick-contributions"
               method="post"
             >
+
               <button type="submit" class="pick-contribution">Pick</button>
             </form>
+            <% }; %>
           </footer>
         </article>
-        <% }) %> <% }; %> <% }; %>
+        <% }) %> <% } %> <% }; %>
       </section>
     </main>
   </body>

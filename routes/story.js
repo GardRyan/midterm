@@ -79,7 +79,7 @@ router.get("/:id", (req, res) => {
         getStoryById(storyId)
           .then((story) => {
             if (story.deleted === false) {
-              res.render("story", { loginInfo, story, contributions });
+              res.render("story", { loginInfo, story, contributions, userId });
             } else {
               res
                 .status(423)
