@@ -59,6 +59,7 @@
         </footer>
       </article>
       <% if (story.completed === true) { %> <% } else { %>
+        <% if (userId) { %>}
       <form
         id="contribution-form"
         method="POST"
@@ -73,7 +74,7 @@
         ></textarea>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
-
+      <% } %>
       <section id="contributions-container">
         <% if (contributions && contributions.length > 0) { %> <%
         contributions.forEach(contribution => { %>
