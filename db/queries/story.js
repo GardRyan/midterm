@@ -18,10 +18,10 @@ const getStoryById = (storyId) => {
         users.username,
         (SELECT COUNT(*)
           FROM story_votes AS upvotes
-          WHERE stories.id = upvotes.story_id AND upvotes.vote = TRUE) AS upvotes,
+          WHERE stories.id = upvotes.story_id AND upvotes.vote = TRUE AND upvotes.deleted = FALSE) AS upvotes,
         (SELECT COUNT(*)
           FROM story_votes AS downvotes
-          WHERE stories.id = downvotes.story_id AND downvotes.vote = FALSE) AS downvotes
+          WHERE stories.id = downvotes.story_id AND downvotes.vote = FALSE AND downvotes.deleted = FALSE) AS downvotes
       FROM stories
       JOIN users ON users.id = stories.creator_id
       WHERE stories.id = $1

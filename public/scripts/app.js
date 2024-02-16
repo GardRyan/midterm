@@ -78,7 +78,7 @@ $(document).ready(function () {
           } else {
             storyVote = data;
           }
-          callback(contributionId);
+          callback(contributionId, true);
         },
         error: function(jqXHR, textStatus, errorThrown) {
           console.log('problem', jqXHR);
@@ -102,7 +102,7 @@ $(document).ready(function () {
           } else {
             storyVote = data;
           }
-          callback(contributionId);
+          callback(contributionId, true);
         },
         error: function(jqXHR, textStatus, errorThrown) {
           console.log('problem', jqXHR);
@@ -126,7 +126,7 @@ $(document).ready(function () {
           } else {
             storyVote = data;
           }
-          callback(contributionId);
+          callback(contributionId, true);
         },
         error: function(jqXHR, textStatus, errorThrown) {
           console.log('problem', jqXHR);
@@ -144,10 +144,14 @@ $(document).ready(function () {
       
       if (!vote) {
         vote = { 
-          story_id: $('#storyId').text(),
           voter_id: loggedInUserId,
           vote: true,
           deleted: false
+        }
+        if (contributionId) {
+          vote["contribution_id"] = contributionId;
+        } else {
+          vote["story_id"] = $('#storyId').text();
         }
         insertVote(vote, contributionId, markUpVote);
       } else {
@@ -179,10 +183,14 @@ $(document).ready(function () {
 
       if (!vote) {
         vote = { 
-          story_id: $('#storyId').text(),
           voter_id: loggedInUserId,
           vote: false,
           deleted: false
+        }
+        if (contributionId) {
+          vote["contribution_id"] = contributionId;
+        } else {
+          vote["story_id"] = $('#storyId').text();
         }
         insertVote(vote, contributionId, markDownVote);
       } else {
@@ -220,35 +228,75 @@ $(document).ready(function () {
       }
     });
 
-    const markUpVote = function(contributionId) {
+    const markUpVote = function(contributionId, adjustCounts) {
       if (contributionId){
-        console.log('upvote cont:', contributionId);
+        if (adjustCounts) {
+          $(`#contributionUpVoteCount${contributionId}`).text(Number($(`#contributionUpVoteCount${contributionId}`).text()) + 1);
+          if ($(`#contributionDown${contributionId}`).hasClass("voteSelected")) {
+            $(`#contributionDownVoteCount${contributionId}`).text(Number($(`#contributionDownVoteCount${contributionId}`).text()) - 1);
+          }
+        }
+        $(`#contributionUp${contributionId}`).addClass("voteSelected");
+        $(`#contributionDown${contributionId}`).removeClass("voteSelected");
       } else{
-        console.log('upvote: story');
+        if (adjustCounts) {
+          $("#storyUpVoteCount").text(Number($("#storyUpVoteCount").text()) + 1);
+          if ($(`#storyDown`).hasClass("voteSelected")) {
+            $("#storyDownVoteCount").text(Number($("#storyDownVoteCount").text()) - 1);
+          }
+        }
+        $(`#storyUp`).addClass("voteSelected");
+        $(`#storyDown`).removeClass("voteSelected");
       }
     }
 
-    const clearUpVote = function(contributionId) {
+    const clearUpVote = function(contributionId, adjustCounts) {
       if (contributionId){
-        console.log('clear upvote cont:', contributionId);
+        if (adjustCounts) {
+          $(`#contributionUpVoteCount${contributionId}`).text(Number($(`#contributionUpVoteCount${contributionId}`).text()) - 1);
+        }
+        $(`#contributionUp${contributionId}`).removeClass("voteSelected");
       } else{
-        console.log('clear upvote: story');
+        if (adjustCounts) {
+          $("#storyUpVoteCount").text(Number($("#storyUpVoteCount").text()) - 1);
+        }
+        $(`#storyUp`).removeClass("voteSelected");
       }
     }
 
-    const markDownVote = function(contributionId) {
+    const markDownVote = function(contributionId, adjustCounts) {
       if (contributionId){
-        console.log('downvote cont:', contributionId);
+        if (adjustCounts) {
+          $(`#contributionDownVoteCount${contributionId}`).text(Number($(`#contributionDownVoteCount${contributionId}`).text()) + 1);
+          if ($(`#contributionUp${contributionId}`).hasClass("voteSelected")) {
+            $(`#contributionUpVoteCount${contributionId}`).text(Number($(`#contributionUpVoteCount${contributionId}`).text()) - 1);
+          }
+        }
+        $(`#contributionDown${contributionId}`).addClass("voteSelected");
+        $(`#contributionUp${contributionId}`).removeClass("voteSelected");
       } else{
-        console.log('downvote: story');
+        if (adjustCounts) {
+          $("#storyDownVoteCount").text(Number($("#storyDownVoteCount").text()) + 1);
+          if ($(`#storyUp`).hasClass("voteSelected")) {
+            $("#storyUpVoteCount").text(Number($("#storyUpVoteCount").text()) - 1);
+          }
+        }
+        $(`#storyDown`).addClass("voteSelected");
+        $(`#storyUp`).removeClass("voteSelected");
       }
     }
 
-    const clearDownVote = function(contributionId) {
+    const clearDownVote = function(contributionId, adjustCounts) {
       if (contributionId){
-        console.log('clear downvote cont:', contributionId);
+        if (adjustCounts) {
+          $(`#contributionDownVoteCount${contributionId}`).text(Number($(`#contributionDownVoteCount${contributionId}`).text()) - 1);
+        }
+        $(`#contributionDown${contributionId}`).removeClass("voteSelected");
       } else{
-        console.log('clear downvote: story');
+        if (adjustCounts) {
+          $("#storyDownVoteCount").text(Number($("#storyDownVoteCount").text()) - 1);
+        }
+        $(`#storyDown`).removeClass("voteSelected");
       }
     }
 

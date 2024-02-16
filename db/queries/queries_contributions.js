@@ -10,10 +10,10 @@ const getContributions = (storyId) => {
   SELECT contributions.*, users.username,
   (SELECT COUNT(*)
    FROM contribution_votes AS upvotes
-   WHERE contributions.id = upvotes.contribution_id AND upvotes.vote = TRUE) AS upvotes,
+   WHERE contributions.id = upvotes.contribution_id AND upvotes.vote = TRUE AND upvotes.deleted = FALSE) AS upvotes,
   (SELECT COUNT(*)
    FROM contribution_votes AS downvotes
-   WHERE contributions.id = downvotes.contribution_id AND downvotes.vote = FALSE) AS downvotes
+   WHERE contributions.id = downvotes.contribution_id AND downvotes.vote = FALSE AND downvotes.deleted = FALSE) AS downvotes
 FROM contributions
 JOIN users ON users.id = contributions.contributer_id
 WHERE contributions.story_id = $1
