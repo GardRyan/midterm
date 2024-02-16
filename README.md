@@ -47,6 +47,6 @@
 
 ## Created By
 
-Mike Dragert
-Ryan Gardner
-Jonas Kunz
+- Mike Dragert
+- Ryan Gardner
+- Jonas Kunz
