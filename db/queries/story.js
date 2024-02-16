@@ -80,14 +80,14 @@ const saveStory = (newStory) => {
 };
 
 const editStory = (story) => {
-  const { title, content, id} = story;
+  const { title, content, id } = story;
   const query =
-    "UPDATE stories SET title = $1 AND content = $2  WHERE id = $3 RETURNING *";
+    "UPDATE stories SET title = $1, content = $2  WHERE id = $3 RETURNING *";
 
   return db
     .query(query, Object.values(story))
     .then((result) => {
-
+      console.log(`returning`, result.rows[0])
       return result.rows[0];
     })
     .catch((error) => {

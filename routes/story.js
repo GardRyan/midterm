@@ -166,13 +166,17 @@ router.post("/:id/edit", (req, res) => {
 
 router.post("/:id/edit-story", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    const storyId = req.params.id;
-    const { title, content } = req.body;
+    const id = req.params.id;
+    const title = req.body.title;
+    const content = req.body.content;
 
-    editStory({ id: storyId, title, content })
+    console.log(title, content, id);
+
+    editStory({ title, content, id })
       .then((editedStory) => {
+        console.log(`editstory`, editedStory)
         if (editedStory) {
-          res.redirect("back");
+          res.redirect(`/story/${editedStory.id}`);
         } else {
           res.status(404).send("Story not found");
         }
