@@ -35,6 +35,7 @@
         <header>
           <% if (story && story.title) { %>
           <h2><%= story.title %></h2>
+          <span id="storyId" name="storyId" hidden><%= story.id %></span>
           <% } %>
           <p>Written By: <b><%= story.username %></b></p>
         </header>
@@ -73,6 +74,8 @@
           value=""
         ></textarea>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <button type = "button" id="storyUp" name="storyUp">Up</button>
+        <button type = "button" id="storyDown" name="storyDown">Down</button>
       </form>
       <% } %>
       <section id="contributions-container">
@@ -89,7 +92,7 @@
           </div>
 
           <footer>
-            <div>
+            <div class="contribution" id="<%= contribution.id %>">
               <%= contribution.created_date.toLocaleTimeString(undefined,
               {weekday: "short", year: "numeric", month: "short", day:
               "numeric",}) %> <%= contribution.upvotes %> <%=
@@ -116,6 +119,8 @@
             >
 
               <button type="submit" class="pick-contribution">Pick</button>
+              <button type = "button" id="contributionUp<%= contribution.id %>" name="contributionUp<%= contribution.id %>">Up</button>
+              <button type = "button" id="contributionDown<%= contribution.id %>" name="contributionDown<%= contribution.id %>">Down</button>
             </form>
             <% } %>
           </footer>

@@ -1,7 +1,12 @@
 <header>
   <nav id="nav-bar" class="navbar navbar-expand-md navbar-custom">
     <a class="navbar-brand" href="/stories">Story Creator</a>
-    <button
+      <% if ((locals.loginInfo) && (loginInfo.loggedInUser)) { %>
+        <span id="loggedInUserId" name="loggedInUserId" hidden><%= loginInfo.loggedInUser.id %></span>
+      <% } else { %>
+        <span id="loggedInUserId" name="loggedInUserId" hidden></span>
+      <% } %>
+      <button
       class="navbar-toggler"
       type="button"
       data-toggle="collapse"
@@ -16,11 +21,11 @@
       <div class="navbar-nav">
         <% if ((locals.loginInfo) && (loginInfo.loggedInUser)) { %>
           <a id="my_story_link" class="nav-item nav-link"  href="/stories/myStories">My Stories</a>
-        <%}%>
+        <% } %>
         <!-- <a class="nav-item nav-link" href="/stories">My Contributions</a> -->
         <% if ((locals.loginInfo) && (loginInfo.loggedInUser)) { %>
         <a class="nav-item nav-link" href="/story/new">Create Story</a>
-        <%}%>
+        <% } %>
         <a class="nav-item nav-link" href="/stories">Search</a>   
         <% if ((locals.loginInfo) && (loginInfo.loggedInUser ) && (loginInfo.loggedInUser.id)) { %>
           <a class="nav-item nav-link" href="/users/<%= loginInfo.loggedInUser.id %>">User info</a>   
@@ -30,7 +35,7 @@
         <div style="position:absolute; right:175px">
         <% if ((!locals.loginInfo) || (!loginInfo.loggedInUser) || (!loginInfo.loggedInUser.id)) { %>
           <a class="nav-item nav-link" href="/login">Login</a>
-        <% }%>
+        <% } %>
         </div>
         <div style="position:absolute; right:75px">
           <% if ((locals.loginInfo) && (loginInfo.loggedInUser) && (loginInfo.loggedInUser.id)) { %>
@@ -46,5 +51,5 @@
   </nav>
   <section class="errorBar" display="<%= locals.message ? 'flex' : 'none' %>">
     <span><%= locals.message ? message : '' %></span>
-  </sectoion>
+  </section>
 </header>
