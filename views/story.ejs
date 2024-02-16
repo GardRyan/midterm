@@ -2,96 +2,126 @@
 <html lang="en">
 
 <!-- TODO:  this is for showing one and updating one story -->
-<!-- todo: review for proper routing and error handling-->
-<!-- todo: review for proper routing and error handling-->
+<!-- todo: review for proper routing and error handling-->>
+
 <head>
   <title>Home Page</title>
 
-  <meta charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" />
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-    crossorigin="anonymous"
-  />
-  <link rel="stylesheet" href="/styles/main.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
-  <link rel="stylesheet" href="/styles/story.css" />
-  <%- include('partials/_userStyleSheet') %>
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/story.css" />
+    <%- include('partials/_userStyleSheet') %>
 
-  <script src="/vendor/jquery-3.0.0.js"></script>
-  <script defer src="/scripts/app.js"></script>
-</head>
+    <script src="/vendor/jquery-3.0.0.js"></script>
+    <script defer src="/scripts/app.js"></script>
+  </head>
 
-<body>
-  <%- include('partials/_header') %>
-  <main>
-    <article class="story_container">
-      <header>
-        <% if (story && story.title) { %>
+  <body>
+    <%- include('partials/_header') %>
+    <main>
+      <article class="story_container">
+        <header>
+          <% if (story && story.title) { %>
           <h2><%= story.title %></h2>
-        <% } %>
-        <p>Written By: <b><%= story.username %></b></p>
-      </header>
-      <div>
-        <p><%= story && story.content %></p>
-      </div>
-      <footer>
-        <p><%= story.upvotes %></p>
-        <p><%= story.downvotes %></p>
-        <form action="/story/<%= story.id %>/edit" method="post">
-          <button type="submit" class="edit-story">edit</button>
-        </form>
-        <form action="/story/<%= story.id %>/delete" method="post">
-          <button type="submit" class="delete-story">delete</button>
-        </form>
-      </footer>
-    </article>
+          <% } %>
+          <p>Written By: <b><%= story.username %></b></p>
+        </header>
+        <div>
+          <p><%= story && story.content %></p>
+        </div>
+        <footer>
+          <p><%= story.upvotes %></p>
+          <p><%= story.downvotes %></p>
 
-    <form id="contribution-form" method="POST" action="/story/<%= story.id %>">
-      <textarea id="contribution-content" type="text" name="content" placeholder="What comes next...?"value=""></textarea>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+          <% if (userId === story.creator_id) { %>
+          <form action="/story/<%= story.id %>/edit" method="post">
+            <button type="submit" class="edit-story">edit</button>
+          </form>
+          <form action="/story/<%= story.id %>/delete" method="post">
+            <button type="submit" class="delete-story">delete</button>
+          </form>
+          <form action="/story/<%= story.id %>/complete" method="post">
+            <button type="submit" class="complete-story">complete</button>
+          </form>
+          <% } %>
+        </footer>
+      </article>
+      <% if (story.completed === true) { %> <% } else { %>
+        <% if (userId) { %>}
+      <form
+        id="contribution-form"
+        method="POST"
+        action="/story/<%= story.id %>"
+      >
+        <textarea
+          id="contribution-content"
+          type="text"
+          name="content"
+          placeholder="What comes next...?"
+          value=""
+        ></textarea>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <% } %>
+      <section id="contributions-container">
+        <% if (contributions && contributions.length > 0) { %> <%
+        contributions.forEach(contribution => { %>
+        <article>
+          <header>
+            <p>Story Step: <%= contribution.story_step %></p>
+            <p>Contributer: <%= contribution.username %></p>
+          </header>
 
-    <section id="contributions-container">
-      <% if (contributions && contributions.length > 0) { %>
-        <% contributions.forEach(contribution => { %>
-          <article>
-            <header>
-              <p>Story Step: <%= contribution.story_step %></p>
-              <p>Contributer: <%= contribution.username %></p>
-            </header>
+          <div class="contribution_content">
+            <p><%= contribution.content %></p>
+          </div>
 
-            <div class="contribution_content">
-              <p><%= contribution.content %></p>
+          <footer>
+            <div>
+              <%= contribution.created_date.toLocaleTimeString(undefined,
+              {weekday: "short", year: "numeric", month: "short", day:
+              "numeric",}) %> <%= contribution.upvotes %> <%=
+              contribution.downvotes %>
             </div>
+            <% if (userId === contribution.contributer_id) { %>}
+            <form
+              action="/story/contribution/<%= contribution.id %>/edit"
+              method="post"
+            >
+              <button type="submit" class="edit-contribution">edit</button>
+            </form>
+            <form
+              action="/story/<%= contribution.id %>/delete-contributions"
+              method="post"
+            >
+              <button type="submit" class="delete-contribution">delete</button>
+            </form>
+            <% } %>
+            <% if (userId === story.creator_id) { %>
+            <form
+              action="/story/<%= contribution.id %>/pick-contributions"
+              method="post"
+            >
 
-            <footer>
-              <div>
-                <%= contribution.created_date.toLocaleTimeString(undefined, {weekday: "short", year: "numeric", month: "short", day: "numeric",}) %>
-                <%= contribution.upvotes %>
-                <%= contribution.downvotes %>
-              </div>
-                <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
-                  <button type="submit" class="edit-contribution">edit</button>
-                </form>
-                <form action="/story/<%= contribution.id %>/delete-contributions" method="post">
-                  <button type="submit" class="delete-contribution">delete</button>
-                </form>
-                <form action="/story/<%= contribution.id %>/pick-contributions" method="post">
-                  <button type="submit" class="pick-contribution">Pick</button>
-                </form>
-            </footer>
-          </article>
-        <% }) %>
-      <% }; %>
-    </section>
-  </main>
-</body>
-
+              <button type="submit" class="pick-contribution">Pick</button>
+            </form>
+            <% } %>
+          </footer>
+        </article>
+        <% }) %> <% } %> <% }; %>
+      </section>
+    </main>
+  </body>
 </html>

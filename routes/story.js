@@ -1,7 +1,7 @@
 // all routes for showing and updating one story
 const express = require("express");
 const router = express.Router();
-const { runWithLoginUser } = require("./partials/_loginUser");
+const { runWithLoginUser, validRequestForUser } = require("./partials/_loginUser");
 
 //queries and other middleware
 const {
@@ -19,12 +19,16 @@ const {
   saveStory,
   editStory,
   deleteStory,
+  completeStory,
 } = require("../db/queries/story");
 
 //define your routes
 router.get("/new", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    res.render("createStory", { loginInfo });
+    if (loginInfo.loggedInUser) {
+      res.render("createStory", { loginInfo });
+    }
+    res.redirect("/login")
   });
 });
 
@@ -78,7 +82,7 @@ router.get("/:id", (req, res) => {
         getStoryById(storyId)
           .then((story) => {
             if (story.deleted === false) {
-              res.render("story", { loginInfo, story, contributions });
+              res.render("story", { loginInfo, story, contributions, userId });
             } else {
               res
                 .status(423)
@@ -101,8 +105,6 @@ router.get("/:id", (req, res) => {
   });
 });
 
-//this still needs editing!!
-//trying to redirect to the new story page.
 router.post("/new", (req, res) => {
   const userId = req.session.user_id;
   const title = req.body.title;
@@ -114,13 +116,11 @@ router.post("/new", (req, res) => {
     content,
     creator_id,
   };
-console.log(title, content, creator_id)
+  console.log(title, content, creator_id);
   saveStory(newStory)
-
-
     .then((storyId) => {
       console.log(`storyId`, storyId);
-      //this is what we're editing.
+
       getNewStoryById(storyId)
         .then((story) => {
           res.redirect(`/story/${storyId}`);
@@ -143,11 +143,12 @@ console.log(title, content, creator_id)
 router.post("/contribution/:id/edit", (req, res) => {
   const contributionId = req.params.id;
 
-  if (contributionId !== undefined) {
-    res.redirect(`/story/${contributionId}/edit-contribution`);
-  } else {
-    res.redirect("/stories");
-  }
+    if (contributionId !== undefined) {
+      res.redirect(`/story/${contributionId}/edit-contribution`);
+    } else {
+      res.redirect("/stories");
+    }
+
 });
 
 router.post("/:id/edit", (req, res) => {
@@ -225,6 +226,22 @@ router.post("/:id/pick-contributions", (req, res) => {
           .send("An error occurred while picking the contribution.");
       });
   });
+});
+
+router.post("/:id/complete", (req, res) => {
+  const storyId = req.params.id;
+
+  completeStory(storyId)
+    .then(() => {
+      console.log(`storyId`, storyId);
+      res.redirect(`/story/${storyId}`);
+    })
+    .catch((error) => {
+      console.error("Error deleting story:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while deleting the story" });
+    });
 });
 
 router.post("/:id/delete", (req, res) => {
