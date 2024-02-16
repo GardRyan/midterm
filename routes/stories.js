@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const storiesQueries = require("../db/queries/stories");
-const { runWithLoginUser } = require('./partials/_loginUser');
+const { runWithLoginUser, renderErrorMessage, validRequestForUser, sendJsonErrorMessage } = require('./partials/_loginUser');
 
 //loads html skeleton
 router.get("/", (req, res) => {
@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 // loads page for my Stories
 router.get("/myStories", (req, res) => {
   runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-    res.render("myStories", {loginInfo})
+    return res.redirect("/login")
   });
 });
 
