@@ -1,78 +1,22 @@
-// // Client facing scripts here
-
-//const e = require("express");
-
-// //contributions AJAX
-// $(document).ready(function () {
-
-//   const renderContributions = function (contributions) {
-//     const $contributionContainer = $(".contribution-container");
-//     $contributionContainer.empty();
-
-//     contributions.forEach((contribution) => {
-//       const $contributing = createContributionElement(contribution);
-//       $contributionContainer.prepend($contributing);
-//     });
-//   };
-
-// $('.contribution-form').submit(function(event) {
-//   event.preventDefault();
-
-//   $.ajax({
-//     url: '/story/:id',
-//     method: 'POST',
-//     data: formData,
-//   })
-//     .then(function(response) {
-//       loadContributions();
-//     })
-//     .catch(function(error) {
-//       console.error('Error saving contribution:', error);
-//     });
-// });
-
-
-// const loadContributions = function () {
-
-//   $.ajax({
-//     method: "GET",
-//     url: "/story/:id",
-//   })
-//     .then(function (response) {
-
-//       renderContributions(response);
-//     })
-//     .catch(function (error) {
-//       console.error("Error fetching contributions:", error);
-//     });
-// };
-
-// loadContributions();
-// });
-
-
-$(document).ready(function () {
-  
-
-  const loggedInUserId = $('#loggedInUserId').text();
+$(document).ready(function() {
+  const loggedInUserId = $("#loggedInUserId").text();
 
   if (loggedInUserId.length > 0) {
-
     let storyVote = undefined;
     let contributionVotes = {};
 
     const updateVote = function(vote, contributionId, callback) {
-      let queryUrl = '';
+      let queryUrl = "";
       if (contributionId) {
-        queryUrl = `http://localhost:8080/api/contributionVotes/${vote.id}`
+        queryUrl = `http://localhost:8080/api/contributionVotes/${vote.id}`;
       } else {
-        queryUrl = `http://localhost:8080/api/storyVotes/${vote.id}`
+        queryUrl = `http://localhost:8080/api/storyVotes/${vote.id}`;
       }
       $.ajax({
         url: queryUrl,
         data: vote,
         method: "POST",
-        success: function(data, textStatus, jqXHR) {
+        success: function(data) {
           if (contributionId) {
             contributionVotes[contributionId] = data;
           } else {
@@ -80,23 +24,23 @@ $(document).ready(function () {
           }
           callback(contributionId, true);
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-          console.log('error', jqXHR);
-        }
+        error: function(jqXHR) {
+          console.log("error", jqXHR);
+        },
       });
-    }
+    };
 
     const insertVote = function(vote, contributionId, callback) {
       if (contributionId) {
-        queryUrl = `http://localhost:8080/api/contributionVotes/new`
+        queryUrl = `http://localhost:8080/api/contributionVotes/new`;
       } else {
-        queryUrl = `http://localhost:8080/api/storyVotes/new`
+        queryUrl = `http://localhost:8080/api/storyVotes/new`;
       }
       $.ajax({
         url: queryUrl,
         data: vote,
         method: "POST",
-        success: function(data, textStatus, jqXHR) {
+        success: function(data) {
           if (contributionId) {
             contributionVotes[contributionId] = data;
           } else {
@@ -104,23 +48,23 @@ $(document).ready(function () {
           }
           callback(contributionId, true);
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-          console.log('error', jqXHR);
-        }
+        error: function(jqXHR) {
+          console.log("error", jqXHR);
+        },
       });
-    }
+    };
 
     const deleteVote = function(vote, contributionId, callback) {
       if (contributionId) {
-        queryUrl = `http://localhost:8080/api/contributionVotes/delete/${vote.id}`
+        queryUrl = `http://localhost:8080/api/contributionVotes/delete/${vote.id}`;
       } else {
-        queryUrl = `http://localhost:8080/api/storyVotes/delete/${vote.id}`
+        queryUrl = `http://localhost:8080/api/storyVotes/delete/${vote.id}`;
       }
       $.ajax({
         url: queryUrl,
         data: vote,
         method: "POST",
-        success: function(data, textStatus, jqXHR) {
+        success: function(data) {
           if (contributionId) {
             contributionVotes[contributionId] = data;
           } else {
@@ -128,11 +72,11 @@ $(document).ready(function () {
           }
           callback(contributionId, true);
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-          console.log('error', jqXHR);
-        }
+        error: function(jqXHR) {
+          console.log("error", jqXHR);
+        },
       });
-    }
+    };
 
     const setVoteUp = function(contributionId) {
       let vote = undefined;
@@ -141,17 +85,17 @@ $(document).ready(function () {
       } else {
         vote = storyVote;
       }
-      
+
       if (!vote) {
-        vote = { 
+        vote = {
           voter_id: loggedInUserId,
           vote: true,
-          deleted: false
-        }
+          deleted: false,
+        };
         if (contributionId) {
           vote["contribution_id"] = contributionId;
         } else {
-          vote["story_id"] = $('#storyId').text();
+          vote["story_id"] = $("#storyId").text();
         }
         insertVote(vote, contributionId, markUpVote);
       } else {
@@ -159,7 +103,7 @@ $(document).ready(function () {
         vote.deleted = false;
         updateVote(vote, contributionId, markUpVote);
       }
-    }
+    };
 
     const deleteVoteUp = function(contributionId) {
       let vote = undefined;
@@ -171,7 +115,7 @@ $(document).ready(function () {
       if (vote) {
         deleteVote(vote, contributionId, clearUpVote);
       }
-    }
+    };
 
     const setVoteDown = function(contributionId) {
       let vote = undefined;
@@ -182,15 +126,15 @@ $(document).ready(function () {
       }
 
       if (!vote) {
-        vote = { 
+        vote = {
           voter_id: loggedInUserId,
           vote: false,
-          deleted: false
-        }
+          deleted: false,
+        };
         if (contributionId) {
           vote["contribution_id"] = contributionId;
         } else {
-          vote["story_id"] = $('#storyId').text();
+          vote["story_id"] = $("#storyId").text();
         }
         insertVote(vote, contributionId, markDownVote);
       } else {
@@ -198,7 +142,7 @@ $(document).ready(function () {
         vote.deleted = false;
         updateVote(vote, contributionId, markDownVote);
       }
-    }
+    };
 
     const deleteVoteDown = function(contributionId) {
       let vote = undefined;
@@ -210,18 +154,18 @@ $(document).ready(function () {
       if (vote) {
         deleteVote(vote, contributionId, clearDownVote);
       }
-    }
+    };
 
-    $('#storyUp').on("click", (event) => {
-      if ((storyVote) && (storyVote.vote) && (!storyVote.deleted)) {
+    $("#storyUp").on("click", () => {
+      if (storyVote && storyVote.vote && !storyVote.deleted) {
         deleteVoteUp();
       } else {
         setVoteUp();
       }
     });
 
-    $('#storyDown').on("click", (event) => {
-      if ((storyVote) && (!storyVote.vote) && (!storyVote.deleted)) {
+    $("#storyDown").on("click", () => {
+      if (storyVote && !storyVote.vote && !storyVote.deleted) {
         deleteVoteDown();
       } else {
         setVoteDown();
@@ -229,87 +173,115 @@ $(document).ready(function () {
     });
 
     const markUpVote = function(contributionId, adjustCounts) {
-      if (contributionId){
+      if (contributionId) {
         if (adjustCounts) {
-          $(`#contributionUpVoteCount${contributionId}`).text(Number($(`#contributionUpVoteCount${contributionId}`).text()) + 1);
-          if ($(`#contributionDown${contributionId}`).hasClass("voteSelected")) {
-            $(`#contributionDownVoteCount${contributionId}`).text(Number($(`#contributionDownVoteCount${contributionId}`).text()) - 1);
+          $(`#contributionUpVoteCount${contributionId}`).text(
+            Number($(`#contributionUpVoteCount${contributionId}`).text()) + 1
+          );
+          if (
+            $(`#contributionDown${contributionId}`).hasClass("voteSelected")
+          ) {
+            $(`#contributionDownVoteCount${contributionId}`).text(
+              Number($(`#contributionDownVoteCount${contributionId}`).text()) -
+                1
+            );
           }
         }
         $(`#contributionUp${contributionId}`).addClass("voteSelected");
         $(`#contributionDown${contributionId}`).removeClass("voteSelected");
-      } else{
+      } else {
         if (adjustCounts) {
-          $("#storyUpVoteCount").text(Number($("#storyUpVoteCount").text()) + 1);
+          $("#storyUpVoteCount").text(
+            Number($("#storyUpVoteCount").text()) + 1
+          );
           if ($(`#storyDown`).hasClass("voteSelected")) {
-            $("#storyDownVoteCount").text(Number($("#storyDownVoteCount").text()) - 1);
+            $("#storyDownVoteCount").text(
+              Number($("#storyDownVoteCount").text()) - 1
+            );
           }
         }
         $(`#storyUp`).addClass("voteSelected");
         $(`#storyDown`).removeClass("voteSelected");
       }
-    }
+    };
 
     const clearUpVote = function(contributionId, adjustCounts) {
-      if (contributionId){
+      if (contributionId) {
         if (adjustCounts) {
-          $(`#contributionUpVoteCount${contributionId}`).text(Number($(`#contributionUpVoteCount${contributionId}`).text()) - 1);
+          $(`#contributionUpVoteCount${contributionId}`).text(
+            Number($(`#contributionUpVoteCount${contributionId}`).text()) - 1
+          );
         }
         $(`#contributionUp${contributionId}`).removeClass("voteSelected");
-      } else{
+      } else {
         if (adjustCounts) {
-          $("#storyUpVoteCount").text(Number($("#storyUpVoteCount").text()) - 1);
+          $("#storyUpVoteCount").text(
+            Number($("#storyUpVoteCount").text()) - 1
+          );
         }
         $(`#storyUp`).removeClass("voteSelected");
       }
-    }
+    };
 
     const markDownVote = function(contributionId, adjustCounts) {
-      if (contributionId){
+      if (contributionId) {
         if (adjustCounts) {
-          $(`#contributionDownVoteCount${contributionId}`).text(Number($(`#contributionDownVoteCount${contributionId}`).text()) + 1);
+          $(`#contributionDownVoteCount${contributionId}`).text(
+            Number($(`#contributionDownVoteCount${contributionId}`).text()) + 1
+          );
           if ($(`#contributionUp${contributionId}`).hasClass("voteSelected")) {
-            $(`#contributionUpVoteCount${contributionId}`).text(Number($(`#contributionUpVoteCount${contributionId}`).text()) - 1);
+            $(`#contributionUpVoteCount${contributionId}`).text(
+              Number($(`#contributionUpVoteCount${contributionId}`).text()) - 1
+            );
           }
         }
         $(`#contributionDown${contributionId}`).addClass("voteSelected");
         $(`#contributionUp${contributionId}`).removeClass("voteSelected");
-      } else{
+      } else {
         if (adjustCounts) {
-          $("#storyDownVoteCount").text(Number($("#storyDownVoteCount").text()) + 1);
+          $("#storyDownVoteCount").text(
+            Number($("#storyDownVoteCount").text()) + 1
+          );
           if ($(`#storyUp`).hasClass("voteSelected")) {
-            $("#storyUpVoteCount").text(Number($("#storyUpVoteCount").text()) - 1);
+            $("#storyUpVoteCount").text(
+              Number($("#storyUpVoteCount").text()) - 1
+            );
           }
         }
         $(`#storyDown`).addClass("voteSelected");
         $(`#storyUp`).removeClass("voteSelected");
       }
-    }
+    };
 
     const clearDownVote = function(contributionId, adjustCounts) {
-      if (contributionId){
+      if (contributionId) {
         if (adjustCounts) {
-          $(`#contributionDownVoteCount${contributionId}`).text(Number($(`#contributionDownVoteCount${contributionId}`).text()) - 1);
+          $(`#contributionDownVoteCount${contributionId}`).text(
+            Number($(`#contributionDownVoteCount${contributionId}`).text()) - 1
+          );
         }
         $(`#contributionDown${contributionId}`).removeClass("voteSelected");
-      } else{
+      } else {
         if (adjustCounts) {
-          $("#storyDownVoteCount").text(Number($("#storyDownVoteCount").text()) - 1);
+          $("#storyDownVoteCount").text(
+            Number($("#storyDownVoteCount").text()) - 1
+          );
         }
         $(`#storyDown`).removeClass("voteSelected");
       }
-    }
+    };
 
     //load this users story vote for this story
     $.ajax({
-      url: `http://localhost:8080/api/storyVotes/list/${$('#storyId').text()}/${loggedInUserId}`,
+      url: `http://localhost:8080/api/storyVotes/list/${$(
+        "#storyId"
+      ).text()}/${loggedInUserId}`,
       context: document.body,
       data: true,
       method: "GET",
-      success: function(data, textStatus, jqXHR) {
-
-        storyVote = data[0]; 
-        if ((storyVote) && (!storyVote.deleted)) {
+      success: function(data) {
+        storyVote = data[0];
+        if (storyVote && !storyVote.deleted) {
           if (storyVote.vote) {
             markUpVote();
           } else {
@@ -317,27 +289,29 @@ $(document).ready(function () {
           }
         }
       },
-      error: function(jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus) {
         if (jqXHR.status === 404) {
-          return; 
+          return;
         }
-        console.log('error getting story vote object', textStatus);
-      }
+        console.log("error getting story vote object", textStatus);
+      },
     });
 
     //for each contribution, load this users vote for that contribution
-    $.each($('.contribution'), function(i, val) { 
+    $.each($(".contribution"), function(i, val) {
       const contributionId = val.id;
-      let contributionVote = {};
       //load this users story vote for this story
       $.ajax({
         url: `http://localhost:8080/api/contributionVotes/list/${contributionId}/${loggedInUserId}`,
         context: document.body,
         data: true,
         method: "GET",
-        success: function(data, textStatus, jqXHR) {
-          contributionVotes[contributionId] = data[0]; 
-          if ((contributionVotes[contributionId]) && (!contributionVotes[contributionId].deleted)) {
+        success: function(data) {
+          contributionVotes[contributionId] = data[0];
+          if (
+            contributionVotes[contributionId] &&
+            !contributionVotes[contributionId].deleted
+          ) {
             if (contributionVotes[contributionId].vote) {
               markUpVote(contributionId);
             } else {
@@ -345,30 +319,37 @@ $(document).ready(function () {
             }
           }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function(jqXHR, textStatus) {
           if (jqXHR.status === 404) {
-            return; 
+            return;
           }
-          console.log('error getting story vote object', textStatus);
-        }
+          console.log("error getting story vote object", textStatus);
+        },
       });
       //need to add button scripts
-      $(`#contributionUp${contributionId}`).on("click", (event) => {
-        if ((contributionVotes[contributionId]) && (contributionVotes[contributionId].vote) && (!contributionVotes[contributionId].deleted)) {
+      $(`#contributionUp${contributionId}`).on("click", () => {
+        if (
+          contributionVotes[contributionId] &&
+          contributionVotes[contributionId].vote &&
+          !contributionVotes[contributionId].deleted
+        ) {
           deleteVoteUp(contributionId);
         } else {
           setVoteUp(contributionId);
         }
       });
-  
-      $(`#contributionDown${contributionId}`).on("click", (event) => {
-        if ((contributionVotes[contributionId]) && (!contributionVotes[contributionId].vote) && (!contributionVotes[contributionId].deleted)) {
+
+      $(`#contributionDown${contributionId}`).on("click", () => {
+        if (
+          contributionVotes[contributionId] &&
+          !contributionVotes[contributionId].vote &&
+          !contributionVotes[contributionId].deleted
+        ) {
           deleteVoteDown(contributionId);
         } else {
           setVoteDown(contributionId);
         }
       });
-
     });
   }
 });
