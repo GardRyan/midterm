@@ -29,73 +29,75 @@
 <body>
   <%- include('partials/_header') %>
   <main>
-    <h1>Have fun! STORY 🥔</h1>
-  </main>
-
-  <div class="story-header">
-    <% if (story && story.title) { %>
-      <span><strong><%= story.title %></strong></span>
-    <% } %>
-    <div>
-      <p><%= story && story.content %></p>
-      <div>users.username</div>
-      <form action="/story/<%= story.id %>/edit" method="post">
-      <button type="submit" class="edit-story">edit</button>
-    </form>
-      <form action="/story/<%= story.id %>/delete" method="post">
-      <button type="submit" class="delete-story">delete</button>
-    </form>
+    <div class="story-header">
+      <% if (story && story.title) { %>
+        <span><strong><%= story.title %></strong></span>
+        <span id="storyId" name="storyId" hidden><%= story.id %></span>
+      <% } %>
+      <div>
+        <p><%= story && story.content %></p>
+        <div>users.username</div>
+        <form action="/story/<%= story.id %>/edit" method="post">
+        <button type="submit" class="edit-story">edit</button>
+      </form>
+        <form action="/story/<%= story.id %>/delete" method="post">
+        <button type="submit" class="delete-story">delete</button>
+      </form>
+      </div>
     </div>
-  </div>
 
+    <form id="contribution-form" method="POST" action="/story/<%= story.id %>">
+      <input
+      class="form-control"
+      id="contribution-content"
+      type="text"
+      name="content"
+      placeholder="What comes next...?"
+      style="width: 300px; margin: 1em"
+      value=""
+      />
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type = "button" id="storyUp" name="storyUp">Up</button>
+      <button type = "button" id="storyDown" name="storyDown">Down</button>
+    </form>
 
-</div>
-  <form id="contribution-form" method="POST" action="/story/<%= story.id %>">
-    <input
-    class="form-control"
-    id="contribution-content"
-    type="text"
-    name="content"
-     placeholder="What comes next...?"
-     style="width: 300px; margin: 1em"
-     value=""
-     />
-   <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  <section id="contributions-container">
-    <article>
+    <section id="contributions-container">
       <% if (contributions && contributions.length > 0) { %>
         <% contributions.forEach(contribution => { %>
-          <div><%= contribution.story_step %></div>
-          <p><%= contribution.contributer_id %></p>
-          <div>
-            <!-- Other contribution properties -->
-          </div>
+          <article>
+            <div><%= contribution.story_step %></div>
+            <p><%= contribution.contributer_id %></p>
+            <div>
+              <!-- Other contribution properties -->
+            </div>
 
-      </article>
-      <div class="contribution" id="<%= contribution.id %>">
-        <%= contribution.content %>
-      </div>
-    <div>
-        <%= contribution.created_date %>
-        <%= contribution.upvotes %>
-        <%= contribution.downvotes %>
-   </div>
-   <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
-   <button type="submit" class="edit-contribution">edit</button>
-  </form>
-   <form action="/story/<%= contribution.id %>/delete-contributions" method="post">
-   <button type="submit" class="delete-contribution">delete</button>
-  </form>
-</form>
-<form action="/story/<%= contribution.id %>/pick-contributions" method="post">
-<button type="submit" class="pick-contribution">Pick</button>
-</form>
-   <% }) %>
-   <% }; %>
-    </div>
-  </article>
-</section>
+          </article>
+
+          <div class="contribution" id="<%= contribution.id %>">
+            <%= contribution.content %>
+          </div>
+          <div>
+              <%= contribution.created_date %>
+              <%= contribution.upvotes %>
+              <%= contribution.downvotes %>
+          </div>
+          <form action="/story/contribution/<%= contribution.id %>/edit" method="post">
+            <button type="submit" class="edit-contribution">edit</button>
+          </form>
+          <form action="/story/<%= contribution.id %>/delete-contributions" method="post">
+            <button type="submit" class="delete-contribution">delete</button>
+          </form>
+          
+          <!-- </form> -->
+          <form action="/story/<%= contribution.id %>/pick-contributions" method="post">
+            <button type="submit" class="pick-contribution">Pick</button>
+          </form>
+          <button type = "button" id="contributionUp<%= contribution.id %>" name="contributionUp<%= contribution.id %>">Up</button>
+          <button type = "button" id="contributionDown<%= contribution.id %>" name="contributionDown<%= contribution.id %>">Down</button>
+        <% }) %>
+      <% }; %>
+    </section>
+  </main>
 </body>
 
 </html>

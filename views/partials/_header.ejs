@@ -1,7 +1,12 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-custom">
     <a class="navbar-brand" href="/stories">Story Creator</a>
-    <button
+      <% if ((locals.loginInfo) && (loginInfo.loggedInUser)) { %>
+        <span id="loggedInUserId" name="loggedInUserId" hidden><%= loginInfo.loggedInUser.id %></span>
+      <% } else { %>
+        <span id="loggedInUserId" name="loggedInUserId" hidden></span>
+      <% } %>
+      <button
       class="navbar-toggler"
       type="button"
       data-toggle="collapse"

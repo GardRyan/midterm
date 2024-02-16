@@ -7,7 +7,7 @@ class VotesDb {
   }
   
   //select all votes for the element id
-  getVotes = (id) => {
+  getVotes = function(id) {
     return db.query(`
       SELECT * 
       FROM ${this._type}_votes 
@@ -23,7 +23,7 @@ class VotesDb {
   };
   
   //select all votes that the user Id has made for this element id
-  getVotesByUser = (id, voterId) => {
+  getVotesByUser = function(id, voterId) {
     return db.query(`
       SELECT * 
       FROM ${this._type}_votes 
@@ -38,8 +38,11 @@ class VotesDb {
       });
   };
      
+//todo:  we really want to check that we are not allowing multipe upvotes/downvotes for a user
+//       rather than trusting the client
+
   //select one story vote data
-  getVote = (id) => {
+  getVote = function(id) {
     return db.query(`
       SELECT * 
       FROM ${this._type}_votes 
@@ -55,13 +58,13 @@ class VotesDb {
   }
   
   //insert one vote
-  insertVote = (vote) => {
+  insertVote = function(vote) {
     return db.query(`
       INSERT 
       INTO ${this._type}_votes (${this._type}_id, voter_id, vote, deleted)
       VALUES ($1, $2, $3, $4)
       RETURNING *;`,
-      [vote.contribution_id, vote.voter_id, vote.vote, vote.deleted])
+      [vote[`${this._type}_id`], vote.voter_id, vote.vote, vote.deleted])
       .then(data => {
         return data.rows[0];
       })
@@ -72,13 +75,13 @@ class VotesDb {
   }
   
   //update one vote
-  updateVote = (vote) => {
+  updateVote = function(vote) {
     return db.query(`
       UPDATE ${this._type}_votes
       SET ${this._type}_id = $1, voter_id=$2, vote=$3, deleted=$4
       WHERE id = $5
       returning *;`,
-      [vote.contribution_id, vote.voter_id, vote.vote, vote.deleted, vote.id])
+      [vote[`${this._type}_id`], vote.voter_id, vote.vote, vote.deleted, vote.id])
       .then(data => {
         return data.rows[0];
       })
@@ -89,7 +92,7 @@ class VotesDb {
   }
   
   //delete one vote
-  deleteVote = (vote) => {
+  deleteVote = function(vote) {
     return db.query(`
       UPDATE ${this._type}_votes
       SET deleted = true

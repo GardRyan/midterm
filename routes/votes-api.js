@@ -23,7 +23,7 @@ class Votes {
       return false;
     }
 
-    _db.getVote(voteIdNum)
+    this._db.getVote(voteIdNum)
     .then((result) => {
       if (result === undefined) {
         sendJsonErrorMessage(res, 404);
@@ -62,7 +62,7 @@ class Votes {
     this._router.get(`/list/:id/:userId`, (req, res) => {
       runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
         if (loginInfo.loggedInUser) {
-          const userIdNum = Number(eq.params.userId);
+          const userIdNum = Number(req.params.userId);
           if (Number.isNaN(userIdNum)) {
             sendJsonErrorMessage(res, 400, error);
           } else if (Number(loginInfo.loggedInUser.id) === userIdNum) {
@@ -108,7 +108,7 @@ class Votes {
     //route to get one element vote by the vote id
     this._router.get(`/:voteId`, (req, res) => {
       runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-        checkValidAPIRequestForUser(res, loginInfo, voteId, (result) => {
+        this.checkValidAPIRequestForUser(res, loginInfo, req.params.voteId, (result) => {
           res.json(result);
         });        
       });
@@ -117,7 +117,7 @@ class Votes {
     //route to update one element vote by vote id
     this._router.post(`/:voteId`, (req, res) => {
       runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-        checkValidAPIRequestForUser(res, loginInfo, voteId, (result) => {
+        this.checkValidAPIRequestForUser(res, loginInfo, req.params.voteId, (result) => {
           this._db.updateVote(req.body)
           .then((result) => {
             res.json(result);
@@ -134,7 +134,7 @@ class Votes {
     //route to delete one element vote by vote id
     this._router.post(`/delete/:voteId`, (req, res) => {
       runWithLoginUser(req.session, req.session.user_id, (loginInfo) => {
-        checkValidAPIRequestForUser(res, loginInfo, voteId, (result) => {
+        this.checkValidAPIRequestForUser(res, loginInfo, req.params.voteId, (result) => {
           this._db.deleteVote(req.body)
             .then((result) => {
               res.json(result);
