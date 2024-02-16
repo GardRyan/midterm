@@ -109,11 +109,11 @@ const editContributions = (contribution) => {
 
 //delete contributions
 const deleteContributions = (contribution) => {
-  const { id } = contribution;
+  const [ id ] = contribution;
   const query = "DELETE FROM contributions WHERE id = $1";
 
   return db
-    .query(query, Object.values(contribution))
+    .query(query, [contribution])
     .then((result) => {
       return true;
     })

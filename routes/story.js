@@ -192,6 +192,7 @@ router.post("/:id/edit-contributions", (req, res) => {
 
     editContributions({ content, id })
       .then((editedContribution) => {
+        console.log(`edit`, editedContribution);
         if (editedContribution) {
           res.redirect(`/story/${editedContribution.story_id}`);
         } else {
@@ -252,6 +253,7 @@ router.post("/:id/delete-contributions", (req, res) => {
 
     deleteContributions(story_id)
       .then((deletedContribution) => {
+        console.log(`why???`, deletedContribution)
         if (deletedContribution) {
           res.redirect("back");
         } else {
